@@ -31,18 +31,23 @@ public class Movie implements Item {
 	public Movie(String fullmovieString) {
 		
 		String TempYear = "";
+		String TempMovieName = "";
 		String[] movieArray = fullmovieString.split(",", 3);
 		
 		if(movieArray[1].contains("%2C")) {
 			movieArray[1].replaceAll("%2C", ",");
 		}
 		
+		TempMovieName = movieArray[1];
+		
 		if(movieArray[1].charAt(movieArray[1].length()-1) == ')' && movieArray[1].charAt(movieArray[1].length()-6) == '(') {
 				
 				
 				
-				TempYear = movieArray[1].substring(movieArray[1].length()-5, movieArray[1].length()-2);
+				TempYear = movieArray[1].substring(movieArray[1].length()-5, movieArray[1].length()-1);
 				this.Year = Integer.parseInt(TempYear);
+				TempMovieName = movieArray[1].substring(0, movieArray[1].length()-5);
+				
 			}
 			else 
 				this.Year = -1;
@@ -50,7 +55,7 @@ public class Movie implements Item {
 		
 		this.Genres = movieArray[2].split("|", 9);
 		this.ID = movieArray[0];
-		this.MovieName = movieArray[1];
+		this.MovieName = TempMovieName;
 		Movie TempMovieObject = new Movie(this.getId(),this.getName(),this.getYear(),this.getGenres());
 		
 	}
@@ -115,7 +120,7 @@ public class Movie implements Item {
 	 * @return Boolean true if the parameter Genre is in the Genre string array, false if not there.
 	 */
 	
- public Boolean HasGenre(String Genre) {
+ public Boolean hasGenre(String Genre) {
 		
 		for(int i = 0; i <= this.Genres.length; i++) {
 			if(Genre.equals(this.Genres[i])) {

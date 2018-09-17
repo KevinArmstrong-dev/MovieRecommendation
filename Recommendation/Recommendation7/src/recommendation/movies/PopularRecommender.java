@@ -63,16 +63,16 @@ public class PopularRecommender extends recommendationHelp{
 		      // unsorted part of the array
 		      
 		      // find the min in the unsorted part
-		      double guess = start; 
+		      int guess = start; 
 		      for(int i=start+1; i<x.length; i++) {
-		        if(x[guess] > x[i]) {
+		        if(x[guess].getRating() > x[i].getRating()) {
 		          guess =i;
 		        }
 		      }
 		      
 		      // swap the min element with the first element of the
 		      // unsorted part of the array
-		      int temp = x[guess];
+		      recommendationHelp temp = x[guess];
 		      x[guess] = x[start];
 		      x[start] = temp;
 		      
@@ -110,9 +110,42 @@ public class PopularRecommender extends recommendationHelp{
 				 unRatedMovies[count]=temp[count];
 			 }
 		 }
-		 
+		 return unRatedMovies;
 	 }
-	 
+	 /* public static Movies[] recommend(String userid,String genre) {
+		 Movies[] temp =new Movies[n];
+		 //This is To count How many movies have not been rated by the given user 
+		 int count=0;
+		 for(int i=0;i<ratings.length;i++) {
+			 //To find the corresponding user
+			 if(ratings.getUserId().equals(userid)) {
+				 for(int x=0;x<movies.length;movies++) {
+					 int count1=0;
+					 //this is a comparison to find movies which have not been rated by the user
+					 if(!movies[x].getId().equals(ratings[i].getMovieId())) {
+						 temp[count]=movies[x];
+						 count++;
+						 count1++;
+					 }
+				 }
+			 }
+		 }
+		 //This will make sure the provided number is not more than movies not rated by the user
+		 if(n<count) {
+		//Since the temp array will be bigger than the provided number this should work
+		 Movies []unRatedMovies=new Movies[n];
+		 	for(int i=0;i<n;i++) {
+		 		unRatedMovies[i]=temp[i];
+		 	}
+		 }
+		 else {
+			 Movies[] unRatedMovies=new Movies[count];
+			 for(int i=0;i<count;i++) {
+				 unRatedMovies[count]=temp[count];
+			 }
+		 }
+		 return unRatedMovies;
+	 } */
 
 
 }

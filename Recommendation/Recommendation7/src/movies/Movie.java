@@ -13,7 +13,6 @@ public class Movie implements Item {
 	private String ID;
 	private String MovieName;
 	private String[] Genres;
-	private Movie MovieObject;
 	
 	/**
 	 * The Movie constructor with 1 parameter takes as input a full string of the movie containing all it's 
@@ -35,7 +34,7 @@ public class Movie implements Item {
 		String[] movieArray = fullmovieString.split(",", 3);
 		
 		if(movieArray[1].contains("%2C")) {
-			movieArray[1].replaceAll("%2C", ",");
+			movieArray[1]=movieArray[1].replaceAll("%2C", ",");
 		}
 		
 		TempMovieName = movieArray[1];
@@ -46,35 +45,18 @@ public class Movie implements Item {
 				
 				TempYear = movieArray[1].substring(movieArray[1].length()-5, movieArray[1].length()-1);
 				this.Year = Integer.parseInt(TempYear);
-				TempMovieName = movieArray[1].substring(0, movieArray[1].length()-5);
+				TempMovieName = movieArray[1].substring(0, movieArray[1].length()-7);
 				
 			}
 			else 
 				this.Year = -1;
 	
 		
-		this.Genres = movieArray[2].split("|", 9);
+		this.Genres = movieArray[2].split("\\|");
 		this.ID = movieArray[0];
 		this.MovieName = TempMovieName;
-		Movie TempMovieObject = new Movie(this.getId(),this.getName(),this.getYear(),this.getGenres());
 		
 	}
-	
-	/**
-	 * the Movie Constructor with 4 parameters is set to initialize a new Movie Object with the parameters
-	 * ID,MovieName,Year,Genres
-	 * @param ID is the String of the Movie ID
-	 * @param MovieName is the String of the Movie Name
-	 * @param Year is the Int of the Movies Release Date
-	 * @param Genres is a String of genres the movie is associated to.
-	 */
-	
-	public Movie(String ID,String MovieName,int Year,String[] Genres) {
-		
-		
-		this.MovieObject = new Movie(ID,MovieName,Year,Genres);
-	}
-	
 	/**
 	 * getName method returns a String of the movie
 	 * @return a String of the movie name
@@ -122,7 +104,7 @@ public class Movie implements Item {
 	
  public Boolean hasGenre(String Genre) {
 		
-		for(int i = 0; i <= this.Genres.length; i++) {
+		for(int i = 0; i < this.Genres.length; i++) {
 			if(Genre.equals(this.Genres[i])) {
 				return true;
 			}

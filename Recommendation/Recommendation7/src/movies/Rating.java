@@ -2,7 +2,7 @@ package movies;
 
 /**
  * @author Alexander Arella Girardot
- * 
+ * Object for the ratings from a user of a specified movie
  */
 public class Rating {
 	private String userId;
@@ -10,7 +10,7 @@ public class Rating {
 	private double rating;
 	
 	/**
-	 * 
+	 * Constructor
 	 * @param ratingText	String of the Ratings.csv file
 	 */
 	public Rating(String line) {
@@ -22,8 +22,8 @@ public class Rating {
 	}
 	
 	/**
-	 * Returns user's ID
-	 * @return userId	ID String of the user
+	 * 
+	 * @return userId	Returns ID String of the user as a String
 	 */
 	public String getUserId() {
 		
@@ -31,8 +31,8 @@ public class Rating {
 	}
 	
 	/**
-	 * Returns movie's ID
-	 * @return movieId	ID String of the movie
+	 * 
+	 * @return movieId	Returns the ID of the movie as a String
 	 */
 	public String getMovieId() {
 		
@@ -40,8 +40,8 @@ public class Rating {
 	}
 	
 	/**
-	 * Returns movie's rating
-	 * @return Rating double of the movie
+	 * 
+	 * @return Returns the rating of the movie as a Double
 	 */
 	public double getRating() {
 		

@@ -11,6 +11,11 @@ public class RecommendAssist {
 	private Movie movie;
 	private double rating;
 	
+	/**Helper object to store movies to be recommended
+	 * 
+	 * @param movie
+	 * @param rating
+	 */
 	public RecommendAssist(Movie movie,double rating) {
 		
 		this.movie=movie;

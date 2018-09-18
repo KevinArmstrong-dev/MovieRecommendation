@@ -45,7 +45,8 @@ public class PopulaRecommender {
 				}
 			}
 		}
-		return avaerageRating;
+		return averageRating=averageRating/movies.length;
+		
 	}
 	/**Modified Selection Sort to sort the collection array but not tested yet
 	 * or finished
@@ -73,13 +74,13 @@ public class PopulaRecommender {
 		      
 		    }
 		  }
-	 public static Movies[] recommend(String userid,int n) {
-		 Movies[] temp =new Movies[n];
+	 public  static Movie[] recommend(String userid,int n) {
+		 Movie[] temp =new Movie[n];
 		 //This is To count How many movies have not been rated by the given user 
 		 int count=0;
 		 for(int i=0;i<ratings.length;i++) {
 			 //To find the corresponding user
-			 if(ratings.getUserId().equals(userid)) {
+			 if(ratings[i].getUserId().equals(userid)) {
 				 for(int x=0;x<movies.length;movies++) {
 					 int count1=0;
 					 //this is a comparison to find movies which have not been rated by the user
@@ -93,7 +94,7 @@ public class PopulaRecommender {
 		 }
 		 //This will make sure the provided number is not more than movies not rated by the user
 		 if(n<count) {
-		//Since the temp array will be bigger than the provided number this should work
+		//Since the temporary array will be bigger than the provided number this should work
 		 Movie []unRatedMovies=new Movie[n];
 		 	for(int i=0;i<n;i++) {
 		 		unRatedMovies[i]=temp[i];
@@ -105,7 +106,7 @@ public class PopulaRecommender {
 				 unRatedMovies[count]=temp[count];
 			 }
 		 }
-		 return unRatedMovies;
+		 //return unRatedMovies;
 	 }
 
 

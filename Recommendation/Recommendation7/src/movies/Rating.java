@@ -14,9 +14,44 @@ public class Rating {
 	 * @param ratingText	String of the Ratings.csv file
 	 */
 	public Rating(String line) {
+		boolean isNumbersOnly = true;
 		String[] review = line.split(",");
+		if (review.length < 4) {
+			throw new RuntimeException("Line is missing content");
+		}
+		else if (review.length > 4) {
+			throw new RuntimeException("Line has too much content");
+		}
 		this.movieId = review[0];
+		for (int i = 0; i < movieId.length(); i++) {
+			if (movieId.charAt(i) < '0' || movieId.charAt(i) > '9') {
+				isNumbersOnly = false;
+			}
+		}
+		if (!isNumbersOnly) {
+			throw new IllegalArgumentException("Illegal character input (only numbers are needed)");
+		}
+		
+		isNumbersOnly = true;
 		this.userId = review[1];
+		for (int i = 0; i < userId.length(); i++) {
+			if (userId.charAt(i) < '0' || userId.charAt(i) > '9') {
+				isNumbersOnly = false;
+			}
+		}
+		if (!isNumbersOnly) {
+			throw new IllegalArgumentException("Illegal character input (only numbers are needed)");
+		}
+		
+		isNumbersOnly = true;
+		for (int i = 0; i < review[2].length(); i++) {
+			if (review[2].charAt(i) < '0' || review[2].charAt(i) > '9') {
+				isNumbersOnly = false;
+			}
+		}
+		if (!isNumbersOnly) {
+			throw new IllegalArgumentException("Illegal character input (only numbers are needed)");
+		}
 		this.rating = Double.parseDouble(review[2]);
 		
 	}
@@ -53,6 +88,6 @@ public class Rating {
 	 */
 	@Override
 	public String toString() {
-		return "User ID: " + this.userId + '\n' + "Movie ID: " + this.movieId + '\n' + "Rating: " + this.rating;
+		return "Movie ID: " + this.movieId + '\n' + "User ID: " + this.userId + '\n' + "Rating: " + this.rating;
 	}
 }

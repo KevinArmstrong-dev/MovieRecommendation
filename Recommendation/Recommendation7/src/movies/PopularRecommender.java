@@ -39,15 +39,16 @@ public class PopularRecommender {
 	  * @param movieId
 	  * @return averageRating
 	  */
-	 public double getAverageRatingMovie(String movieId) {
+	 private double getAverageRatingMovie(String movieId) {
 	  double averageRating=0;
 	  for(int i=0;i<movies.length;i++) {
 	   for(int x=0;x<ratings.length;x++) {
-	    if(movies[i].getId()==ratings[x].getUserId()) {
+	    if(movies[i].getId().equals(ratings[x].getUserId())) {
 	     averageRating=+ratings[x].getRating();
 	    }
 	   }
 	  }
+	  System.out.println(averageRating=averageRating/movies.length);
 	  return averageRating=averageRating/movies.length;
 	  
 	 }
@@ -77,44 +78,48 @@ public class PopularRecommender {
 	        
 	      }
 	    }
-	/*  public Movie[] recommend(String userid,int n) {
-	   Movie[] temp =new Movie[n];
+	 public Movie[] recommend(String userid,int n) {
+	   String[] id=new String[this.movies.length];
 	   //This is To count How many movies have not been rated by the given user 
 	   int count=0;
 	   
-	   for(int i=0;i<ratings.length;i++) {
+	   for(int i=0;i<this.ratings.length;i++) {
 	    //To find the corresponding user
-		   if(ratings[i].getUserId().equals(userid)) {
-			   for(int x=0;x<movies.length;x++) {
-				   int count1=0;
+		   if(this.ratings[i].getUserId().equals(userid)) {
+			   for(int x=0;x<this.movies.length;x++) {
+				 
 				   //this is a comparison to find movies which have not been rated by the user
-				   if(!movies[x].getId().equals(ratings[i].getMovieId())) {
-					   temp[count]=movies[x];
+				   if(!this.movies[x].getId().equals(this.ratings[i].getMovieId())) {
+					  
+					   id[x]=this.movies[x].getId();
 					   count++;
-					   count1++;
 				   }
 			   }
 		   }
 	   }
 	   //This will make sure the provided number is not more than movies not rated by the user
+	   Movie []unRatedMovies=new Movie[n];
 	   if(n<count) {
 	  //Since the temporary array will be bigger than the provided number this should work
-	   Movie []unRatedMovies=new Movie[n];
-	    for(int i=0;i<n;i++) {
-	     unRatedMovies[i]=temp[i];
+	   unRatedMovies=new Movie[n];
+	    for(int i=0;i<movies.length;i++) {
+	    	if(id[i].equals((collection[i].getMovie().getId()))){
+	    		unRatedMovies[i]=collection[i].getMovie();
+	    	}
+	    
 	    }
 	   }
 	   else {
-	    Movie[] unRatedMovies=new Movie[count];
+	    unRatedMovies=new Movie[count];
 	    for(int i=0;i<count;i++) {
-	     unRatedMovies[count]=temp[count];
+	     for(int x=0;x<collection.length;x++) {
+	    	 if(id[i].equals((collection[i].getMovie().getId()))){
+	    		 unRatedMovies[i]=collection[i].getMovie();
+	    	 }
+	     }
 	    }
 	   }
 	   return unRatedMovies;
-	  }
-	  */
-
-
-
+	 }
 
 }

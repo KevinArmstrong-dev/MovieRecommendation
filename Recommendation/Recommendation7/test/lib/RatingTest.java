@@ -39,7 +39,7 @@ public class RatingTest {
 		}
 		testWorks = false;
 		
-		// test 3
+		// test 3 illegal character in 2nd field
 		Rating r3;
 		try { 
 			r3 = new Rating("24,w1,1,1");
@@ -53,7 +53,7 @@ public class RatingTest {
 		}
 		testWorks = false;
 		
-		// test 4
+		// test 4 illegal arg in 3rd field
 		Rating r4;
 		try { 
 			r4 = new Rating("24,1,a1,1");

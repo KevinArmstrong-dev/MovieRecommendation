@@ -30,7 +30,6 @@ public class PopularRecommender {
 	  for(int i=0;i<movie.length;i++) {
 	   collection[i]=new RecommendAssist(movie[i],getAverageRatingMovie(movie[i].getId()));
 	  }
-	  
 	 }
 	 
 	 /**This method uses two arrays which are movie and ratings to Calculate
@@ -76,7 +75,19 @@ public class PopularRecommender {
 	        x[start] = temp;
 	        
 	      }
-	    }
+	  }
+	  public Movie[] recommendTwo(String userid,int n){
+		  Movie[] output= new Movie[n];
+		  int pos=0;
+		  int numberReview=countRated(userid ,this.ratings);
+		  String[] ratedMovieIds = getRatedMovies(numberReview,userid,this.ratings);
+		  for(int i=0;i<this.collection.length;i++) {
+			  if(!containsId(ratedMovieIds,this.collection[i].getMovie().getId())) {
+				  output[pos]=this.collection[i].getMovie();
+			  }
+		  }
+		  return output;
+	  }
 	/*  public Movie[] recommend(String userid,int n) {
 	   Movie[] temp =new Movie[n];
 	   //This is To count How many movies have not been rated by the given user 
@@ -121,7 +132,7 @@ public class PopularRecommender {
 	   * @param list
 	   * @return n
 	   */
-	  private int countReviews(String userId, Rating[] list) {
+	  private static int countRated(String userId, Rating[] list) {
 		  int count=0;
 		  int uId=Integer.parseInt(userId);
 		  int first = Integer.parseInt(list[0].getUserId());
@@ -148,5 +159,46 @@ public class PopularRecommender {
 			  
 		  }
 		  return count;
+	  }
+	  /**
+	   * Franco G. Moro 
+	   * Makes an array with the id's of all the movies the user rated.
+	   * @param numberRated
+	   * @param userId
+	   * @param list
+	   * @return
+	   */
+	  private String[] getRatedMovies(int numberRated,String userId, Rating[] list) {
+		  String[] ratedMovies=new String[numberRated];
+		  int uId=Integer.parseInt(userId);
+		  int first = Integer.parseInt(list[0].getUserId());
+		  int last = Integer.parseInt(list[list.length-1].getUserId());
+		  if(uId-first<last-uId) {
+			  for(int i=0;i<list.length;i++) {
+				  if(list[i].getMovieId().equals(userId)) {
+				  	for(int x=i;x<list.length;x++) {
+					  ratedMovies[x]=list[i].getMovieId();
+				  	}
+				  	return ratedMovies;
+				  }
+			  }
+		  }
+		  else {
+			  for(int i=list.length-1;i>=0;i--) {
+				  if(list[i].getMovieId().equals(userId)) {
+				  	for(int x=i;x<list.length;x++) {
+					  ratedMovies[x]=list[i].getMovieId();
+				  	}
+				  	return ratedMovies;
+				  }
+			  }
+		  }
+		  return ratedMovies;
+	  }
+	  private static boolean containsId(String[] reviewed,String movieId) {
+		  for(int i=0; i<reviewed.length;i++) {
+			  if(reviewed[i].equals(movieId))return true;
+		  }
+		  return false;
 	  }
 }

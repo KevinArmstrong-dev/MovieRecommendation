@@ -114,6 +114,7 @@ public class PopularRecommender {
 	  }
 	  */
 	  /**
+	   * Franco Gabriel
 	   * A method that returns the amount of reviews a specific user made.
 	   * Searches from top to bottom or from bottom to top depending on which way is faster.
 	   * @param userId

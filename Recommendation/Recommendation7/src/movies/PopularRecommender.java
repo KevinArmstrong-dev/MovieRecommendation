@@ -39,7 +39,8 @@ public class PopularRecommender {
 	  * @param movieId
 	  * @return averageRating
 	  */
-	 private double getAverageRatingMovie(String movieId) {
+
+	private double getAverageRatingMovie(String movieId) {
 	  double averageRating=0;
 	  for(int i=0;i<movies.length;i++) {
 	   for(int x=0;x<ratings.length;x++) {
@@ -51,7 +52,7 @@ public class PopularRecommender {
 	  System.out.println(averageRating=averageRating/movies.length);
 	  return averageRating=averageRating/movies.length;
 	  
-	 }
+	}
 	 /**Modified Selection Sort to sort the collection array but not tested yet
 	  * or finished
 	  * 
@@ -122,4 +123,42 @@ public class PopularRecommender {
 	   return unRatedMovies;
 	 }
 
+	  }
+	  */
+	  /**
+	   * Franco Gabriel
+	   * A method that returns the amount of reviews a specific user made.
+	   * Searches from top to bottom or from bottom to top depending on which way is faster.
+	   * @param userId
+	   * @param list
+	   * @return n
+	   */
+	  private int countReviews(String userId, Rating[] list) {
+		  int count=0;
+		  int uId=Integer.parseInt(userId);
+		  int first = Integer.parseInt(list[0].getUserId());
+		  int last = Integer.parseInt(list[list.length-1].getUserId());
+		  if(uId-first<last-uId) {
+			  for(int i=0;i<list.length;i++) {
+				  if(list[i].getMovieId().equals(userId)) {
+				  	while(list[i].getMovieId().equals(userId)) {
+					  count++;
+				  	}
+				  	return count;
+				  }
+			  }
+		  }
+		  else {
+			  for(int i=list.length-1;i>=0;i--) {
+				  if(list[i].getMovieId().equals(userId)) {
+				  	while(list[i].getMovieId().equals(userId)) {
+					  count++;
+				  	}
+				  	return count;
+				  }
+			  }
+			  
+		  }
+		  return count;
+	  }
 }

@@ -53,6 +53,9 @@ public class Rating {
 			throw new IllegalArgumentException("Illegal character input (only numbers are needed)");
 		}
 		this.rating = Double.parseDouble(review[2]);
+		if (this.rating < 0 || this.rating > 5) {
+			throw new IllegalArgumentException("Rating out-of-bounds (from 0.0 to 5.0)");
+		}
 		
 	}
 	

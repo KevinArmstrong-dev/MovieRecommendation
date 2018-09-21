@@ -44,7 +44,7 @@ public class PopularRecommender {
 	  double averageRating=0;
 	  for(int i=0;i<movies.length;i++) {
 	   for(int x=0;x<ratings.length;x++) {
-	    if(movies[i].getId().equals(ratings[x].getUserId())) {
+	    if(movies[i].getId().equals(ratings[x].getMovieId())) {
 	     averageRating=+ratings[x].getRating();
 	    }
 	   }
@@ -53,7 +53,9 @@ public class PopularRecommender {
 	  return averageRating=averageRating/movies.length;
 	  
 	}
-	 /**Modified Selection Sort to sort the collection array but not tested yet
+	 /**
+	  * Kevin Armstrong Rwigamba
+	  * Modified Selection Sort to sort the collection array but not tested yet
 	  * or finished
 	  * 
 	  * @param x
@@ -122,9 +124,39 @@ public class PopularRecommender {
 	   }
 	   return unRatedMovies;
 	 }
-
-	  }
-	  */
+	 
+	 public Movie[] recommend(String userid,String genre) {
+		   String[] id=new String[this.movies.length];
+		   //This is To count How many movies have not been rated by the given user 
+		   int count=0;
+		   
+		   for(int i=0;i<this.ratings.length;i++) {
+		    //To find the corresponding user
+			   if(this.ratings[i].getUserId().equals(userid)) {
+				   for(int x=0;x<this.movies.length;x++) {
+					 
+					   //this is a comparison to find movies which have not been rated by the user
+					   if((!this.movies[x].getId().equals(this.ratings[i].getMovieId()))&&(genre.equals(this.movies[x].getGenres()))) {
+						  
+						   id[x]=this.movies[x].getId();
+						   count++;
+					   }
+				   }
+			   }
+		   }
+		   //This will make sure the provided number is not more than movies not rated by the user
+		    Movie[] unRatedMovies=new Movie[count];
+		    for(int i=0;i<count;i++) {
+		     for(int x=0;x<collection.length;x++) {
+		    	 if(id[i].equals((collection[i].getMovie().getId()))){
+		    		 unRatedMovies[i]=collection[i].getMovie();
+		    	 }
+		     }
+		    }
+		   
+		   return unRatedMovies;
+		 }
+		 
 	  /**
 	   * Franco Gabriel
 	   * A method that returns the amount of reviews a specific user made.

@@ -25,7 +25,7 @@ public class PopularRecommendTest {
 		Rating r4 =new Rating("19,11,3,855192773");
 		Rating r5 =new Rating("1,31,2.5,1260759144");
 		Rating r6 =new Rating ("18,100,4,856007279");
-		Rating [] rate= {r1,r2,r3,r4,r5,r6};
+		Rating [] rate= {r1,r2,r3,r4,r5,r6,r7};
 		String fakeCvs="11,American President%2C The (1995),Comedy|Drama|Romance";
 		Movie movieTest= new Movie(fakeCvs);
 		Movie movieTest1= new Movie("9,Sudden Death%2C (1995),Action");
@@ -36,18 +36,18 @@ public class PopularRecommendTest {
 		Movie [] mv1= {movieTest4,movieTest,movieTest2,movieTest3,movieTest5,movieTest1};
 	
 		 PopularRecommender test= new PopularRecommender(rate,mv1);
-		 Movie [] xx=test.recommend("15",1);
+		 Movie [] xx=test.recommend("11",3);
 		 for(int i=0;i<xx.length;i++) {
-			 System.out.println("REcommend KEV: " +xx[i].getName());
+			 System.out.println("REcommend KEV: " +xx[i]);
 		 }
 		
-		/* System.out.println();
-		Movie[] recommendTest= (test.recommend("100","Fantasy"));
+		 System.out.println();
+		Movie[] recommendTest= (test.recommendOne("100","Fantasy"));
 		 for(int i=0;i<recommendTest.length;i++) {
 			 System.out.println("Recommend: " +recommendTest[i]);
 		 }
 		 //test.recommendOne("1","Fantasy");
-		 */
+		 
 		 
 		
 		

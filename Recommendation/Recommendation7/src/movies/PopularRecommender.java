@@ -119,19 +119,19 @@ public class PopularRecommender {
 		   }
 	   }
 	   //This will make sure the provided number is not more than movies not rated by the user
-	   Movie []unRatedMovies=new Movie[n];
+	   Movie []unRatedMovies;
+	   System.out.println(n+ " Value of N");
 	   if(n<count) {
 	  //Since the temporary array will be bigger than the provided number this should work
 	   unRatedMovies=new Movie[n];
 	   for(int x=0;x<id.length;x++) {
 		   System.out.println(id[x]);
 	   }
-	   while(n!=0){
-		   System.out.println();
+	   for(int i=0;i<n;i++){
 		   int temp =0;
 		   for(int x=0;x<id.length;x++) {
 			   for(int z=0;z<collection.length;z++) {
-				   	if(collection[z].getMovie().getId().equals(id[x])) {
+				   	if(id[x].equals(collection[z].getMovie().getId())) {
 				   		unRatedMovies[temp]=collection[x].getMovie();
 				   		temp++;
 				   	}
@@ -139,17 +139,16 @@ public class PopularRecommender {
 		   }
 			   }
 		   //For the while loop
-		   n--;
 	   	}
 	   }
 	   else {
 	    unRatedMovies=new Movie[count];
 	    while(count!=0) {
 	    	int temp1=0;
-	     for(int x=0;x<collection.length;x++) {
-	    	 for(int r=0;r<id.length;r++) {
-	    	 	if(id[r].equals((collection[x].getMovie().getId()))){
-	    		 unRatedMovies[temp1]=collection[x].getMovie();
+	     for(int x=0;x<id.length;x++) {
+	    	 for(int r=0;r<collection.length;r++) {
+	    	 	if(id[x].equals((collection[r].getMovie().getId()))){
+	    		 unRatedMovies[temp1]=collection[r].getMovie();
 	    		 temp1++;
 	    	 	}
 	    	 }
@@ -159,7 +158,13 @@ public class PopularRecommender {
 	   }
 	   return unRatedMovies;
 	 }
-	 
+	 /**
+	  * Kevin Armstrong Rwigamba
+	  * 
+	  * @param userid
+	  * @param genre
+	  * @return
+	  */
 	 public Movie[] recommendOne(String userid,String genre) {
 		   String[] id=new String[this.movies.length];
 		   //This is To count How many movies have not been rated by the given user 

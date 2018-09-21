@@ -126,7 +126,7 @@ public class PopularRecommender {
 	   for(int x=0;x<id.length;x++) {
 		   System.out.println(id[x]);
 	   }
-	   while(n!=0{
+	   while(n!=0){
 		   System.out.println();
 		   int temp =0;
 		   for(int x=0;x<id.length;x++) {

@@ -8,7 +8,7 @@ import movies.PopularRecommender;
 import movies.Rating;
 
 /**
- * @author 1638876
+ * @author Kevin Armstrong Rwigamba
  *
  */
 public class PopularRecommendTest {
@@ -36,13 +36,14 @@ public class PopularRecommendTest {
 		 PopularRecommender test= new PopularRecommender(rate,mv1);
 		 Movie [] xx=test.recommendTwo("11",2);
 		 for(int i=0;i<xx.length;i++) {
-			 System.out.println(xx[i]);
+			 System.out.println("REcommend Two: " +xx[i]);
 		 }
-		 System.out.println("");
+		 //System.out.println("");
 		Movie[] recommendTest= (test.recommend("100","Fantasy"));
 		 for(int i=0;i<recommendTest.length;i++) {
-			 System.out.println(recommendTest[i]);
+			 System.out.println("Recommend: " +recommendTest[i]);
 		 }
+		 test.recommendOne("1","Fantasy");
 		 
 		 
 		

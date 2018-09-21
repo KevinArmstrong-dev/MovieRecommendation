@@ -27,6 +27,7 @@ public class PopularRecommender {
 	   collection[i]=new RecommendAssist(movie[i],getAverageRatingMovie(movie[i].getId()));
 	   System.out.println(collection[i]);
 	  }
+	  SelectionSort(collection);
 	 }
 	 
 	 /**This method uses two arrays which are movie and ratings to Calculate
@@ -83,7 +84,7 @@ public class PopularRecommender {
 	   * @return output
 	   */
 	  public Movie[] recommendTwo(String userid,int n){
-		  Movie[] output= new Movie[4];
+		  Movie[] output= new Movie[n];
 		  int pos=0;
 		  int numberReview=countRated(userid ,this.ratings);
 		  String[] ratedMovieIds = getRatedMovies(numberReview,userid,this.ratings);

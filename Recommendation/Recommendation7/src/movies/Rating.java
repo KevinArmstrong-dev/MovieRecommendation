@@ -45,7 +45,7 @@ public class Rating {
 		
 		isNumbersOnly = true;
 		for (int i = 0; i < review[2].length(); i++) {
-			if (review[2].charAt(i) < '0' || review[2].charAt(i) > '9') {
+			if (!( review[2].charAt(i) >= '0' && review[2].charAt(i) <='9'||review[2].charAt(i)=='.')) {
 				isNumbersOnly = false;
 			}
 		}

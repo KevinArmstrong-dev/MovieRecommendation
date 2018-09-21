@@ -29,5 +29,9 @@ public class RecommendAssist {
 	 public double getRating() {
 	  return rating;
 	 }
+	 public String toString() {
+		 String output = this.movie.getId()+" "+this.movie.getName()+ " "+ this.movie.getYear()+ " rating: "+ rating;
+		 return output;
+	 }
 
 }

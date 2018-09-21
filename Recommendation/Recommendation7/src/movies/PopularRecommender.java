@@ -1,8 +1,5 @@
-/**
- * 
- */
-package movies;
 
+package movies;
 /**
  * @author 1638876
  *
@@ -15,7 +12,6 @@ public class PopularRecommender {
 	 
 	 public PopularRecommender(Rating[] ratings, Movie[] movie) {
 	  this.movies=new Movie[movie.length];
-	  
 	  //to make movies[] immutable and avoid aliasing
 	  for(int i=0;i<movie.length;i++) {
 	   this.movies[i]=movie[i];
@@ -38,18 +34,19 @@ public class PopularRecommender {
 	  * @param movieId
 	  * @return averageRating
 	  */
-	  double getAverageRatingMovie(String movieId) {
+
+	private double getAverageRatingMovie(String movieId) {
 	  double averageRating=0;
 	  for(int i=0;i<movies.length;i++) {
 	   for(int x=0;x<ratings.length;x++) {
-	    if(movies[i].getId()==ratings[x].getUserId()) {
+	    if(movies[i].getId().equals(ratings[x].getMovieId())) {
 	     averageRating=+ratings[x].getRating();
 	    }
 	   }
 	  }
 	  return averageRating=averageRating/movies.length;
 	  
-	 }
+	}
 	 /**Modified Selection Sort to sort the collection array but not tested yet
 	  * or finished
 	  * 
@@ -76,6 +73,14 @@ public class PopularRecommender {
 	        
 	      }
 	  }
+	  /**
+	   * Franco G. Moro
+	   * Recommendation method, calls on multiple helper methods.
+	   * returns a movie[] that the user has not seen yet in order of best rated to lowest.
+	   * @param userid
+	   * @param n
+	   * @return output
+	   */
 	  public Movie[] recommendTwo(String userid,int n){
 		  Movie[] output= new Movie[n];
 		  int pos=0;
@@ -88,44 +93,64 @@ public class PopularRecommender {
 		  }
 		  return output;
 	  }
-	/*  public Movie[] recommend(String userid,int n) {
-	   Movie[] temp =new Movie[n];
+	 public Movie[] recommend(String userid,int n) {
+	   String[] id=new String[this.movies.length];
 	   //This is To count How many movies have not been rated by the given user 
 	   int count=0;
 	   
-	   for(int i=0;i<ratings.length;i++) {
+	   for(int i=0;i<this.ratings.length;i++) {
 	    //To find the corresponding user
-		   if(ratings[i].getUserId().equals(userid)) {
-			   for(int x=0;x<movies.length;x++) {
-				   int count1=0;
+		   if(this.ratings[i].getUserId().equals(userid)) {
+			   for(int x=0;x<this.movies.length;x++) {
+				 
 				   //this is a comparison to find movies which have not been rated by the user
-				   if(!movies[x].getId().equals(ratings[i].getMovieId())) {
-					   temp[count]=movies[x];
+				   if(!this.movies[x].getId().equals(this.ratings[i].getMovieId())) {
+					  
+					   id[x]=this.movies[x].getId();
 					   count++;
-					   count1++;
 				   }
 			   }
 		   }
 	   }
 	   //This will make sure the provided number is not more than movies not rated by the user
+	   Movie []unRatedMovies=new Movie[n];
 	   if(n<count) {
 	  //Since the temporary array will be bigger than the provided number this should work
-	   Movie []unRatedMovies=new Movie[n];
-	    for(int i=0;i<n;i++) {
-	     unRatedMovies[i]=temp[i];
+	   unRatedMovies=new Movie[n];
+	    for(int i=0;i<movies.length;i++) {
+	    	if(id[i].equals((collection[i].getMovie().getId()))){
+	    		unRatedMovies[i]=collection[i].getMovie();
+	    	}
+	    
 	    }
 	   }
 	   else {
-	    Movie[] unRatedMovies=new Movie[count];
+	    unRatedMovies=new Movie[count];
 	    for(int i=0;i<count;i++) {
-	     unRatedMovies[count]=temp[count];
+	     for(int x=0;x<collection.length;x++) {
+	    	 if(id[i].equals((collection[i].getMovie().getId()))){
+	    		 unRatedMovies[i]=collection[i].getMovie();
+	    	 }
+	     }
 	    }
 	   }
 	   return unRatedMovies;
-	  }
-	  */
+	 }
+	 public Movie[] recommend(String userId, String genre ) {
+		 int nRated=countRated(userId,this.ratings);
+		 Movie[] output = new Movie[25];
+		 int pos =0;
+		 String[] ratedMovies= getRatedMovies(nRated,userId,this.ratings);
+		 for(int i=0;i<this.collection.length;i++) {
+			 if(this.collection[i].getMovie().hasGenre(genre)&&!containsId(ratedMovies,this.collection[i].getMovie().getId() )) {
+				 output[pos]=this.collection[i].getMovie();
+			 }
+		 }
+		 return output;
+		 
+	 }
 	  /**
-	   * Franco Gabriel
+	   * Franco G. Moro
 	   * A method that returns the amount of reviews a specific user made.
 	   * Searches from top to bottom or from bottom to top depending on which way is faster.
 	   * @param userId
@@ -168,7 +193,7 @@ public class PopularRecommender {
 	   * @param list
 	   * @return
 	   */
-	  private String[] getRatedMovies(int numberRated,String userId, Rating[] list) {
+	  private static String[] getRatedMovies(int numberRated,String userId, Rating[] list) {
 		  String[] ratedMovies=new String[numberRated];
 		  int uId=Integer.parseInt(userId);
 		  int first = Integer.parseInt(list[0].getUserId());
@@ -195,10 +220,61 @@ public class PopularRecommender {
 		  }
 		  return ratedMovies;
 	  }
+	  /**
+	   * Franco G. Moro
+	   * This method checks if a specific movie id is contained within a String[]
+	   * @param reviewed
+	   * @param movieId
+	   * @return
+	   */
 	  private static boolean containsId(String[] reviewed,String movieId) {
 		  for(int i=0; i<reviewed.length;i++) {
 			  if(reviewed[i].equals(movieId))return true;
 		  }
 		  return false;
+	  }
+	  
+	  private static int countGenre(Movie[] list,String genre) {
+		  int count=0;
+		  for(int i=0;i<list.length-1;i++) {
+			  String[] genresPerMovie=list[i].getGenres();
+			  for(int x=0;i<genresPerMovie.length;i++) {
+				  if(genresPerMovie[x].equals(genre))count++;
+			  }
+		  }
+		  return count;
+	  }
+	  /**
+	   * Franco G. Moro
+	   * QuickSort adapted to the RecommendAssist object.
+	   * @param start
+	   * @param last
+	   */
+	  private void quickSortCollection(int start, int last) {
+		  int i=start;
+		  int j=last;
+		  double pivot= this.collection[(i+j)/2].getRating();
+		  while(i<=j) {
+			  while(this.collection[i].getRating()<pivot) {
+				  i++;
+			  }
+			  while(this.collection[j].getRating()>pivot) {
+				  j--;
+			  }
+			  if(i<=j) {
+				  RecommendAssist temp ;
+				  temp=this.collection[i];
+				  this.collection[i]=this.collection[j];
+				  this.collection[j]=temp;
+				  i++;
+				  j++;
+			  }
+		  }
+		  if(start<j)quickSortCollection(start,j);
+		  if(last<i)quickSortCollection(last,i);
+	  }
+			  
+			  
+		  }
 	  }
 }

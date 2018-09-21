@@ -17,7 +17,7 @@ public class RatingTest {
 		// Test 1: Tests overrided toString() method and functionality of the object
 		Rating r1 = new Rating("246,810042,4.5,24598");
 		System.out.println(r1.toString() + '\n');
-		if (r1.toString().equals("Movie ID: 246" + '\n' + "User ID: 810042" + '\n' + "Rating: 535.0")) {
+		if (r1.toString().equals("Movie ID: 246" + '\n' + "User ID: 810042" + '\n' + "Rating: 4.5")) {
 			testWorks = true;
 			System.out.println("Test 1 works");
 			System.out.println();

@@ -38,7 +38,7 @@ public class PopularRecommendTest {
 		 for(int i=0;i<xx.length;i++) {
 			 System.out.println("REcommend Two: " +xx[i]);
 		 }
-		 //System.out.println("");
+		System.out.println();
 		Movie[] recommendTest= (test.recommend("100","Fantasy"));
 		 for(int i=0;i<recommendTest.length;i++) {
 			 System.out.println("Recommend: " +recommendTest[i]);

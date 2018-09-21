@@ -27,7 +27,7 @@ public class PopularRecommender {
 	   collection[i]=new RecommendAssist(movie[i],getAverageRatingMovie(movie[i].getId()));
 	   System.out.println(collection[i]);
 	  }
-	  SelectionSort(collection);
+	  selectionSort(collection);
 	 }
 	 
 	 /**This method uses two arrays which are movie and ratings to Calculate
@@ -289,8 +289,8 @@ public class PopularRecommender {
 	   * @param start
 	   * @param last
 	   */
-	  private void quickSortCollection(int start, int last) {
-		  int i=start;
+	  private void quickSortCollection(int first, int last) {
+		  int i=first;
 		  int j=last;
 		  double pivot= this.collection[(i+j)/2].getRating();
 		  while(i<=j) {
@@ -306,10 +306,10 @@ public class PopularRecommender {
 				  this.collection[i]=this.collection[j];
 				  this.collection[j]=temp;
 				  i++;
-				  j++;
+				  j--;
 			  }
 		  }
-		  if(start<j)quickSortCollection(start,j);
+		  if(first<j)quickSortCollection(first,j);
 		  if(last<i)quickSortCollection(last,i);
 	  }
 }

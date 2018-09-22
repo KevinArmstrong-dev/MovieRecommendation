@@ -1,4 +1,3 @@
-
 package movies;
 /**
  * @author 1638876
@@ -97,67 +96,69 @@ public class PopularRecommender {
 		  }
 		  return output;
 	  }
-	/**
-	 * Kevin Armstrong Rwigamba
-	 * 
-	 * @param userid
-	 * @param n
-	 * @return unRatedMovies
-	 */
-	  public Movie[] recommend(String userid,int n) {
-	   String[] id=new String[this.movies.length];
-	   //This is To count How many movies have not been rated by the given user 
-	   int count=0;
-	   int xy=0; //temp var
-	   
-	   for(int i=0;i<this.ratings.length;i++) {
-	    //To find the corresponding user
-		   if(!(this.ratings[i].getUserId().equals(userid))) {
-			    id[xy]=this.ratings[i].getMovieId();
-			    xy++; //temp variable
-				count++;
-		   }
-	   }
-	   //This will make sure the provided number is not more than movies not rated by the user
-	   Movie []unRatedMovies;
-	   System.out.println(n+ " Value of N");
-	   if(n<count) {
-	  //Since the temporary array will be bigger than the provided number this should work
-	   unRatedMovies=new Movie[n];
-	   for(int x=0;x<id.length;x++) {
-		   System.out.println(id[x]);
-	   }
-	   for(int i=0;i<n;i++){
-		   int temp =0;
-		   for(int x=0;x<id.length;x++) {
-			   for(int z=0;z<collection.length;z++) {
-				   	if(id[x].equals(collection[z].getMovie().getId())) {
-				   		unRatedMovies[temp]=collection[x].getMovie();
-				   		temp++;
-				   	}
-				   
-		   }
+	  /**
+	   * Kevin Armstrong Rwigamba
+	   * 
+	   * This method looks through an array and keeps aside all the unrated movies by the given user
+	   *  and if the the user specify a smaller number than the movies we have i return a specified
+	   *  number of movies and if the number is bigger than what i have i return all the movies i have
+	   *      
+	   * 
+	   * @param userid
+	   * @param n
+	   * @return unRatedMovies
+	   */
+	  public Movie[] recommendBeta(String userid,int n) {
+		  String[] idbeta=new String[this.movies.length];
+		   //This is To count How many movies have not been rated by the given user 
+		   int count=0;
+		   int xz=0; //temp var
+		   
+		   for(int i=0;i<this.ratings.length;i++) {
+		    //To find the corresponding user
+			   if(!(this.ratings[i].getUserId().equals(userid))) {
+				    idbeta[xz]=this.ratings[i].getMovieId();
+				    xz++; //temp variable
+					count++;
 			   }
-		   //For the while loop
-	   	}
-	   }
-	   else {
-	    unRatedMovies=new Movie[count];
-	    while(count!=0) {
-	    	int temp1=0;
-	     for(int x=0;x<id.length;x++) {
-	    	 for(int r=0;r<collection.length;r++) {
-	    	 	if(id[x].equals((collection[r].getMovie().getId()))){
-	    		 unRatedMovies[temp1]=collection[r].getMovie();
-	    		 temp1++;
-	    	 	}
-	    	 }
-	     }
-	     count--;
-	    }
-	   }
-	   return unRatedMovies;
-	 }
+		   }
+		  Movie [] unrated=new Movie[count];
+		  //For testing purpose
+		  System.out.println("Rating length is :"+this.ratings.length +" id: "+idbeta.length +" Collection Length: " +this.collection.length +" Movie Length: " +this.movies.length);
+		  int c=0;
+		  for(int x=0;x<idbeta.length;x++) {
+			  for(int y=0;y<this.movies.length;y++) {
+				  if(idbeta[x].equals(movies[y].getId())) {
+					  unrated[c]=this.movies[y];
+					  c++;
+				  }
+			  }
+		  }
+		  //This is to check how many null positions i have in my array
+		  int countNull=0;
+		  for(int i=0;i<unrated.length;i++) {
+			  if(unrated[i]==null) {
+				  countNull++;
+			  } 
+		  }
+		  
+		  //New movie array minus the empty positions
+		  Movie[] unratedx= new Movie[unrated.length-countNull];
+		  for(int i=0;i<unratedx.length;i++) {
+			  unratedx[i]=unrated[i];
+			  
+		  }
+		  if(n<unratedx.length) {
+			  Movie [] unRatedMovies=new Movie[n];
+			  for(int i=0;i<unRatedMovies.length;i++) {
+				  unRatedMovies[i]=unratedx[i];
+			  }
+			  return unRatedMovies;
+		  }
+		  else{
+		  return unratedx;
+		  }
+	  }
 	 /**
 	  * Kevin Armstrong Rwigamba
 	  * 
@@ -336,5 +337,5 @@ public class PopularRecommender {
 		  if(first<j)quickSortCollection(first,j);
 		  if(last<i)quickSortCollection(last,i);
 	  }
-}
 
+}

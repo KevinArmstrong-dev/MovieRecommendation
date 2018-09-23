@@ -128,10 +128,12 @@ public class PopularRecommender {
 		  int c=0;
 		  for(int x=0;x<idbeta.length;x++) {
 			  for(int y=0;y<this.movies.length;y++) {
+				  if(idbeta[x]!=null) { 
 				  if(idbeta[x].equals(movies[y].getId())) {
 					  unrated[c]=this.movies[y];
 					  c++;
 				  }
+			   }
 			  }
 		  }
 		  //This is to check how many null positions i have in my array
@@ -162,40 +164,78 @@ public class PopularRecommender {
 	 /**
 	  * Kevin Armstrong Rwigamba
 	  * 
+	  * This method looks through unrated movies by the given user and cross check the array with given 
+	  * genre and then return all the matching genres
+	  * 
 	  * @param userid
 	  * @param genre
-	  * @return
+	  * @return x
 	  */
 	 public Movie[] recommendOne(String userid,String genre) {
-		   String[] id=new String[this.movies.length];
+		  String[] idbeta=new String[this.movies.length];
 		   //This is To count How many movies have not been rated by the given user 
 		   int count=0;
+		   int xz=0; //temp var
 		   
 		   for(int i=0;i<this.ratings.length;i++) {
 		    //To find the corresponding user
-			   if(this.ratings[i].getUserId().equals(userid)) {
-				   for(int x=0;x<this.movies.length;x++) {
-					 
-					   //this is a comparison to find movies which have not been rated by the user
-					   if((!this.movies[x].getId().equals(this.ratings[i].getMovieId()))&&(genre.equals(this.movies[x].getGenres()))) {
-						  
-						   id[x]=this.movies[x].getId();
-						   count++;
-					   }
-				   }
+			   if(!(this.ratings[i].getUserId().equals(userid))) {
+				    idbeta[xz]=this.ratings[i].getMovieId();
+				    xz++; //temp variable
+					count++;
 			   }
 		   }
-		   //This will make sure the provided number is not more than movies not rated by the user
-		    Movie[] unRatedMovies=new Movie[count];
-		    for(int i=0;i<count;i++) {
-		     for(int x=0;x<collection.length;x++) {
-		    	 if(id[i].equals((collection[i].getMovie().getId()))){
-		    		 unRatedMovies[i]=collection[i].getMovie();
-		    	 }
-		     }
-		    }
 		   
-		   return unRatedMovies;
+		   /*for(int i=0;i<idbeta.length;i++) {
+			   System.out.println(idbeta[i]);
+		   } */
+		  Movie [] unrated=new Movie[count];
+		  //For testing purpose
+		  //System.out.println("Rating length is :"+this.ratings.length +" id: "+idbeta.length +" Collection Length: " +this.collection.length +" Movie Length: " +this.movies.length);
+		  int c=0;
+		  for(int x=0;x<idbeta.length;x++) {
+			  for(int y=0;y<this.collection.length;y++) {
+				  //System.out.println(this.collection[y].getMovie().getId() + "====id: "+idbeta[x]);
+				  if(idbeta[x]!=null) { 
+				  if(idbeta[x].equals(this.collection[y].getMovie().getId())) {
+					  //System.out.println("+++:> "+ this.collection[y].getMovie().getId() + "====id: "+idbeta[x]);
+					  unrated[c]=this.collection[y].getMovie();
+					  c++;
+				  }
+			   }
+			  }
+		  }
+		  //This is to check how many null positions i have in my array
+		  int countNull=0;
+		  for(int i=0;i<unrated.length;i++) {
+			  if(unrated[i]==null) {
+				  countNull++;
+			  } 
+		  }
+		  
+		  //New movie array minus the empty positions
+		  Movie[] unratedx= new Movie[unrated.length-countNull];
+		  for(int i=0;i<unratedx.length;i++) {
+			  unratedx[i]=unrated[i];
+			  
+		  }
+		  int genreCount=0;
+		  for(int i=0;i<unratedx.length;i++){
+			  if(unratedx[i].hasGenre(genre)==true) {
+				  genreCount++;
+			  }
+		  }
+		  Movie []x=new Movie[genreCount];
+		  int m=0;
+		  for(int i=0;i<unratedx.length;i++){
+			  if(unratedx[i].hasGenre(genre)==true) {
+				  x[m]=unratedx[i];
+				  m++;
+			  }
+		  }
+		  //System.out.println(genreCount);
+		  //return unratedx;
+		  return x;
 		 }
 		 
 

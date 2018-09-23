@@ -8,7 +8,6 @@ public class PopularRecommender {
 	 private Movie[] movies;
 	 private Rating[] ratings; 
 	 private RecommendAssist [] collection;
-	  
 	 
 	 public PopularRecommender(Rating[] ratings, Movie[] movie) {
 	  this.movies=new Movie[movie.length];
@@ -26,6 +25,7 @@ public class PopularRecommender {
 	  for(int i=0;i<movie.length;i++) {
 	   collection[i]=new RecommendAssist(movie[i],getAverageRatingMovie(movie[i].getId()));
 	  }
+	  quickSortCollection(0,this.collection.length-1);
 	 }
 	 
 	 /**This method uses two arrays which are movie and ratings to Calculate
@@ -34,17 +34,23 @@ public class PopularRecommender {
 	  * @param movieId
 	  * @return averageRating
 	  */
-
+	 
+	 /**
+	  * Franco G. Moro
+	  * This method goes through the ratings[] and gets the average of every review made to a specific Movie id.
+	  * @param movieId
+	  * @return
+	  */
 	private double getAverageRatingMovie(String movieId) {
 	  double averageRating=0;
-	  for(int i=0;i<movies.length;i++) {
-	   for(int x=0;x<ratings.length;x++) {
-	    if(movies[i].getId().equals(ratings[x].getMovieId())) {
-	     averageRating=+ratings[x].getRating();
-	    }
+	  int nRatings=0;
+	  for(int i=0;i<ratings.length;i++) {
+	   if(movieId.equals(this.ratings[i].getMovieId())) {
+		   averageRating+=this.ratings[i].getRating();
+		   nRatings++;
 	   }
 	  }
-	  return averageRating=averageRating/movies.length;
+	  return averageRating=averageRating/nRatings;
 	  
 	}
 	 /**Modified Selection Sort to sort the collection array but not tested yet
@@ -85,10 +91,19 @@ public class PopularRecommender {
 		  Movie[] output= new Movie[n];
 		  int pos=0;
 		  int numberReview=countRated(userid ,this.ratings);
-		  String[] ratedMovieIds = getRatedMovies(numberReview,userid,this.ratings);
-		  for(int i=0;i<this.collection.length;i++) {
-			  if(!containsId(ratedMovieIds,this.collection[i].getMovie().getId())) {
+		  if(numberReview<=1) {
+			  String[] ratedMovieIds = getRatedMovies(numberReview,userid,this.ratings);
+			  for(int i=0;i<this.collection.length;i++) {
+				  if(!(containsId(ratedMovieIds,this.collection[i].getMovie().getId()))) {
+					  output[pos]=this.collection[i].getMovie();
+					  pos++;
+				  }
+			  }
+		  }
+		  else {
+			  for(int i=0;i<this.collection.length;i++) {
 				  output[pos]=this.collection[i].getMovie();
+				  pos++;
 			  }
 		  }
 		  return output;
@@ -136,14 +151,15 @@ public class PopularRecommender {
 	   }
 	   return unRatedMovies;
 	 }
-	 public Movie[] recommend(String userId, String genre ) {
+	 public Movie[] recommend(String userId, int n, String genre ) {
 		 int nRated=countRated(userId,this.ratings);
-		 Movie[] output = new Movie[25];
+		 Movie[] output = new Movie[n];
 		 int pos =0;
 		 String[] ratedMovies= getRatedMovies(nRated,userId,this.ratings);
 		 for(int i=0;i<this.collection.length;i++) {
 			 if(this.collection[i].getMovie().hasGenre(genre)&&!containsId(ratedMovies,this.collection[i].getMovie().getId() )) {
 				 output[pos]=this.collection[i].getMovie();
+				 pos++;
 			 }
 		 }
 		 return output;
@@ -159,32 +175,15 @@ public class PopularRecommender {
 	   */
 	  private static int countRated(String userId, Rating[] list) {
 		  int count=0;
-		  int uId=Integer.parseInt(userId);
-		  int first = Integer.parseInt(list[0].getUserId());
-		  int last = Integer.parseInt(list[list.length-1].getUserId());
-		  if(uId-first<last-uId) {
-			  for(int i=0;i<list.length;i++) {
-				  if(list[i].getMovieId().equals(userId)) {
-				  	while(list[i].getMovieId().equals(userId)) {
-					  count++;
-				  	}
-				  	return count;
-				  }
+		  int k=list.length-1;
+		  for(int i=0;i<k;i++) {
+				 if((userId.equals(list[i].getUserId()))||(userId.equals(list[k].getUserId())))
+					 count++;
+				 k--;
 			  }
-		  }
-		  else {
-			  for(int i=list.length-1;i>=0;i--) {
-				  if(list[i].getMovieId().equals(userId)) {
-				  	while(list[i].getMovieId().equals(userId)) {
-					  count++;
-				  	}
-				  	return count;
-				  }
-			  }
-			  
-		  }
 		  return count;
-	  }
+		  }
+	 
 	  /**
 	   * Franco G. Moro 
 	   * Makes an array with the id's of all the movies the user rated.
@@ -195,28 +194,18 @@ public class PopularRecommender {
 	   */
 	  private static String[] getRatedMovies(int numberRated,String userId, Rating[] list) {
 		  String[] ratedMovies=new String[numberRated];
-		  int uId=Integer.parseInt(userId);
-		  int first = Integer.parseInt(list[0].getUserId());
-		  int last = Integer.parseInt(list[list.length-1].getUserId());
-		  if(uId-first<last-uId) {
-			  for(int i=0;i<list.length;i++) {
-				  if(list[i].getMovieId().equals(userId)) {
-				  	for(int x=i;x<list.length;x++) {
-					  ratedMovies[x]=list[i].getMovieId();
-				  	}
-				  	return ratedMovies;
-				  }
+		  int pos=0;
+		  int k = list.length-1;
+		  for(int i=0;i<=k;i++) {
+			  if(list[i].getUserId().equals(userId)) {
+				  ratedMovies[pos]=list[i].getMovieId();
+				  pos++;
 			  }
-		  }
-		  else {
-			  for(int i=list.length-1;i>=0;i--) {
-				  if(list[i].getMovieId().equals(userId)) {
-				  	for(int x=i;x<list.length;x++) {
-					  ratedMovies[x]=list[i].getMovieId();
-				  	}
-				  	return ratedMovies;
-				  }
+			  if(list[k].getUserId().equals(userId)) {
+				  ratedMovies[pos]=list[k].getMovieId();
+				  pos++;
 			  }
+			  k--;
 		  }
 		  return ratedMovies;
 	  }
@@ -255,10 +244,10 @@ public class PopularRecommender {
 		  int j=last;
 		  double pivot= this.collection[(i+j)/2].getRating();
 		  while(i<=j) {
-			  while(this.collection[i].getRating()<pivot) {
+			  while(this.collection[i].getRating()>pivot) {
 				  i++;
 			  }
-			  while(this.collection[j].getRating()>pivot) {
+			  while(this.collection[j].getRating()<pivot) {
 				  j--;
 			  }
 			  if(i<=j) {
@@ -267,14 +256,10 @@ public class PopularRecommender {
 				  this.collection[i]=this.collection[j];
 				  this.collection[j]=temp;
 				  i++;
-				  j++;
+				  j--;
 			  }
 		  }
 		  if(start<j)quickSortCollection(start,j);
 		  if(last<i)quickSortCollection(last,i);
-	  }
-			  
-			  
-		  }
 	  }
 }

@@ -27,6 +27,9 @@ public class PopularRecommender {
 	  // System.out.println(collection[i]);
 	  }
 	  selectionSort(collection);
+	  for(int i=0;i<this.collection.length;i++) {
+		  System.out.println(this.collection[i]);
+	  }
 	 }
 	 
 	 /**This method uses two arrays which are movie and ratings to Calculate
@@ -38,12 +41,14 @@ public class PopularRecommender {
 
 	private double getAverageRatingMovie(String movieId) {
 	  double averageRating=0;
+	  int count=0;
 	   for(int x=0;x<ratings.length;x++) {
 	    if(movieId.equals(ratings[x].getMovieId())) {
 	     averageRating=+ratings[x].getRating();
+	     count++;
 	    }
 	   }
-	  return averageRating=averageRating/movies.length;
+	  return averageRating=averageRating/count;
 	  
 	}
 	 /**
@@ -61,7 +66,7 @@ public class PopularRecommender {
 	        // find the min in the unsorted part
 	        int guess = start; 
 	        for(int i=start+1; i<x.length; i++) {
-	          if(x[guess].getRating() > x[i].getRating()) {
+	          if(x[guess].getRating() < x[i].getRating()) {
 	            guess =i;
 	          }
 	        }

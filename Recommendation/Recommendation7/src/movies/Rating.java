@@ -22,7 +22,7 @@ public class Rating {
 		else if (review.length > 4) {
 			throw new RuntimeException("Line has too much content");
 		}
-		this.movieId = review[0];
+		this.movieId = review[1];
 		for (int i = 0; i < movieId.length(); i++) {
 			if (movieId.charAt(i) < '0' || movieId.charAt(i) > '9') {
 				isNumbersOnly = false;
@@ -33,7 +33,7 @@ public class Rating {
 		}
 		
 		isNumbersOnly = true;
-		this.userId = review[1];
+		this.userId = review[0];
 		for (int i = 0; i < userId.length(); i++) {
 			if (userId.charAt(i) < '0' || userId.charAt(i) > '9') {
 				isNumbersOnly = false;

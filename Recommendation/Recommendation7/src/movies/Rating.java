@@ -1,3 +1,4 @@
+
 package movies;
 
 /**
@@ -45,7 +46,7 @@ public class Rating {
 		
 		isNumbersOnly = true;
 		for (int i = 0; i < review[2].length(); i++) {
-			if (!( review[2].charAt(i) >= '0' && review[2].charAt(i) <='9' || review[2].charAt(i)=='.')) {
+			if (!(review[2].charAt(i) >= '0' || review[2].charAt(i) <= '9'||review[2].charAt(i)=='.')) {
 				isNumbersOnly = false;
 			}
 		}
@@ -53,9 +54,6 @@ public class Rating {
 			throw new IllegalArgumentException("Illegal character input (only numbers are needed)");
 		}
 		this.rating = Double.parseDouble(review[2]);
-		if (this.rating < 0 || this.rating > 5) {
-			throw new IllegalArgumentException("Rating out-of-bounds (from 0.0 to 5.0)");
-		}
 		
 	}
 	

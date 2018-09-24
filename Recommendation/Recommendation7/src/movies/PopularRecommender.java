@@ -108,63 +108,6 @@ public class PopularRecommender {
 		  }
 		  return output;
 	  }
-	 public Movie[] recommend(String userid,int n) {
-	   String[] id=new String[this.movies.length];
-	   //This is To count How many movies have not been rated by the given user 
-	   int count=0;
-	   
-	   for(int i=0;i<this.ratings.length;i++) {
-	    //To find the corresponding user
-		   if(this.ratings[i].getUserId().equals(userid)) {
-			   for(int x=0;x<this.movies.length;x++) {
-				 
-				   //this is a comparison to find movies which have not been rated by the user
-				   if(!this.movies[x].getId().equals(this.ratings[i].getMovieId())) {
-					  
-					   id[x]=this.movies[x].getId();
-					   count++;
-				   }
-			   }
-		   }
-	   }
-	   //This will make sure the provided number is not more than movies not rated by the user
-	   Movie []unRatedMovies=new Movie[n];
-	   if(n<count) {
-	  //Since the temporary array will be bigger than the provided number this should work
-	   unRatedMovies=new Movie[n];
-	    for(int i=0;i<movies.length;i++) {
-	    	if(id[i].equals((collection[i].getMovie().getId()))){
-	    		unRatedMovies[i]=collection[i].getMovie();
-	    	}
-	    
-	    }
-	   }
-	   else {
-	    unRatedMovies=new Movie[count];
-	    for(int i=0;i<count;i++) {
-	     for(int x=0;x<collection.length;x++) {
-	    	 if(id[i].equals((collection[i].getMovie().getId()))){
-	    		 unRatedMovies[i]=collection[i].getMovie();
-	    	 }
-	     }
-	    }
-	   }
-	   return unRatedMovies;
-	 }
-	 public Movie[] recommend(String userId, int n, String genre ) {
-		 int nRated=countRated(userId,this.ratings);
-		 Movie[] output = new Movie[n];
-		 int pos =0;
-		 String[] ratedMovies= getRatedMovies(nRated,userId,this.ratings);
-		 for(int i=0;i<this.collection.length;i++) {
-			 if(this.collection[i].getMovie().hasGenre(genre)&&!containsId(ratedMovies,this.collection[i].getMovie().getId() )) {
-				 output[pos]=this.collection[i].getMovie();
-				 pos++;
-			 }
-		 }
-		 return output;
-		 
-	 }
 	  /**
 	   * Franco G. Moro
 	   * A method that returns the amount of reviews a specific user made.
@@ -221,17 +164,6 @@ public class PopularRecommender {
 			  if(reviewed[i].equals(movieId))return true;
 		  }
 		  return false;
-	  }
-	  
-	  private static int countGenre(Movie[] list,String genre) {
-		  int count=0;
-		  for(int i=0;i<list.length-1;i++) {
-			  String[] genresPerMovie=list[i].getGenres();
-			  for(int x=0;i<genresPerMovie.length;i++) {
-				  if(genresPerMovie[x].equals(genre))count++;
-			  }
-		  }
-		  return count;
 	  }
 	  /**
 	   * Franco G. Moro

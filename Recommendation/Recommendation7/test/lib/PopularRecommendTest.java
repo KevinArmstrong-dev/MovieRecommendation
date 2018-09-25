@@ -21,7 +21,7 @@ public class PopularRecommendTest {
 		Movie[] mvArr=createMovieArr();
 		PopularRecommender test= new PopularRecommender(rate,mvArr);
 		System.out.println("TEST 1 : Should print every film except: The american president Because it was review by user 19");
-		Movie [] testOne=test.recommendTwo("19",2);
+		Movie [] testOne=test.recommend("19",4);
 		 //This should not work and print an error statement.
 		try{
 		 for(int i=0;i<testOne.length;i++) {
@@ -34,7 +34,7 @@ public class PopularRecommendTest {
 		System.out.println("TEST 3 : Should print the entire movie Array because they all have the genre: Common & it wasn't rated");
 		 //This should not be able to find a match
 		 try {
-			 Movie[] testThree=test.recommend("200",3, "Common"); 
+			 Movie[] testThree=test.recommend("200",7, "Common"); 
 			 for(int i=0;i<testThree.length;i++) {
 				 System.out.println(testThree[i].getName());
 			 }
@@ -55,10 +55,15 @@ public class PopularRecommendTest {
 		return rate;
 	}
 	private static Movie[] createMovieArr() {
-		Movie movieTest= new Movie("11,American President%2C The (1995),Comedy|Drama|Romance|Common");
+		Movie movieTest1= new Movie("11,American President%2C The (1995),Comedy|Drama|Romance|Common");
 		Movie movieTest2=new Movie("1,Toy Story%2C (1995),Adventure|Animation|Children|Comedy|Common");
 		Movie movieTest3=new Movie("2,Jumanji (1995),Adventure|Children|Fantasy|Common");
-		Movie [] mvArr= {movieTest,movieTest2,movieTest3};
+		Movie movietest4=new Movie("70,From Dusk Till Dawn (1996),Action|Comedy|Horror|Thriller|Common");
+		Movie movieTest5=new Movie("135,Down Periscope (1996),Comedy|Common");
+		Movie movieTest6=new Movie("27,Now and Then%2C (1995),Children|Drama|Common");
+		Movie movieTest7=new Movie("15,Cutthroat Island (1995),Action|Adventure|Romance|Common");
+
+		Movie [] mvArr= {movieTest1,movieTest2,movieTest3,movietest4,movieTest5,movieTest6,movieTest7};
 		return mvArr;
 	}
 }

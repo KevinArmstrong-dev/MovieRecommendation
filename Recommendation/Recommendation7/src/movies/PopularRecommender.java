@@ -87,7 +87,7 @@ public class PopularRecommender {
 	   * @param n
 	   * @return output
 	   */
-	  public Movie[] recommendTwo(String userid,int n){
+	  public Movie[] recommend(String userid,int n){
 		  Movie[] output= new Movie[n];
 		  int pos=0;
 		  int numberReview=countRated(userid ,this.ratings);
@@ -95,8 +95,9 @@ public class PopularRecommender {
 			  String[] ratedMovieIds = getRatedMovies(numberReview,userid,this.ratings);
 			  for(int i=0;i<this.collection.length;i++) {
 				  if(!(containsId(ratedMovieIds,this.collection[i].getMovie().getId()))) {
+					  if(pos==n)return output;
 					  output[pos]=this.collection[i].getMovie();
-					  pos++;
+						  pos++;  
 				  }
 			  }
 		  }
@@ -108,6 +109,21 @@ public class PopularRecommender {
 		  }
 		  return output;
 	  }
+	  public Movie[] recommend(String userId, int n, String genre ) {
+			 int nRated=countRated(userId,this.ratings);
+			 Movie[] output = new Movie[n];
+			 int pos =0;
+			 String[] ratedMovies= getRatedMovies(nRated,userId,this.ratings);
+			 for(int i=0;i<this.collection.length;i++) {
+				 if(this.collection[i].getMovie().hasGenre(genre)&&!containsId(ratedMovies,this.collection[i].getMovie().getId() )) {
+					 if(pos==n)return output;
+					 output[pos]=this.collection[i].getMovie();
+					 pos++;
+				 }
+			 }
+			 return output;
+	  }
+
 	  /**
 	   * Franco G. Moro
 	   * A method that returns the amount of reviews a specific user made.

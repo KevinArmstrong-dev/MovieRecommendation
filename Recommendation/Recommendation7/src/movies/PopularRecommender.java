@@ -9,7 +9,12 @@ public class PopularRecommender {
 	 private Movie[] movies;
 	 private Rating[] ratings; 
 	 private RecommendAssist [] collection;
-	 
+	 /**
+	  * Kevin Armstrong Rwigamba
+	  * This constructor creates a Popular Recommender object, it also sorts the arry from highest rated to lowest.
+	  * @param ratings
+	  * @param movie
+	  */
 	 public PopularRecommender(Rating[] ratings, Movie[] movie) {
 	  this.movies=new Movie[movie.length];
 	  //to make movies[] immutable and avoid aliasing
@@ -28,20 +33,12 @@ public class PopularRecommender {
 	  }
 	  quickSortCollection(0,this.collection.length-1);
 
-	  //This will verify The Order of movies
-	  for(int i=0;i<collection.length;i++) {
-		  System.out.println(this.collection[i]);
-	 }
+}
 	 
-	 /**This method uses two arrays which are movie and ratings to Calculate
-	  * the average rating of a given movie id
-	  * 
-	  * @param movieId
-	  * @return averageRating
-	  */
+
 	 
 	 /**
-	  * Franco G. Moro
+	  * Franco G. Moro & Kevin Armstrong Rwigamba
 	  * This method goes through the ratings[] and gets the average of every review made to a specific Movie id.
 	  * @param movieId
 	  * @return
@@ -59,35 +56,6 @@ public class PopularRecommender {
 	  return averageRating=averageRating/nRatings;
 	  
 	}
-	 /**
-	  * Kevin Armstrong Rwigamba
-	  * 
-	  * Modified Selection Sort to sort the collection array but not tested yet
-	  * or finished
-	  * 
-	  * @param x
-	  */
-	  public static void selectionSort(RecommendAssist[] x) {
-	      for(int start = 0; start < x.length; start++) {
-	        // start is the index of the first element of the 
-	        // unsorted part of the array
-	        
-	        // find the min in the unsorted part
-	        int guess = start; 
-	        for(int i=start+1; i<x.length; i++) {
-	          if(x[guess].getRating() > x[i].getRating()) {
-	            guess =i;
-	          }
-	        }
-	        
-	        // swap the min element with the first element of the
-	        // unsorted part of the array
-	        RecommendAssist temp = x[guess];
-	        x[guess] = x[start];
-	        x[start] = temp;
-	        
-	      }
-	  }
 	  /**
 	   * Franco G. Moro
 	   * Recommendation method, calls on multiple helper methods.
@@ -128,6 +96,15 @@ public class PopularRecommender {
 			  return output;  
 		  }
 	  }
+	  
+	  /**
+	   * Franco G. Moro
+	   * This method returns an array of movies that are the highest ranked and have the specified genre. They also musn't have been rated by the user.
+	   * @param userId
+	   * @param n
+	   * @param genre
+	   * @return
+	   */
 	  public Movie[] recommend(String userId, int n, String genre ) {
 			 int nRated=countRated(userId,this.ratings);
 			 Movie[] output = new Movie[n];

@@ -63,7 +63,7 @@ public class PopularRecommendTest {
 		Movie[] mvArr=createMovieArr();
 		PopularRecommender test= new PopularRecommender(rate,mvArr);
 		System.out.println("TEST 1 : Should print every film except: The american president Because it was review by user 19");
-		Movie [] testOne=test.recommend("19",4);
+		Movie [] testOne=test.recommend("19",6);
 		
 		//This should not work and print an error statement.
 		try{

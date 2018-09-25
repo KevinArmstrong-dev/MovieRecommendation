@@ -62,7 +62,6 @@ public class PopularRecommendTest {
 		Movie movieTest5=new Movie("135,Down Periscope (1996),Comedy|Common");
 		Movie movieTest6=new Movie("27,Now and Then%2C (1995),Children|Drama|Common");
 		Movie movieTest7=new Movie("15,Cutthroat Island (1995),Action|Adventure|Romance|Common");
-
 		Movie [] mvArr= {movieTest1,movieTest2,movieTest3,movietest4,movieTest5,movieTest6,movieTest7};
 		return mvArr;
 	}

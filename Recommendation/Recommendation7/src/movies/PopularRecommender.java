@@ -27,10 +27,10 @@ public class PopularRecommender {
 	   collection[i]=new RecommendAssist(movie[i],getAverageRatingMovie(movie[i].getId()));
 	  }
 	  quickSortCollection(0,this.collection.length-1);
+
 	  //This will verify The Order of movies
 	  for(int i=0;i<collection.length;i++) {
-		  System.out.println(collection[i]);
-	  }
+		  System.out.println(this.collection[i]);
 	 }
 	 
 	 /**This method uses two arrays which are movie and ratings to Calculate
@@ -132,12 +132,23 @@ public class PopularRecommender {
 			 int nRated=countRated(userId,this.ratings);
 			 Movie[] output = new Movie[n];
 			 int pos =0;
-			 String[] ratedMovies= getRatedMovies(nRated,userId,this.ratings);
-			 for(int i=0;i<this.collection.length;i++) {
-				 if(this.collection[i].getMovie().hasGenre(genre)&&!containsId(ratedMovies,this.collection[i].getMovie().getId() )) {
-					 if(pos==n)return output;
-					 output[pos]=this.collection[i].getMovie();
-					 pos++;
+			 if(nRated<=1) {
+				 String[] ratedMovies= getRatedMovies(nRated,userId,this.ratings);
+				 for(int i=0;i<this.collection.length;i++) {
+					 if(this.collection[i].getMovie().hasGenre(genre)&&!containsId(ratedMovies,this.collection[i].getMovie().getId() )) {
+						 if(pos==n)return output;
+						 output[pos]=this.collection[i].getMovie();
+						 pos++;
+					 }
+				 }
+			 }
+			 else {
+				 for(int i=0;i<this.collection.length;i++) {
+					 if(this.collection[i].getMovie().hasGenre(genre)) {
+						 if(pos==n)return output;
+						 output[pos]=this.collection[i].getMovie();
+						 pos++;
+					 }
 				 }
 			 }
 			 if(pos<n) {
@@ -220,7 +231,7 @@ public class PopularRecommender {
 		  int j=last;
 		  double pivot= this.collection[(i+j)/2].getRating();
 		  while(i<=j) {
-			  while(this.collection[i].getRating()>pivot) {
+			  while(this.collection[i].getRating()>pivot){
 				  i++;
 			  }
 			  while(this.collection[j].getRating()<pivot) {

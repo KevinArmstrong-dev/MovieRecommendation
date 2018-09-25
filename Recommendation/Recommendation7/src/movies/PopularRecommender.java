@@ -1,7 +1,8 @@
 
 package movies;
 /**
- * @author 1638876
+ * @author Franco G. Moro
+ * @author Kevin Armstrong Rwigamba
  *
  */
 public class PopularRecommender {
@@ -26,6 +27,10 @@ public class PopularRecommender {
 	   collection[i]=new RecommendAssist(movie[i],getAverageRatingMovie(movie[i].getId()));
 	  }
 	  quickSortCollection(0,this.collection.length-1);
+	  //This will verify The Order of movies
+	  for(int i=0;i<collection.length;i++) {
+		  System.out.println(collection[i]);
+	  }
 	 }
 	 
 	 /**This method uses two arrays which are movie and ratings to Calculate
@@ -50,10 +55,14 @@ public class PopularRecommender {
 		   nRatings++;
 	   }
 	  }
+	  if(nRatings==0)return 0.0;
 	  return averageRating=averageRating/nRatings;
 	  
 	}
-	 /**Modified Selection Sort to sort the collection array but not tested yet
+	 /**
+	  * Kevin Armstrong Rwigamba
+	  * 
+	  * Modified Selection Sort to sort the collection array but not tested yet
 	  * or finished
 	  * 
 	  * @param x
@@ -95,7 +104,7 @@ public class PopularRecommender {
 			  String[] ratedMovieIds = getRatedMovies(numberReview,userid,this.ratings);
 			  for(int i=0;i<this.collection.length;i++) {
 				  if(!(containsId(ratedMovieIds,this.collection[i].getMovie().getId()))) {
-					  if(pos==n)return output;
+					  if(pos==n) return output ;
 					  output[pos]=this.collection[i].getMovie();
 						  pos++;  
 				  }
@@ -105,9 +114,19 @@ public class PopularRecommender {
 			  for(int i=0;i<this.collection.length;i++) {
 				  output[pos]=this.collection[i].getMovie();
 				  pos++;
+				  
 			  }
 		  }
-		  return output;
+		  if(pos<n) {
+			  Movie[] temp =new Movie[pos];
+			  for(int x=0;x<temp.length;x++) {
+				  temp[x]=output[x];
+			  }
+			  return temp;
+		  }
+		  else {
+			  return output;  
+		  }
 	  }
 	  public Movie[] recommend(String userId, int n, String genre ) {
 			 int nRated=countRated(userId,this.ratings);
@@ -121,7 +140,16 @@ public class PopularRecommender {
 					 pos++;
 				 }
 			 }
-			 return output;
+			 if(pos<n) {
+				  Movie[] temp =new Movie[pos];
+				  for(int x=0;x<temp.length;x++) {
+					  temp[x]=output[x];
+				  }
+				  return temp;
+			  }
+			  else {
+				  return output;  
+			  }
 	  }
 
 	  /**

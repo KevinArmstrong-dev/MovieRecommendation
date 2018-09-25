@@ -89,6 +89,7 @@ public class Movie implements Item {
 	
 	/**
 	 * GetGenres method returns a string array of genres.
+	 * 
 	 * @return a String array of genres
 	 */
 	
@@ -98,6 +99,7 @@ public class Movie implements Item {
 	}
 	/**
 	 * HasGenre method used to see if the genre string passed is in the genre string array.
+	 * 
 	 * @param a String of a movie genre.
 	 * @return Boolean true if the parameter Genre is in the Genre string array, false if not there.
 	 */

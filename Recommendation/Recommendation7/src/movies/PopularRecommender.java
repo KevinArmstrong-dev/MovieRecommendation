@@ -64,7 +64,7 @@ public class PopularRecommender {
 	   * @param n
 	   * @return output
 	   */
-	  public Movie[] recommend(String userid,int n){
+	  public Movie[] recommend(int userid,int n){
 		  Movie[] output= new Movie[n];
 		  int pos=0;
 		  int numberReview=countRated(userid ,this.ratings);
@@ -105,7 +105,7 @@ public class PopularRecommender {
 	   * @param genre
 	   * @return
 	   */
-	  public Movie[] recommend(String userId, int n, String genre ) {
+	  public Movie[] recommend(int userId, int n, String genre ) {
 			 int nRated=countRated(userId,this.ratings);
 			 Movie[] output = new Movie[n];
 			 int pos =0;
@@ -148,11 +148,11 @@ public class PopularRecommender {
 	   * @param list
 	   * @return n
 	   */
-	  private static int countRated(String userId, Rating[] list) {
+	  private static int countRated(int userId, Rating[] list) {
 		  int count=0;
 		  int k=list.length-1;
 		  for(int i=0;i<k;i++) {
-				 if((userId.equals(list[i].getUserId()))||(userId.equals(list[k].getUserId())))
+				 if(( userId==list[i].getUserId()) ||(userId==list[k].getUserId() ))
 					 count++;
 				 k--;
 			  }
@@ -167,16 +167,16 @@ public class PopularRecommender {
 	   * @param list
 	   * @return
 	   */
-	  private static String[] getRatedMovies(int numberRated,String userId, Rating[] list) {
+	  private static String[] getRatedMovies(int numberRated,int userId, Rating[] list) {
 		  String[] ratedMovies=new String[numberRated];
 		  int pos=0;
 		  int k = list.length-1;
 		  for(int i=0;i<=k;i++) {
-			  if(list[i].getUserId().equals(userId)) {
+			  if(list[i].getUserId()==userId) {
 				  ratedMovies[pos]=list[i].getMovieId();
 				  pos++;
 			  }
-			  if(list[k].getUserId().equals(userId)) {
+			  if(list[k].getUserId()==userId) {
 				  ratedMovies[pos]=list[k].getMovieId();
 				  pos++;
 			  }

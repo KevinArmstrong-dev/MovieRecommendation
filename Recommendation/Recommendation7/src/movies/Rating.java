@@ -5,7 +5,7 @@ package movies;
  * Object for the ratings from a user of a specified movie
  */
 public class Rating {
-	private String userId;
+	private int userId;
 	private String movieId;
 	private double rating;
 	
@@ -33,12 +33,7 @@ public class Rating {
 		}
 		
 		isNumbersOnly = true;
-		this.userId = review[0];
-		for (int i = 0; i < userId.length(); i++) {
-			if (userId.charAt(i) < '0' || userId.charAt(i) > '9') {
-				isNumbersOnly = false;
-			}
-		}
+		this.userId = Integer.parseInt(review[0]);
 		if (!isNumbersOnly) {
 			throw new IllegalArgumentException("Illegal character input (only numbers are needed)");
 		}
@@ -60,7 +55,7 @@ public class Rating {
 	 * 
 	 * @return userId	Returns ID String of the user as a String
 	 */
-	public String getUserId() {
+	public int getUserId() {
 		
 		return userId;
 	}

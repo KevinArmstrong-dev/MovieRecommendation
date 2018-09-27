@@ -63,7 +63,7 @@ public class PopularRecommendTest {
 		Movie[] mvArr=createMovieArr();
 		PopularRecommender test= new PopularRecommender(rate,mvArr);
 		System.out.println("TEST 1 : Should print every film except: The american president Because it was review by user 19");
-		Movie [] testOne=test.recommend("19",4);
+		Movie [] testOne=test.recommend(19,4);
 		
 		//This should not work and print an error statement.
 		try{
@@ -78,7 +78,7 @@ public class PopularRecommendTest {
 		
 		//This should not be able to find a match
 		 try {
-			 Movie[] testThree=test.recommend("200",7, "Common"); 
+			 Movie[] testThree=test.recommend(200,7, "Common"); 
 			 for(int i=0;i<testThree.length;i++) {
 				 System.out.println(testThree[i].getName());
 			 }
@@ -91,7 +91,7 @@ public class PopularRecommendTest {
 		 }
 		 
 		 //Testing for Corresponding genres
-		 Movie[] testThree=test.recommend("19",3,"Horror");
+		 Movie[] testThree=test.recommend(19,3,"Horror");
 		 if(testThree[0].hasGenre("Horror")) {
 			 System.out.println("Pass! The expected Genre is Horror");
 		 }
@@ -102,7 +102,7 @@ public class PopularRecommendTest {
 		 //if the movies asked for are greater than the number we have 
 		 
 		try {
-				Movie [] testFive=test.recommend("15",8);
+				Movie [] testFive=test.recommend(15,8);
 				for(int i=0;i<testFive.length;i++) {
 				 System.out.println(testThree[i].getName());
 				}

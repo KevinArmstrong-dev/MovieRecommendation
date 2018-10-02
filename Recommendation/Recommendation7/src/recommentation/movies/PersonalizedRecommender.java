@@ -1,7 +1,7 @@
 /**
  * 
  */
-package movies;
+package recommentation.movies;
 
 /**
  * @author Franco G. Moro

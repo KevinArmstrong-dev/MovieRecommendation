@@ -1,7 +1,7 @@
 /**
  * 
  */
-package movies;
+package recommentation.movies;
 
 /**
  * @author Kevin Armstrong Rwigamba
@@ -42,6 +42,8 @@ public class RecommendAssist {
 	 }
 	 /**
 	  * Overloaded Tostring method to print needed details
+				  j--;
+			  }
 	  * 
 	  */
 	 public String toString() {

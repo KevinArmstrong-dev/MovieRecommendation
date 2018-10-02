@@ -1,7 +1,7 @@
 
 package lib;
 
-import movies.Movie;
+import recommentation.movies.Movie;
 
 /**
  * @author 1738714 Class used to test the methods and functioning of the Movie

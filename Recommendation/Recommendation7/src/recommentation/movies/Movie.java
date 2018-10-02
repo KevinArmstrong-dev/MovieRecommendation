@@ -1,4 +1,4 @@
-package movies;
+package recommentation.movies;
 import interfaces.Item;
 
 /**
@@ -131,4 +131,8 @@ public class Movie implements Item {
 		}
 		return false;
 	}
+ public String toString() {
+	 String output=this.ID+ " "+this.MovieName+" "+ this.Year;
+	 return output;
+ }
 }

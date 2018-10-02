@@ -1,4 +1,4 @@
-package movies;
+package recommentation.movies;
 
 /**
  * @author Alexander Arella Girardot

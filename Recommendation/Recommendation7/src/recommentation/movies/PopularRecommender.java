@@ -1,11 +1,14 @@
 
-package movies;
+package recommentation.movies;
+
+import interfaces.IMovieRecommender;
+
 /**
  * @author Franco G. Moro
  * @author Kevin Armstrong Rwigamba
  *
  */
-public class PopularRecommender {
+public class PopularRecommender implements IMovieRecommender {
 	 private Movie[] movies;
 	 private Rating[] ratings; 
 	 private RecommendAssist [] collection;
@@ -32,6 +35,9 @@ public class PopularRecommender {
 	   collection[i]=new RecommendAssist(movie[i],getAverageRatingMovie(movie[i].getId()));
 	  }
 	  quickSortCollection(0,this.collection.length-1);
+	  for(int i=0;i<this.collection.length;i++) {
+		  System.out.println(this.collection[i]);
+	  }
 
 }
 	 
@@ -206,12 +212,12 @@ public class PopularRecommender {
 	  private void quickSortCollection(int start, int last) {
 		  int i=start;
 		  int j=last;
-		  double pivot= this.collection[(i+j)/2].getRating();
+		  int pivot= (i+j)/2;
 		  while(i<=j) {
-			  while(this.collection[i].getRating()>pivot){
+			  while(this.collection[i].getRating()>this.collection[pivot].getRating()){
 				  i++;
 			  }
-			  while(this.collection[j].getRating()<pivot) {
+			  while(this.collection[j].getRating()<this.collection[pivot].getRating()) {
 				  j--;
 			  }
 			  if(i<=j) {
@@ -224,6 +230,6 @@ public class PopularRecommender {
 			  }
 		  }
 		  if(start<j)quickSortCollection(start,j);
-		  if(last<i)quickSortCollection(last,i);
+		  if(last>i)quickSortCollection(i,last);
 	  }
 }

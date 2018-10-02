@@ -1,11 +1,11 @@
-
 package movies;
+import interfaces.IMovieRecommender;
 /**
  * @author Franco G. Moro
  * @author Kevin Armstrong Rwigamba
  *
  */
-public class PopularRecommender {
+public class PopularRecommender implements IMovieRecommender {
 	 private Movie[] movies;
 	 private Rating[] ratings; 
 	 private RecommendAssist [] collection;
@@ -32,7 +32,6 @@ public class PopularRecommender {
 	   collection[i]=new RecommendAssist(movie[i],getAverageRatingMovie(movie[i].getId()));
 	  }
 	  quickSortCollection(0,this.collection.length-1);
-
 }
 	 
 

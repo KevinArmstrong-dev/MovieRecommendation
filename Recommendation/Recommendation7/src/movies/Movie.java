@@ -31,6 +31,18 @@ public class Movie implements Item {
 		
 		String TempYear = "";
 		String TempMovieName = "";
+		int numofcommas = 0;
+		
+		for(int i= 0; i < fullmovieString.length();i++) {		
+			if(fullmovieString.charAt(i) == ',') {
+				numofcommas++;
+			}
+		}
+		
+		if(numofcommas != 2) {
+			throw new IllegalArgumentException("Error:The number of commas in the movie string is not equal to 2.");
+		}
+		
 		String[] movieArray = fullmovieString.split(",", 3);
 		
 		if(movieArray[1].contains("%2C")) {
@@ -95,7 +107,13 @@ public class Movie implements Item {
 	
 	public String[] getGenres() {
 		
-		return this.Genres;
+		String[] GenresArray = new String[Genres.length];
+		
+		for(int i = 0;i < Genres.length;i++) {
+			GenresArray[i] = Genres[i];
+		}
+ 		
+		return GenresArray;
 	}
 	/**
 	 * HasGenre method used to see if the genre string passed is in the genre string array.

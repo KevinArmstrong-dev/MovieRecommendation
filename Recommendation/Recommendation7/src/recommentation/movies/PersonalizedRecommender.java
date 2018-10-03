@@ -31,9 +31,10 @@ public class PersonalizedRecommender {
 		
 		
 	}
+	
 	private Rating[][] getWorkTable(int nUsers){
 		Rating[][] output= new Rating[nUsers][];
-		for(int i=0;i<=nUsers;i++) {
+		for(int i=0;i<output.length;i++) {
 			output[i]=getUserRatings(i);
 		}
 		return output;
@@ -59,8 +60,8 @@ public class PersonalizedRecommender {
 	}
 	private int countUsers(){
 		int count=0;
-		for(int i=0;i<this.ratArr.length;i++) {
-			if(ratArr[i].getUserId()>count) {
+		for(int i=1;i<this.ratArr.length;i++) {
+			if(ratArr[i].getUserId() >= count) {
 				count=ratArr[i].getUserId();
 			}
 		}

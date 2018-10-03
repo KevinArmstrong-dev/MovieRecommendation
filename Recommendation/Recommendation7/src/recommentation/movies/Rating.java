@@ -83,6 +83,6 @@ public class Rating {
 	 */
 	@Override
 	public String toString() {
-		return "User ID: " + this.userId + '\n' + "Movie ID: " + this.movieId + '\n' + "Rating: " + this.rating;
+		return "User ID: " + this.userId + '\t' + "Movie ID: " + this.movieId + '\t' + "Rating: " + this.rating;
 	}
 }

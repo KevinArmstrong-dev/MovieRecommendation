@@ -134,6 +134,6 @@ public class Movie implements Item {
  
  	@Override
  	public String toString() {
- 		
+ 		return this.ID + '\t' + this.MovieName;
  	}
 }

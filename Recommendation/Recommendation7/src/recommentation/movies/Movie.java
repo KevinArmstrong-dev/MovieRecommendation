@@ -122,7 +122,7 @@ public class Movie implements Item {
 	 * @return Boolean true if the parameter Genre is in the Genre string array, false if not there.
 	 */
 	
- public Boolean hasGenre(String Genre) {
+	public Boolean hasGenre(String Genre) {
 		
 		for(int i = 0; i < this.Genres.length; i++) {
 			if(Genre.equals(this.Genres[i])) {
@@ -132,7 +132,7 @@ public class Movie implements Item {
 		return false;
 	}
  public String toString() {
-	 String output=this.ID+ " "+this.MovieName+" "+ this.Year;
+	 String output=this.ID+ '\t' + this.MovieName+'\t'+ this.Year;
 	 return output;
  }
 }

@@ -16,7 +16,16 @@ public class MovieTest {
 		testGetId(movieTest);
 		testGetGenres(movieTest);
 		testHasGenre(movieTest);
-
+		
+		
+		if (movieTest.toString().equals("11	American President, The"))
+		{
+			System.out.println("toString method: SUCCESS");
+		}
+		else
+		{
+			System.out.println("toString method: FAIL");
+		}
 	}
 
 	/**

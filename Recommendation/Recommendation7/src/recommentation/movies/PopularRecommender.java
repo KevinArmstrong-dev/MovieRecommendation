@@ -1,8 +1,6 @@
 
 package recommentation.movies;
-
 import interfaces.IMovieRecommender;
-
 /**
  * @author Franco G. Moro
  * @author Kevin Armstrong Rwigamba
@@ -38,8 +36,7 @@ public class PopularRecommender implements IMovieRecommender {
 	  for(int i=0;i<this.collection.length;i++) {
 		  System.out.println(this.collection[i]);
 	  }
-
-}
+	 }
 	 
 
 	 

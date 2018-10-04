@@ -79,7 +79,7 @@ public class PersonalizedRecommender {
 			}
 		}
 		if(highScore<=0)return -1;
-		return index+1;
+		return index;
 	}
 	/**
 	 * Franco G. Moro

@@ -38,7 +38,7 @@ public class MovieLensFileReader {
 		catch (IOException e) {
 			throw new IllegalArgumentException("File not found, wrong input");
 		}
-		Rating[] ratArr = new Rating[lines.size()];
+		Rating[] ratArr = new Rating[lines.size()-1];
 		int index = 0;
 		for (String s : lines) {
 			if(!(s.equals("userId,movieId,rating,timestamp")) ) {

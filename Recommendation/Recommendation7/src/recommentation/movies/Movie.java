@@ -1,4 +1,4 @@
-package movies;
+package recommentation.movies;
 import interfaces.Item;
 
 /**
@@ -131,9 +131,8 @@ public class Movie implements Item {
 		}
 		return false;
 	}
- 
- 	@Override
- 	public String toString() {
- 		return this.ID + '\t' + this.MovieName;
- 	}
+ public String toString() {
+	 String output=this.ID+ '\t' + this.MovieName+'\t'+ this.Year;
+	 return output;
+ }
 }

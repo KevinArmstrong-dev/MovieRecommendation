@@ -167,4 +167,160 @@ public class PersonalizedRecommender {
 		}
 		return count;
 	}
+	
+	/**
+	 * Kevin Armstrong Rwigamba 
+	 * 
+	 * This method returns the most similar user to the given userid
+	 * 
+	 * @param userid
+	 * @return userId
+	 */
+	private int getSimilarUser(int userid) {
+		int userId=0;
+		for(int i=0;i<mostSimilarUsers.length;i++) {
+			if(userid == i) {
+				userId=mostSimilarUsers[i];
+			}
+		}
+		return userId;
+	}
+	
+	/**
+	 * @author Kevin Armstrong Rwigamba
+	 * 
+	 * This Recommend Method Takes a userid and a number of movies to be recommended
+	 * then a recommendation is made based on another similar user 
+	 * 
+	 * @param userid
+	 * @param n
+	 * @return
+	 */
+	public Movie[] recommend(int userid,int n) {
+		
+		int similarUser=getSimilarUser(userid);
+		if(similarUser==-1) {
+			Movie[] recommendations=new Movie[n];
+			return recommendations;
+		}
+		else {
+			Movie[] movies=unRatedMovies(userid,similarUser);
+			if(n>movies.length) {
+				return movies;
+			}
+			else {
+				Movie[] unRated=new Movie[n];
+				for(int i=0;i<unRated.length;i++) {
+				unRated[i]=movies[i];
+				
+				}
+				return unRated;
+			}
+		}
+	}
+	/**
+	 * @author Kevin Armstrong Rwigamba
+	 *
+	 * This method takes two users and returns an array of unrated movies by the given user
+	 * in contrast to the similar user
+	 * 
+	 * @param givenUser
+	 * @param similarUser
+	 * @return
+	 */
+	private Movie[] unRatedMovies(int givenUser,int similarUser) {
+		int count=0;
+		Rating[] givenArr=new Rating[workTable[givenUser].length];
+		Rating[] similarArr=new Rating[workTable[similarUser].length];
+		for(int i=0;i<givenArr.length;i++) {
+			givenArr[i]=workTable[givenUser][i];
+		}
+		for(int i=0;i<similarArr.length;i++) {
+			similarArr[i]=workTable[similarUser][i];
+		}
+		for(int i=0;i<similarArr.length;i++) {
+			for(int j=0;j<givenArr.length;j++) {
+				if(!(similarArr[i].getMovieId().equals(givenArr[j].getMovieId()))) {
+					count++;
+				}
+			}
+		}
+		Movie[] unratedMovies=new Movie[count];
+		String[] movies=new String[count];
+		int pos=0;
+		for(int i=0;i<similarArr.length;i++) {
+			for(int j=0;j<givenArr.length;j++) {
+				if(!(similarArr[i].getMovieId().equals(givenArr[j].getMovieId()))) {
+					movies[pos]=similarArr[i].getMovieId();
+					pos++;
+				}
+			}
+		}
+		int pos2=0;
+		for(int i=0;i<movies.length;i++) {
+			for(int j=0;j<movArr.length;j++) {
+				if(movies[i].equals(movArr[j].getId())) {
+					unratedMovies[pos2]=movArr[j];
+					pos2++;
+				}
+			}
+		}
+		
+		return unratedMovies;
+	}
+	
+	private Movie[] recommendGenre(Movie[] temp,String genre) {
+		int count=0;
+		for(int i=0;i<temp.length;i++) {
+			if(temp[i].hasGenre(genre)) {
+				count++;
+			}
+		}
+		Movie[] sameGenre=new Movie[count];
+		int pos=0;
+		for(int i=0;i<temp.length;i++) {
+			if(temp[i].hasGenre(genre)) {
+				sameGenre[pos]=temp[i];
+				pos++;
+			}
+		}
+		
+		return sameGenre;
+		
+	}
+	
+	/**
+	 * @author Kevin Armstrong Rwigamba
+	 * 
+	 * This Method recommends a given user a number of specified movies by choosing also the genre
+	 * 
+	 * 
+	 * @param userid
+	 * @param n
+	 * @param genre
+	 * @return
+	 */
+	public Movie[] recommend(int userid,int n,String genre) {
+		int similarUser=getSimilarUser(userid);
+		if(similarUser==-1) {
+			Movie[] recommendations=new Movie[n];
+			return recommendations;
+		}
+		else {
+			Movie[] movies=unRatedMovies(userid,similarUser);
+			if(n>movies.length) {
+				return recommendGenre(movies,genre);
+				
+			}
+			else {
+				Movie[] unRated=new Movie[n];
+				for(int i=0;i<unRated.length;i++) {
+				unRated[i]=movies[i];
+				
+				}
+				return recommendGenre(unRated,genre);
+			}
+		}
+	}
 }
+

@@ -15,11 +15,40 @@ import recommentation.movies.Rating;
  */
 public class PersonalizedRecommenderTest {
 	public static void main(String[] args) {
+		test();
+		
+	}
+	
+	private static void test() {
 		Movie[] movies=MovieLensFileReader.loadMovies("datafiles/sorted/movies.csv");
 		Rating[] ratings=MovieLensFileReader.loadRatings("datafiles/testfiles/testRatings.csv");
 		PersonalizedRecommender test=new PersonalizedRecommender(movies,ratings);
+		Movie[] testAlpha=test.recommend(5,1);
 		
+		for(int i=0;i<testAlpha.length;i++) {
+			System.out.println(testAlpha[i].getName());
+		}
+		
+		Movie[] testBravo=test.recommend(4, 3,"Drama");
+		/*for(int i=0;i<testBravo.length;i++) {
+			System.out.println(testBravo[i]);
+		}
+		*/
+		if(testAlpha.length==1) {
+			System.out.println("Pass! Expected 1 movie");
+		}
+		else {
+			System.out.println("Fail! expected 1 movie");
+		}
+		
+		if(testBravo[0].hasGenre("Drama")){
+			System.out.println("Pass! Expected A Drama Movie");
+		}
+		else {
+			System.out.println("Fail! Expected A Drama Movie");
+		}
 		
 	}
+
 
 }

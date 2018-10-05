@@ -268,7 +268,17 @@ public class PersonalizedRecommender {
 		
 		return unratedMovies;
 	}
-	
+
+	/**
+	 * @author Kevin Armstrong Rwigamba
+	 * 
+	 * this is a helper method to remove the movies which doesn't correspond to given genre
+	 * and create a new Movie array with only specified genre
+	 * 
+	 * @param temp
+	 * @param genre
+	 * @return
+	 */
 	private Movie[] recommendGenre(Movie[] temp,String genre) {
 		int count=0;
 		for(int i=0;i<temp.length;i++) {

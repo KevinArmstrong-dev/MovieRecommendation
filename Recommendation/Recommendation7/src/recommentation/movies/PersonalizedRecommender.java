@@ -3,11 +3,16 @@
  */
 package recommentation.movies;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import interfaces.IMovieRecommender;
+
 /**
  * @author Franco G. Moro
  *
  */
-public class PersonalizedRecommender {
+public class PersonalizedRecommender implements IMovieRecommender{
 	private double[][] usm;
 	private Movie[] movArr;
 	private Rating[] ratArr;
@@ -245,7 +250,6 @@ public class PersonalizedRecommender {
 				}
 			}
 		}
-		Movie[] unratedMovies=new Movie[count];
 		String[] movies=new String[count];
 		int pos=0;
 		for(int i=0;i<similarArr.length;i++) {
@@ -256,10 +260,12 @@ public class PersonalizedRecommender {
 				}
 			}
 		}
+		String[] noDupes=dupeRemoval(movies);
+		Movie[] unratedMovies=new Movie[noDupes.length];
 		int pos2=0;
-		for(int i=0;i<movies.length;i++) {
+		for(int i=0;i<noDupes.length;i++) {
 			for(int j=0;j<movArr.length;j++) {
-				if(movies[i].equals(movArr[j].getId())) {
+				if(noDupes[i].equals(movArr[j].getId())) {
 					unratedMovies[pos2]=movArr[j];
 					pos2++;
 				}
@@ -331,6 +337,35 @@ public class PersonalizedRecommender {
 				return recommendGenre(unRated,genre);
 			}
 		}
+	}
+	
+	/**
+	 *@author Kevin Armstrong Rwigamba
+	 * 
+	 * This Method removes duplicate movies in the array of Strings
+	 * 
+	 * @param movies
+	 * @return
+	 */
+	private String[] dupeRemoval(String [] movies) {
+	         
+	     int noOfUniqueElements = movies.length;
+	         
+	      for (int i = 0; i < noOfUniqueElements; i++) {
+           for (int j = i+1; j < noOfUniqueElements; j++){
+        	      
+	             if(movies[i].equals(movies[j])){
+	                  
+	                  movies[j] = movies[noOfUniqueElements-1];
+	                   
+	                   noOfUniqueElements--;
+	                     
+	                    j--;
+	                }
+	            }
+	        }
+	        String [] arrayWithoutDuplicates = Arrays.copyOf(movies, noOfUniqueElements);
+	        return arrayWithoutDuplicates;
 	}
 }
 

@@ -23,7 +23,7 @@ public class PersonalizedRecommenderTest {
 		Movie[] movies=MovieLensFileReader.loadMovies("datafiles/sorted/movies.csv");
 		Rating[] ratings=MovieLensFileReader.loadRatings("datafiles/testfiles/testRatings.csv");
 		PersonalizedRecommender test=new PersonalizedRecommender(movies,ratings);
-		Movie[] testAlpha=test.recommend(5,1);
+		Movie[] testAlpha=test.recommend(4,1);
 		
 		for(int i=0;i<testAlpha.length;i++) {
 			System.out.println(testAlpha[i].getName());

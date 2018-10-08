@@ -12,15 +12,10 @@ import recommentation.movies.Rating;
  */
 public class MovieLensFileReader {
 	
-	public static Movie[] loadMovies(String path) {
+	public static Movie[] loadMovies(String path) throws IOException {
 		Path p = Paths.get(path);
 		List<String> lines;
-		try {
-			lines = Files.readAllLines(p);
-		}
-		catch (IOException e) {
-			throw new IllegalArgumentException("File not found, wrong input");
-		}
+		lines = Files.readAllLines(p);
 		Movie[] movArr = new Movie[lines.size()];
 		int index = 0;
 		for (String s : lines) {
@@ -29,15 +24,10 @@ public class MovieLensFileReader {
 		}
 		return movArr;
 	}
-	public static Rating[] loadRatings(String path) {
+	public static Rating[] loadRatings(String path) throws IOException {
 		Path p = Paths.get(path);
 		List<String> lines;
-		try {
-			lines = Files.readAllLines(p);
-		}
-		catch (IOException e) {
-			throw new IllegalArgumentException("File not found, wrong input");
-		}
+		lines = Files.readAllLines(p);
 		Rating[] ratArr = new Rating[lines.size()-1];
 		int index = 0;
 		for (String s : lines) {
@@ -50,10 +40,5 @@ public class MovieLensFileReader {
 			}
 		}
 		return ratArr;
-	}
-	
-	public static void main(String[] args) {
-		Movie[] awef = loadMovies("datafiles/sorted/movies.csv");
-		Rating[] fewa =loadRatings("datafiles/sorted/ratings.csv");
 	}
 }

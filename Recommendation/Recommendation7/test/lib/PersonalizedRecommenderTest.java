@@ -1,5 +1,7 @@
 package lib;
 
+import java.io.IOException;
+
 import fileio.MovieLensFileReader;
 import recommentation.movies.Movie;
 import recommentation.movies.PersonalizedRecommender;
@@ -15,11 +17,16 @@ import recommentation.movies.Rating;
  */
 public class PersonalizedRecommenderTest {
 	public static void main(String[] args) {
-		test();
+		try {
+			test();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
-	private static void test() {
+	private static void test() throws IOException{
 		Movie[] movies=MovieLensFileReader.loadMovies("datafiles/sorted/movies.csv");
 		Rating[] ratings=MovieLensFileReader.loadRatings("datafiles/testfiles/testRatings.csv");
 		PersonalizedRecommender test=new PersonalizedRecommender(movies,ratings);

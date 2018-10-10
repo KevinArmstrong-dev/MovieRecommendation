@@ -3,13 +3,12 @@
  */
 package recommentation.movies;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import interfaces.IMovieRecommender;
 
 /**
- * @author Franco G. Moro
+ * @author Franco G. Moro and Kevin Armstrong Rwigamba
  *
  */
 public class PersonalizedRecommender implements IMovieRecommender{
@@ -181,8 +180,11 @@ public class PersonalizedRecommender implements IMovieRecommender{
 	 * @param userid
 	 * @return userId
 	 */
+	/*
+	 * This method is not needed, we already have a sorted field of similar users (int[] mostSimilarUsers) - Alex
+	 */
 	private int getSimilarUser(int userid) {
-		int userId=0;
+		int userId=-1;
 		for(int i=0;i<mostSimilarUsers.length;i++) {
 			if(userid == i) {
 				userId=mostSimilarUsers[i];
@@ -203,14 +205,14 @@ public class PersonalizedRecommender implements IMovieRecommender{
 	 */
 	public Movie[] recommend(int userid,int n) {
 		
-		int similarUser=getSimilarUser(userid);
+		int similarUser= mostSimilarUsers[userid - 1]; // alex's change
 		if(similarUser==-1) {
 			Movie[] recommendations=new Movie[n];
 			return recommendations;
 		}
 		else {
 			Movie[] movies=unRatedMovies(userid,similarUser);
-			if(n>movies.length) {
+			if(n>=movies.length) {
 				return movies;
 			}
 			else {
@@ -260,12 +262,15 @@ public class PersonalizedRecommender implements IMovieRecommender{
 				}
 			}
 		}
-		String[] noDupes=dupeRemoval(movies);
-		Movie[] unratedMovies=new Movie[noDupes.length];
+		/* 
+		 * dupeRemoval may be useless, because the if statement already makes sure no movie IDs are equal as they are stored - Alex
+		 * String[] noDupes=dupeRemoval(movies);
+		 */
+		Movie[] unratedMovies=new Movie[movies.length];
 		int pos2=0;
-		for(int i=0;i<noDupes.length;i++) {
+		for(int i=0;i<movies.length;i++) {
 			for(int j=0;j<movArr.length;j++) {
-				if(noDupes[i].equals(movArr[j].getId())) {
+				if(movies[i].equals(movArr[j].getId())) {
 					unratedMovies[pos2]=movArr[j];
 					pos2++;
 				}
@@ -324,7 +329,7 @@ public class PersonalizedRecommender implements IMovieRecommender{
 		}
 		else {
 			Movie[] movies=unRatedMovies(userid,similarUser);
-			if(n>movies.length) {
+			if(n>=movies.length) {
 				return recommendGenre(movies,genre);
 				
 			}
@@ -347,12 +352,12 @@ public class PersonalizedRecommender implements IMovieRecommender{
 	 * @param movies
 	 * @return
 	 */
-	private String[] dupeRemoval(String [] movies) {
+	 private String[] dupeRemoval(String [] movies) {
 	         
 	     int noOfUniqueElements = movies.length;
 	         
 	      for (int i = 0; i < noOfUniqueElements; i++) {
-           for (int j = i+1; j < noOfUniqueElements; j++){
+           for (int j = 0; j < noOfUniqueElements; j++){
         	      
 	             if(movies[i].equals(movies[j])){
 	                  
@@ -366,6 +371,6 @@ public class PersonalizedRecommender implements IMovieRecommender{
 	        }
 	        String [] arrayWithoutDuplicates = Arrays.copyOf(movies, noOfUniqueElements);
 	        return arrayWithoutDuplicates;
-	}
+	} 
 }
 

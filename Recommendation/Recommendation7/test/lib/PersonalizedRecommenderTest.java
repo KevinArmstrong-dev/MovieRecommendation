@@ -41,6 +41,7 @@ public class PersonalizedRecommenderTest {
 			System.out.println(testBravo[i]);
 		}
 		*/
+		//This is to check if the number of movies given is equal to the number requested by user
 		if(testAlpha.length==1) {
 			System.out.println("Pass! Expected 1 movie");
 		}
@@ -48,6 +49,7 @@ public class PersonalizedRecommenderTest {
 			System.out.println("Fail! expected 1 movie");
 		}
 		
+		//Test for corresponding Genres
 		if(testBravo[0].hasGenre("Drama")){
 			System.out.println("Pass! Expected A Drama Movie");
 		}

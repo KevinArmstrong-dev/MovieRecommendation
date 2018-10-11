@@ -182,7 +182,7 @@ public class PersonalizedRecommender implements IMovieRecommender{
 	 * @return userId
 	 */
 	private int getSimilarUser(int userid) {
-		int userId=0;
+		int userId=-1;
 		for(int i=0;i<mostSimilarUsers.length;i++) {
 			if(userid == i) {
 				userId=mostSimilarUsers[i];

@@ -4,8 +4,8 @@ import java.nio.*;
 import java.nio.file.*;
 import java.util.List;
 
-import recommentation.movies.Movie;
-import recommentation.movies.Rating;
+import recommendation.movies.Movie;
+import recommendation.movies.Rating;
 /**
  * @author Alexander Arella Girardot and Franco Gabriel Moro
  *

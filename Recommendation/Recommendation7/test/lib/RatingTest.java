@@ -2,7 +2,7 @@ package lib;
 
 import java.util.Scanner;
 
-import recommentation.movies.Rating;
+import recommendation.movies.Rating;
 
 /**
  * @author Alex

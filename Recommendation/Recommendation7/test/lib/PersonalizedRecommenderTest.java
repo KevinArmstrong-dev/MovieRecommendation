@@ -1,9 +1,11 @@
 package lib;
 
+import java.io.IOException;
+
 import fileio.MovieLensFileReader;
-import recommentation.movies.Movie;
-import recommentation.movies.PersonalizedRecommender;
-import recommentation.movies.Rating;
+import recommendation.movies.Movie;
+import recommendation.movies.PersonalizedRecommender;
+import recommendation.movies.Rating;
 
 /**
  * 
@@ -15,9 +17,15 @@ import recommentation.movies.Rating;
  */
 public class PersonalizedRecommenderTest {
 	public static void main(String[] args) {
-		Movie[] movies=MovieLensFileReader.loadMovies("datafiles/sorted/movies.csv");
-		Rating[] ratings=MovieLensFileReader.loadRatings("datafiles/testfiles/testRatings.csv");
-		PersonalizedRecommender test=new PersonalizedRecommender(movies,ratings);
+		//If anyone wants to remove the print statements from PersonalizedREcommender to put them here it would be great.
+		try {
+			Movie[] movies=MovieLensFileReader.loadMovies("datafiles/sorted/movies.csv");
+			Rating[] ratings=MovieLensFileReader.loadRatings("datafiles/testfiles/testRatings.csv");
+			PersonalizedRecommender test=new PersonalizedRecommender(movies,ratings);
+		}
+		catch(IOException e) {
+			System.out.println("File Not Found");
+		}
 		
 		
 	}

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package recommentation.movies;
+package recommendation.movies;
 
 /**
  * @author Franco G. Moro
@@ -25,7 +25,8 @@ public class PersonalizedRecommender {
 		this.ratArr=ratArr;
 		fillUsm();
 		this.mostSimilarUsers=createMostSimilarUsers();
-		System.out.print("{");
+		//Uncomment this to print out the matrices.
+		/*System.out.print("{");
 		for(int x:this.mostSimilarUsers) {
 			System.out.print(x);
 			if(!(x==mostSimilarUsers[this.mostSimilarUsers.length-1])){
@@ -45,8 +46,12 @@ public class PersonalizedRecommender {
 		}/*
 		System.out.println(this.usm.length);
 		System.out.println(this.usm[0].length);
-		System.out.println(this.usm[670].length);*/
-		
+		System.out.println(this.usm[670].length);
+		System.out.println("User 2's most similar:"+mostSimilarUsers[2]);
+		System.out.println("To make sure this is really user 2:");
+		for(Rating x:workTable[2]) {
+			System.out.println(x);
+		}*/
 	}
 	/**
 	 * @author Franco G. Moro
@@ -90,9 +95,9 @@ public class PersonalizedRecommender {
 		int nUsers=countUsers();
 		Rating[][] workTable=getWorkTable(nUsers);
 		this.workTable=workTable;
-		this.usm=new double[nUsers][nUsers];
-		for(int i=0;i<this.usm.length;i++) {
-			for(int j=0;j<this.usm[i].length;j++) {
+		this.usm=new double[nUsers+1][nUsers+1];
+		for(int i=1;i<this.usm.length;i++) {
+			for(int j=1;j<this.usm[i].length;j++) {
 				if(i==j)continue;
 				double score=getScore(workTable[i],workTable[j]);
 				this.usm[i][j]=score;
@@ -124,9 +129,9 @@ public class PersonalizedRecommender {
 	 * This helper method is made to create the Rating[][] workTable which is used to create the USM.
 	 */
 	private Rating[][] getWorkTable(int nUsers){
-		Rating[][] output= new Rating[nUsers][];
-		for(int i=0;i<output.length;i++) {
-			output[i]=getUserRatings(i+1);
+		Rating[][] output= new Rating[nUsers+1][];
+		for(int i=1;i<output.length;i++) {
+			output[i]=getUserRatings(i);
 		}
 		return output;
 	}

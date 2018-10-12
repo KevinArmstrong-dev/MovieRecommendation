@@ -3,9 +3,9 @@
  */
 package lib;
 
-import recommentation.movies.Movie;
-import recommentation.movies.PopularRecommender;
-import recommentation.movies.Rating;
+import recommendation.movies.Movie;
+import recommendation.movies.PopularRecommender;
+import recommendation.movies.Rating;
 
 /**
  * @author Kevin Armstrong Rwigamba

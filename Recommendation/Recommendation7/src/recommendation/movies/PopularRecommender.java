@@ -1,5 +1,5 @@
 
-package recommentation.movies;
+package recommendation.movies;
 import interfaces.IMovieRecommender;
 /**
  * @author Franco G. Moro

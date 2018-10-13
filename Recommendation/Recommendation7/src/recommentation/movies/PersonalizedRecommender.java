@@ -219,6 +219,7 @@ public class PersonalizedRecommender implements IMovieRecommender{
 				unRated[i]=movies[i];
 				
 				}
+				orderMovies(unRated,userid);
 				return unRated;
 			}
 		}
@@ -300,7 +301,6 @@ public class PersonalizedRecommender implements IMovieRecommender{
 				pos++;
 			}
 		}
-		
 		return sameGenre;
 		
 	}
@@ -366,6 +366,20 @@ public class PersonalizedRecommender implements IMovieRecommender{
 	        }
 	        String [] arrayWithoutDuplicates = Arrays.copyOf(movies, noOfUniqueElements);
 	        return arrayWithoutDuplicates;
+	}
+
+	private void orderMovies(Movie [] x,int user) {
+		RecommendAssist[] unrated=new RecommendAssist[x.length];
+		for(int i=0;i<x.length;i++) {
+			for(int j=0;j<ratArr.length;j++) {
+				if(x[i].getId().equals(ratArr[j].getMovieId()) && (ratArr[j].getUserId()==user)) {
+					unrated[i]=new RecommendAssist(x[i],ratArr[j].getRating());
+				}
+			}
+		}
+		for(RecommendAssist y:unrated) {
+			System.out.println(y);
+		}
 	}
 }
 

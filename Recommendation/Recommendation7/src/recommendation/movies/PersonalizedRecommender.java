@@ -1,7 +1,7 @@
 /**
  * 
  */
-package recommentation.movies;
+package recommendation.movies;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +30,8 @@ public class PersonalizedRecommender implements IMovieRecommender{
 		this.ratArr=ratArr;
 		fillUsm();
 		this.mostSimilarUsers=createMostSimilarUsers();
-		System.out.print("{");
+		//Uncomment this to print out the matrices.
+		/*System.out.print("{");
 		for(int x:this.mostSimilarUsers) {
 			System.out.print(x);
 			if(!(x==mostSimilarUsers[this.mostSimilarUsers.length-1])){
@@ -50,8 +51,12 @@ public class PersonalizedRecommender implements IMovieRecommender{
 		}/*
 		System.out.println(this.usm.length);
 		System.out.println(this.usm[0].length);
-		System.out.println(this.usm[670].length);*/
-		
+		System.out.println(this.usm[670].length);
+		System.out.println("User 2's most similar:"+mostSimilarUsers[2]);
+		System.out.println("To make sure this is really user 2:");
+		for(Rating x:workTable[2]) {
+			System.out.println(x);
+		}*/
 	}
 	/**
 	 * @author Franco G. Moro
@@ -95,9 +100,9 @@ public class PersonalizedRecommender implements IMovieRecommender{
 		int nUsers=countUsers();
 		Rating[][] workTable=getWorkTable(nUsers);
 		this.workTable=workTable;
-		this.usm=new double[nUsers][nUsers];
-		for(int i=0;i<this.usm.length;i++) {
-			for(int j=0;j<this.usm[i].length;j++) {
+		this.usm=new double[nUsers+1][nUsers+1];
+		for(int i=1;i<this.usm.length;i++) {
+			for(int j=1;j<this.usm[i].length;j++) {
 				if(i==j)continue;
 				double score=getScore(workTable[i],workTable[j]);
 				this.usm[i][j]=score;
@@ -129,9 +134,9 @@ public class PersonalizedRecommender implements IMovieRecommender{
 	 * This helper method is made to create the Rating[][] workTable which is used to create the USM.
 	 */
 	private Rating[][] getWorkTable(int nUsers){
-		Rating[][] output= new Rating[nUsers][];
-		for(int i=0;i<output.length;i++) {
-			output[i]=getUserRatings(i+1);
+		Rating[][] output= new Rating[nUsers+1][];
+		for(int i=1;i<output.length;i++) {
+			output[i]=getUserRatings(i);
 		}
 		return output;
 	}
@@ -210,7 +215,7 @@ public class PersonalizedRecommender implements IMovieRecommender{
 		}
 		else {
 			Movie[] movies=unRatedMovies(userid,similarUser);
-			if(n>movies.length) {
+			if(n>=movies.length) {
 				return movies;
 			}
 			else {
@@ -219,8 +224,8 @@ public class PersonalizedRecommender implements IMovieRecommender{
 				unRated[i]=movies[i];
 				
 				}
-				orderMovies(unRated,userid);
-				return unRated;
+				
+				return orderMovies(unRated,similarUser);
 			}
 		}
 	}
@@ -334,13 +339,48 @@ public class PersonalizedRecommender implements IMovieRecommender{
 				unRated[i]=movies[i];
 				
 				}
-				return recommendGenre(unRated,genre);
+				//returns a sorted array of movies
+				return orderMovies(recommendGenre(unRated,genre),similarUser);
+		
 			}
 		}
 	}
 	
+	
+	/**
+	  * @author Kevin Armstrong Rwigamba
+	  * 
+	  * Modified Selection Sort to sort the collection array 
+	  * or finished
+	  * 
+	  * @param x
+	  */
+	  public static void selectionSort(RecommendAssist[] x) {
+	      for(int start = 0; start < x.length; start++) {
+	        // start is the index of the first element of the 
+	        // unsorted part of the array
+	        
+	        // find the max in the unsorted part
+	        int guess = start; 
+	        for(int i=start+1; i<x.length; i++) {
+	          if(x[guess].getRating() > x[i].getRating()) {
+	            guess =i;
+	          }
+	        }
+	        
+	        // swap the min element with the first element of the
+	        // unsorted part of the array
+	        RecommendAssist temp = x[guess];
+	        x[guess] = x[start];
+	        x[start] = temp;
+	        
+	      }
+	  }
+
 	/**
 	 *@author Kevin Armstrong Rwigamba
+	 * 
+	 * {@link https://javaconceptoftheday.com/remove-duplicate-elements-array-java/}
 	 * 
 	 * This Method removes duplicate movies in the array of Strings
 	 * 
@@ -368,7 +408,15 @@ public class PersonalizedRecommender implements IMovieRecommender{
 	        return arrayWithoutDuplicates;
 	}
 
-	private void orderMovies(Movie [] x,int user) {
+	/**
+	 * @author Kevin Armstrong Rwigamba
+	 * 
+	 * Helper Method to help return movies in order of their respective ratings
+	 * 
+	 * @param x
+	 * @param user
+	 */
+	private Movie[] orderMovies(Movie [] x,int user) {
 		RecommendAssist[] unrated=new RecommendAssist[x.length];
 		for(int i=0;i<x.length;i++) {
 			for(int j=0;j<ratArr.length;j++) {
@@ -377,9 +425,24 @@ public class PersonalizedRecommender implements IMovieRecommender{
 				}
 			}
 		}
-		for(RecommendAssist y:unrated) {
-			System.out.println(y);
-		}
+		selectionSort(unrated);
+		return orderedRecommend(unrated);
 	}
+	
+	/**
+	 * @author Kevin Armstrong 
+	 * 
+	 * This is to avoid code duplication while copying movies from recommendAssist object
+	 * @param movies
+	 * @return
+	 */
+	private Movie[] orderedRecommend(RecommendAssist[] movies) {
+		Movie[] temp=new Movie[movies.length];
+		for(int i=0;i<movies.length;i++) {
+			temp[i]=movies[i].getMovie();
+		}
+		return temp;
+	}
+
 }
 

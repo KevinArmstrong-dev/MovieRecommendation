@@ -1,7 +1,7 @@
 /**
  * 
  */
-package recommentation.movies;
+package recommendation.movies;
 
 /**
  * @author Kevin Armstrong Rwigamba

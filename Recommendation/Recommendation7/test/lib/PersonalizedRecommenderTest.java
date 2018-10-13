@@ -3,9 +3,9 @@ package lib;
 import java.io.IOException;
 
 import fileio.MovieLensFileReader;
-import recommentation.movies.Movie;
-import recommentation.movies.PersonalizedRecommender;
-import recommentation.movies.Rating;
+import recommendation.movies.Movie;
+import recommendation.movies.PersonalizedRecommender;
+import recommendation.movies.Rating;
 
 /**
  * 
@@ -17,11 +17,12 @@ import recommentation.movies.Rating;
  */
 public class PersonalizedRecommenderTest {
 	public static void main(String[] args) {
+
 		try {
 			test();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("File Not Found");
 		}
 		
 	}
@@ -31,16 +32,9 @@ public class PersonalizedRecommenderTest {
 		Rating[] ratings=MovieLensFileReader.loadRatings("datafiles/testfiles/testRatings.csv");
 		PersonalizedRecommender test=new PersonalizedRecommender(movies,ratings);
 		Movie[] testAlpha=test.recommend(4,1);
-		
-		for(int i=0;i<testAlpha.length;i++) {
-			System.out.println(testAlpha[i].getName());
-		}
-		
 		Movie[] testBravo=test.recommend(4, 3,"Drama");
-		/*for(int i=0;i<testBravo.length;i++) {
-			System.out.println(testBravo[i]);
-		}
-		*/
+		Movie[] testThree=test.recommend(0, 2);
+		Movie[] testDelta=test.recommend(4,2,"testing");
 		//This is to check if the number of movies given is equal to the number requested by user
 		if(testAlpha.length==1) {
 			System.out.println("Pass! Expected 1 movie");
@@ -57,6 +51,23 @@ public class PersonalizedRecommenderTest {
 			System.out.println("Fail! Expected A Drama Movie");
 		}
 		
+		//To test when the user doesn't exist
+		if(testThree[0]==null) {
+			System.out.println("Pass! Expected an empty array");
+		}
+		else {
+			System.out.println("Fail! Expected an empty array");
+		}
+		
+		//TO check when the given Genre doesn't exist
+		try {
+			if(testDelta[0].hasGenre("testing")) {
+			System.out.println("Fail! the given genre doesn't exist");
+			}
+		}
+		catch(ArrayIndexOutOfBoundsException e) {
+			System.out.println("Pass! The genre given doesn't exist");
+		}
 	}
 
 

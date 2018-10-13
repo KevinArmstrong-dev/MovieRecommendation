@@ -2,7 +2,7 @@
  * 
  */
 package interfaces;
-import recommentation.movies.Movie;
+import recommendation.movies.Movie;
 
 /**
  * @author Alexander Arella Girardot

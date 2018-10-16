@@ -273,13 +273,26 @@ public static String[] GenreArrayHelper(Movie[] MovieArray) {
 				RecommendedMovies= RecommenderObject.recommend(Integer.parseInt(UserID), movieArray.length);
 			}
 			
+			
+			System.out.println("there is " + RecommendedMovies.length + " movies recommended to you.");
+			System.out.println("How many Movies would you like to print out?");
+			int numofmovies = ScannerObj.nextInt();
+			ScannerObj.nextLine();
+			
+			while(numofmovies>RecommendedMovies.length || numofmovies <= 0) {
+				System.out.println("Please enter a valid amount of movies");
+				 numofmovies = ScannerObj.nextInt();
+				ScannerObj.nextLine();
+			}
+			
+			
 		System.out.println("Here are all your movies Choices:");
 		System.out.println("");
-		for(int i = 0; i < RecommendedMovies.length;i++) {
+		for(int i = 0; i < numofmovies;i++) {
 			System.out.println(RecommendedMovies[i]);
 		}
-		System.out.print("");
-		System.out.print("there is " + RecommendedMovies.length + " movies recommended to you.");
+		System.out.println("");
+		System.out.print("there is " + numofmovies + " movies recommended to you.");
 	}
 	
 	

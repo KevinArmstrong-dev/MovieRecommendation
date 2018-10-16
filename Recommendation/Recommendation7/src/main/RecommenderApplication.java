@@ -1,6 +1,7 @@
 package main;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.AccessDeniedException;
 import java.nio.file.NoSuchFileException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -67,7 +68,8 @@ public class RecommenderApplication {
 	 *         file.
 	 * @throws IOException
 	 */
-
+	
+	
 	public static Movie[] MovieReaderHelper(String MoviePathString) throws IOException {
 
 		try {
@@ -80,6 +82,8 @@ public class RecommenderApplication {
 		}
 		return MovieLensFileReader.loadMovies(MoviePathString);
 	}
+
+
 
 	/**
 	 * This helper method validates the file path given and throws appropriate
@@ -204,6 +208,7 @@ public static String[] GenreArrayHelper(Movie[] MovieArray) {
 		String[] allExistingGenres = GenreArrayHelper(movieArray);
 		int userExist = 0;
 		int genreExist = 0;
+		int choiceall = 0;
 		
 		UserID = ScannerObj.nextLine();
 		
@@ -221,14 +226,20 @@ public static String[] GenreArrayHelper(Movie[] MovieArray) {
 			if(Integer.parseInt(UserID) == allExistingUsers[i]) {
 				userExist = 1;
 			}
+		}
 			if(userExist == 0) {
 				System.out.println("Please Enter a User ID that exists or that has done ratings");
 				UserGenreReaderHelper(RecommenderObject,userchoice,ratingArray,movieArray);
 			}
-		}
+		
 		
 		System.out.println("Please enter the Genre you want Recommendations for.");
 		GenreChoice = ScannerObj.nextLine();
+		
+		if(GenreChoice.equals("ALL")) {
+			genreExist = 1;
+			choiceall = 1;
+		}
 		
 		for(int i = 0; i < allExistingGenres.length;i++) {
 			if(GenreChoice.equals(allExistingGenres[i])) {
@@ -258,6 +269,10 @@ public static String[] GenreArrayHelper(Movie[] MovieArray) {
 
 		}
 		 Movie[] RecommendedMovies= RecommenderObject.recommend(Integer.parseInt(UserID), movieArray.length, GenreChoice);
+			if(choiceall == 1) {
+				RecommendedMovies= RecommenderObject.recommend(Integer.parseInt(UserID), movieArray.length);
+			}
+			
 		System.out.println("Here are all your movies Choices:");
 		System.out.println("");
 		for(int i = 0; i < RecommendedMovies.length;i++) {

@@ -275,11 +275,11 @@ public static String[] GenreArrayHelper(Movie[] MovieArray) {
 			
 		System.out.println("Here are all your movies Choices:");
 		System.out.println("");
-		for(int i = 0; i < RecommendedMovies.length;i++) {
+		for(int i = 0; i < 10;i++) {
 			System.out.println(RecommendedMovies[i]);
 		}
 		System.out.print("");
-		System.out.print("there is " + RecommendedMovies.length + " movies recommended to you.");
+		System.out.print("there are " + RecommendedMovies.length + " movies recommended to you.");
 	}
 	
 	

@@ -363,7 +363,7 @@ public class PersonalizedRecommender implements IMovieRecommender{
 	        // find the max in the unsorted part
 	        int guess = start; 
 	        for(int i=start+1; i<x.length; i++) {
-	          if(x[guess].getRating() > x[i].getRating()) {
+	          if(x[guess].getRating() < x[i].getRating()) {
 	            guess =i;
 	          }
 	        }

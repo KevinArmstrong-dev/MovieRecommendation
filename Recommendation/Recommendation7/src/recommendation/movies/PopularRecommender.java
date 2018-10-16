@@ -33,10 +33,10 @@ public class PopularRecommender implements IMovieRecommender {
 	   collection[i]=new RecommendAssist(movie[i],getAverageRatingMovie(movie[i].getId()));
 	  }
 	  quickSortCollection(0,this.collection.length-1);
-	  for(int i=0;i<this.collection.length;i++) {
-		  System.out.println(this.collection[i]);
+	 // for(int i=0;i<this.collection.length;i++) {
+		//  System.out.println(this.collection[i]);
 	  }
-	 }
+	// }
 	 
 
 	 

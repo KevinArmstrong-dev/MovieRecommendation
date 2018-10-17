@@ -1,7 +1,7 @@
 
 package lib;
 
-import movies.Movie;
+import recommendation.movies.Movie;
 
 /**
  * @author 1738714 Class used to test the methods and functioning of the Movie
@@ -16,7 +16,16 @@ public class MovieTest {
 		testGetId(movieTest);
 		testGetGenres(movieTest);
 		testHasGenre(movieTest);
-
+		
+		
+		if (movieTest.toString().equals("11	American President, The"))
+		{
+			System.out.println("toString method: SUCCESS");
+		}
+		else
+		{
+			System.out.println("toString method: FAIL");
+		}
 	}
 
 	/**

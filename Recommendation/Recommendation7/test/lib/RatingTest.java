@@ -1,7 +1,8 @@
 package lib;
 
 import java.util.Scanner;
-import movies.Rating;
+
+import recommendation.movies.Rating;
 
 /**
  * @author Alex

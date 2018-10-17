@@ -3,9 +3,9 @@
  */
 package lib;
 
-import movies.Movie;
-import movies.PopularRecommender;
-import movies.Rating;
+import recommendation.movies.Movie;
+import recommendation.movies.PopularRecommender;
+import recommendation.movies.Rating;
 
 /**
  * @author Kevin Armstrong Rwigamba
@@ -26,10 +26,10 @@ public class PopularRecommendTest {
 	 * @return
 	 */
 	private static Rating[] createRateArr() {
-		Rating r1 = new Rating("246,810042,2.6,24598");
-		Rating r2 = new Rating("9,1,4,4.5.39");
-		Rating r3 =new Rating("15,1,3.5,997938310");
-		Rating r4 =new Rating("19,11,3,855192773");
+		Rating r1 = new Rating("10,1,2.0,1063502716");
+		Rating r2 = new Rating("12,2,2.0,1063502716");
+		Rating r3 =new Rating("13,3,2.5,1063502716");
+		Rating r4 =new Rating("12,2,4.9,1063502716");
 		Rating [] rate= {r1,r2,r3,r4};
 		return rate;
 	}
@@ -48,8 +48,11 @@ public class PopularRecommendTest {
 		Movie movieTest5=new Movie("135,Down Periscope (1996),Comedy|Common");
 		Movie movieTest6=new Movie("27,Now and Then%2C (1995),Children|Drama|Common");
 		Movie movieTest7=new Movie("15,Cutthroat Island (1995),Action|Adventure|Romance|Common");
+		Movie m1 = new Movie("1,One (1995),Fun|Adventure|Animation|Children");
+		Movie m2 = new Movie("2,Two (1995),Adventure|Animation|Children");
+		Movie m3 = new Movie("3,Three (1995),Adventure|Animation|Children");
 
-		Movie [] mvArr= {movieTest1,movieTest2,movieTest3,movietest4,movieTest5,movieTest6,movieTest7};
+		Movie [] mvArr= {movieTest1,movieTest2,movieTest3,movietest4,movieTest5,movieTest6,movieTest7,m1,m2,m3};
 		return mvArr;
 	}
 	
@@ -63,7 +66,7 @@ public class PopularRecommendTest {
 		Movie[] mvArr=createMovieArr();
 		PopularRecommender test= new PopularRecommender(rate,mvArr);
 		System.out.println("TEST 1 : Should print every film except: The american president Because it was review by user 19");
-		Movie [] testOne=test.recommend("19",4);
+		Movie [] testOne=test.recommend(19,4);
 		
 		//This should not work and print an error statement.
 		try{
@@ -78,10 +81,11 @@ public class PopularRecommendTest {
 		
 		//This should not be able to find a match
 		 try {
-			 Movie[] testThree=test.recommend("200",7, "Common"); 
+			 Movie[] testThree=test.recommend(200,10, "Common"); 
 			 for(int i=0;i<testThree.length;i++) {
-				 System.out.println(testThree[i].getName());
+				 System.out.println(testThree[i]);
 			 }
+			 System.out.println("");
 		 }
 		 catch(ArrayIndexOutOfBoundsException e){
 			 System.out.println("No match");
@@ -90,8 +94,9 @@ public class PopularRecommendTest {
 			 System.out.println("No match");
 		 }
 		 
+		 
 		 //Testing for Corresponding genres
-		 Movie[] testThree=test.recommend("19",3,"Horror");
+		 Movie[] testThree=test.recommend(19,3,"Horror");
 		 if(testThree[0].hasGenre("Horror")) {
 			 System.out.println("Pass! The expected Genre is Horror");
 		 }
@@ -102,7 +107,7 @@ public class PopularRecommendTest {
 		 //if the movies asked for are greater than the number we have 
 		 
 		try {
-				Movie [] testFive=test.recommend("15",8);
+				Movie [] testFive=test.recommend(15,8);
 				for(int i=0;i<testFive.length;i++) {
 				 System.out.println(testThree[i].getName());
 				}

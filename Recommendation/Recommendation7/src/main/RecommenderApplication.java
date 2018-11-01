@@ -7,8 +7,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import fileio.MovieLensFileReader;
-import interfaces.IMovieRecommender;
+
+import recommendation.fileio.MovieLensFileReader;
+import recommendation.interfaces.IMovieRecommender;
 import recommendation.movies.Movie;
 import recommendation.movies.PersonalizedRecommender;
 import recommendation.movies.PopularRecommender;

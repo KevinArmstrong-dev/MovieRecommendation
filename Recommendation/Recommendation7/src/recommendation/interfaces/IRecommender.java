@@ -4,9 +4,9 @@
 package recommendation.interfaces;
 
 /**
- * @author 1738882
+ * @author Alexander Arella Girardot
  *
  */
-public interface IRecommender {
-
+public interface IRecommender<T> {
+	public T[] recommend(int userId, int n);
 }

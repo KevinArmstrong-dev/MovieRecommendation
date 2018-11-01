@@ -2,7 +2,7 @@ package lib;
 
 import java.io.IOException;
 
-import fileio.MovieLensFileReader;
+import recommendation.fileio.MovieLensFileReader;
 import recommendation.movies.Movie;
 import recommendation.movies.PersonalizedRecommender;
 import recommendation.movies.Rating;

@@ -1,3 +1,46 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ignore all errors in this file
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /**
  * 
  */
@@ -30,33 +73,6 @@ public class PersonalizedRecommender implements IMovieRecommender{
 		this.ratArr=ratArr;
 		fillUsm();
 		this.mostSimilarUsers=createMostSimilarUsers();
-		//Uncomment this to print out the matrices.
-		/*System.out.print("{");
-		for(int x:this.mostSimilarUsers) {
-			System.out.print(x);
-			if(!(x==mostSimilarUsers[this.mostSimilarUsers.length-1])){
-				System.out.print(",");
-			}
-		}
-		System.out.print("}");
-		System.out.println();
-		for(double[] i:this.usm) {
-			System.out.print("{");
-			for(double j:i) {
-				System.out.print(j);
-				System.out.print(",");
-			}
-			System.out.print("}");
-			System.out.println();
-		}/*
-		System.out.println(this.usm.length);
-		System.out.println(this.usm[0].length);
-		System.out.println(this.usm[670].length);
-		System.out.println("User 2's most similar:"+mostSimilarUsers[2]);
-		System.out.println("To make sure this is really user 2:");
-		for(Rating x:workTable[2]) {
-			System.out.println(x);
-		}*/
 	}
 	/**
 	 * @author Franco G. Moro

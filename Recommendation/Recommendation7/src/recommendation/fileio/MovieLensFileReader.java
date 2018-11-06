@@ -16,6 +16,7 @@ public class MovieLensFileReader {
 		Path p = Paths.get(path);
 		List<String> lines;
 		lines = Files.readAllLines(p);
+		lines.remove(0);
 		Movie[] movArr = new Movie[lines.size()];
 		int index = 0;
 		for (String s : lines) {
@@ -28,16 +29,12 @@ public class MovieLensFileReader {
 		Path p = Paths.get(path);
 		List<String> lines;
 		lines = Files.readAllLines(p);
-		Rating[] ratArr = new Rating[lines.size()-1];
+		lines.remove(0);
+		Rating[] ratArr = new Rating[lines.size()];
 		int index = 0;
 		for (String s : lines) {
-			if(!(s.equals("userId,movieId,rating,timestamp")) ) {
 				ratArr[index] = new Rating(s);
-				index++;	
-			}
-			else {
-				continue;
-			}
+				index++;
 		}
 		return ratArr;
 	}

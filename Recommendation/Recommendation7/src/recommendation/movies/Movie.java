@@ -1,5 +1,5 @@
 package recommendation.movies;
-import interfaces.Item;
+import recommendation.interfaces.Item;
 
 /**
  * @author Michael Azem

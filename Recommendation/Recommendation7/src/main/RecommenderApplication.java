@@ -8,8 +8,8 @@ import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import interfaces.IMovieRecommender;
 import recommendation.fileio.MovieLensFileReader;
+import recommendation.interfaces.IMovieRecommender;
 import recommendation.movies.Movie;
 import recommendation.movies.PersonalizedRecommender;
 import recommendation.movies.PopularRecommender;

@@ -1,6 +1,6 @@
 
 package recommendation.movies;
-import interfaces.IMovieRecommender;
+import recommendation.interfaces.IMovieRecommender;
 /**
  * @author Franco G. Moro
  * @author Kevin Armstrong Rwigamba

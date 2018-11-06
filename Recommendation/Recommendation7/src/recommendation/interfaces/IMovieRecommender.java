@@ -1,7 +1,7 @@
 /**
  * 
  */
-package interfaces;
+package recommendation.interfaces;
 import recommendation.movies.Movie;
 
 /**

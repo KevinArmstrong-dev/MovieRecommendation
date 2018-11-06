@@ -6,7 +6,7 @@ package recommendation.movies;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import interfaces.IMovieRecommender;
+import recommendation.interfaces.IMovieRecommender;
 
 /**
  * @author Franco G. Moro

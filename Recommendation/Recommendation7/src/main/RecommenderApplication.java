@@ -7,8 +7,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import fileio.MovieLensFileReader;
+
 import interfaces.IMovieRecommender;
+import recommendation.fileio.MovieLensFileReader;
 import recommendation.movies.Movie;
 import recommendation.movies.PersonalizedRecommender;
 import recommendation.movies.PopularRecommender;
@@ -236,7 +237,7 @@ public static String[] GenreArrayHelper(Movie[] MovieArray) {
 		System.out.println("Please enter the Genre you want Recommendations for.");
 		GenreChoice = ScannerObj.nextLine();
 		
-		if(GenreChoice.equals("ALL")) {
+		if(GenreChoice.equalsIgnoreCase("ALL")) {
 			genreExist = 1;
 			choiceall = 1;
 		}
@@ -255,6 +256,10 @@ public static String[] GenreArrayHelper(Movie[] MovieArray) {
 						genreExist = 1;
 					}
 			    }
+				if(GenreChoice.equalsIgnoreCase("ALL")) {
+					genreExist = 1;
+					choiceall = 1;
+				}
 			   }
 			}
 				

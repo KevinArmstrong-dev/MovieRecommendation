@@ -14,10 +14,10 @@ import recommendation.movies.RecommendAssist;
  * @author Kevin Armstrong Rwigamba
  * @author Alexander Arella Girardot
  */
-public class PopularRecommender<T> implements IRecommender<T> {
+public class PopularRecommender<T extends Item> implements IRecommender<T> {
 	private T[] movies;
 	private Rating[] ratings; 
-	private RecommendAssist[] collection; // TODO change the RecommendAssist class to be generic
+	private RecommendAssist<T>[] collection; // TODO change the RecommendAssist class to be generic
 	/**
 	 * Kevin Armstrong Rwigamba
 	 * This constructor creates a Popular Recommender object, it also sorts the arry from highest rated to lowest.
@@ -36,9 +36,9 @@ public class PopularRecommender<T> implements IRecommender<T> {
 		for(int i = 0; i < ratings.length; i++) {
 			this.ratings[i]=ratings[i];
 		}
-		collection = new RecommendAssist[media.length];
+		collection = (RecommendAssist<T>[]) new Object[media.length];
 		for(int i = 0; i < media.length; i++) {
-			collection[i] = new RecommendAssist(media[i], getAverageRatingMovie(media[i].getId()));
+			collection[i] = new RecommendAssist<T>(media[i], getAverageRatingMovie(media[i].getId()));
 		}
 		quickSortCollection(0, this.collection.length-1);
 	}
@@ -83,25 +83,25 @@ public class PopularRecommender<T> implements IRecommender<T> {
 		T[] output= (T[]) new Object[n];	// Problem: Need to use a Collection instead of arrays now.
 		int pos=0;
 		int numberReview=countRated(userid ,this.ratings);
-		if(numberReview<=1) {
+		if(numberReview <= 1) {
 			String[] ratedMovieIds = getRatedMovies(numberReview,userid,this.ratings);
 			for(int i=0;i<this.collection.length;i++) {
-				if(!(containsId(ratedMovieIds,this.collection[i].getMovie().getId()))) {
+				if(!(containsId(ratedMovieIds,this.collection[i].getMedia().getId()))) {
 					if(pos==n) return output ;
-					output[pos]=this.collection[i].getMovie();
+					output[pos]=this.collection[i].getMedia();
 					pos++;  
 				}
 			}
 		}
 		else {
 			for(int i=0;i<this.collection.length;i++) {
-				output[pos]=this.collection[i].getMovie();
+				output[pos]=this.collection[i].getMedia();
 				pos++;
 				  
 			}
 		}
 		if(pos<n) {
-			Movie[] temp =new Movie[pos];
+			T[] temp = (T[]) new Object[pos];
 			for(int x=0;x<temp.length;x++) {
 				temp[x]=output[x];
 			}
@@ -179,12 +179,12 @@ public class PopularRecommender<T> implements IRecommender<T> {
 	   * Franco G. Moro
 	   * This method checks if a specific movie id is contained within a String[]
 	   * @param reviewed
-	   * @param movieId
+	   * @param mediaId
 	   * @return
 	   */
-	private static boolean containsId(String[] reviewed,String movieId) {
-		for(int i=0; i<reviewed.length;i++) {
-			if(reviewed[i].equals(movieId))return true;
+	private static boolean containsId(String[] reviewed,String mediaId) {
+		for(int i = 0; i < reviewed.length; i++) {
+			if(reviewed[i].equals(mediaId))return true;
 		}
 		return false;
 	}

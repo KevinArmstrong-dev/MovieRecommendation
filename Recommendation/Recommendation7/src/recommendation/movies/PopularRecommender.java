@@ -1,12 +1,12 @@
 
 package recommendation.movies;
-import recommendation.interfaces.IMovieRecommender;
+import recommendation.interfaces.*;
 /**
  * @author Franco G. Moro
  * @author Kevin Armstrong Rwigamba
  *
  */
-public class PopularRecommender implements IMovieRecommender {
+public class PopularRecommender<T> implements IRecommender<T> {
 	 private Movie[] movies;
 	 private Rating[] ratings; 
 	 private RecommendAssist [] collection;
@@ -74,16 +74,16 @@ public class PopularRecommender implements IMovieRecommender {
 		  if(numberReview<=1) {
 			  String[] ratedMovieIds = getRatedMovies(numberReview,userid,this.ratings);
 			  for(int i=0;i<this.collection.length;i++) {
-				  if(!(containsId(ratedMovieIds,this.collection[i].getMovie().getId()))) {
+				  if(!(containsId(ratedMovieIds,this.collection[i].getMedia().getId()))) {
 					  if(pos==n) return output ;
-					  output[pos]=this.collection[i].getMovie();
+					  output[pos]=this.collection[i].getMedia();
 						  pos++;  
 				  }
 			  }
 		  }
 		  else {
 			  for(int i=0;i<this.collection.length;i++) {
-				  output[pos]=this.collection[i].getMovie();
+				  output[pos]=this.collection[i].getMedia();
 				  pos++;
 				  
 			  }
@@ -108,40 +108,7 @@ public class PopularRecommender implements IMovieRecommender {
 	   * @param genre
 	   * @return
 	   */
-	  public Movie[] recommend(int userId, int n, String genre ) {
-			 int nRated=countRated(userId,this.ratings);
-			 Movie[] output = new Movie[n];
-			 int pos =0;
-			 if(nRated<=1) {
-				 String[] ratedMovies= getRatedMovies(nRated,userId,this.ratings);
-				 for(int i=0;i<this.collection.length;i++) {
-					 if(this.collection[i].getMovie().hasGenre(genre)&&!containsId(ratedMovies,this.collection[i].getMovie().getId() )) {
-						 if(pos==n)return output;
-						 output[pos]=this.collection[i].getMovie();
-						 pos++;
-					 }
-				 }
-			 }
-			 else {
-				 for(int i=0;i<this.collection.length;i++) {
-					 if(this.collection[i].getMovie().hasGenre(genre)) {
-						 if(pos==n)return output;
-						 output[pos]=this.collection[i].getMovie();
-						 pos++;
-					 }
-				 }
-			 }
-			 if(pos<n) {
-				  Movie[] temp =new Movie[pos];
-				  for(int x=0;x<temp.length;x++) {
-					  temp[x]=output[x];
-				  }
-				  return temp;
-			  }
-			  else {
-				  return output;  
-			  }
-	  }
+	  
 
 	  /**
 	   * Franco G. Moro

@@ -439,7 +439,7 @@ public class PersonalizedRecommender implements IMovieRecommender{
 	private Movie[] orderedRecommend(RecommendAssist[] movies) {
 		Movie[] temp=new Movie[movies.length];
 		for(int i=0;i<movies.length;i++) {
-			temp[i]=movies[i].getMovie();
+			temp[i]=movies[i].getMedia();
 		}
 		return temp;
 	}

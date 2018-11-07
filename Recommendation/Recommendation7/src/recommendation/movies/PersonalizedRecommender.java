@@ -5,6 +5,7 @@ package recommendation.movies;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import recommendation.interfaces.IMovieRecommender;
 
@@ -16,8 +17,8 @@ public class PersonalizedRecommender implements IMovieRecommender{
 	private double[][] usm;
 	private Movie[] movArr;
 	private Rating[] ratArr;
-	private Rating[][] workTable;
-	private int[] mostSimilarUsers;
+	private HashMap<Integer,ArrayList<Rating>> workTable;
+	private HashMap<Integer,Integer> mostSimilarUsers;
 	
 	/**
 	 * @author Franco G. Moro
@@ -29,7 +30,7 @@ public class PersonalizedRecommender implements IMovieRecommender{
 		this.movArr=movArr;
 		this.ratArr=ratArr;
 		fillUsm();
-		this.mostSimilarUsers=createMostSimilarUsers();
+		createMostSimilarUsers();
 		//Uncomment this to print out the matrices.
 		/*System.out.print("{");
 		for(int x:this.mostSimilarUsers) {
@@ -64,13 +65,11 @@ public class PersonalizedRecommender implements IMovieRecommender{
 	 * This method creates the mostSimilarUsers array
 	 * 
 	 */
-	private int[] createMostSimilarUsers() {
-		int[] mostSimilarUsers=new int[this.usm.length];
+	private void createMostSimilarUsers() {
 		for(int i=0;i<this.usm.length;i++) {
 			int simi=getMostSimilar(this.usm[i]);
-			mostSimilarUsers[i]=simi;
+			this.mostSimilarUsers.put(i,simi);
 		}
-		return mostSimilarUsers;
 	}
 	/**
 	 * @author Franco G. Moro
@@ -98,13 +97,12 @@ public class PersonalizedRecommender implements IMovieRecommender{
 	 */
 	private void fillUsm() {
 		int nUsers=countUsers();
-		Rating[][] workTable=getWorkTable(nUsers);
-		this.workTable=workTable;
+		createWorkTable(nUsers);
 		this.usm=new double[nUsers+1][nUsers+1];
 		for(int i=1;i<this.usm.length;i++) {
 			for(int j=1;j<this.usm[i].length;j++) {
 				if(i==j)continue;
-				double score=getScore(workTable[i],workTable[j]);
+				double score=getScore(workTable.get(i),workTable.get(j));
 				this.usm[i][j]=score;
 			}
 		}
@@ -116,12 +114,12 @@ public class PersonalizedRecommender implements IMovieRecommender{
 	 * @return score
 	 * This helper method is used to calculate the similarity score between two users.
 	 */
-	private double getScore(Rating[] a,Rating[] b) {
+	private double getScore(ArrayList<Rating> first,ArrayList<Rating> second) {
 		double score=0;
-		for(int i=0;i<a.length;i++) {
-			for(int j=0;j<b.length;j++) {
-				if(a[i].getMovieId().equals(b[j].getMovieId())) {
-					score+=(a[i].getRating()-2.5)*(b[j].getRating()-2.5);
+		for(Rating a : first) {
+			for(Rating b : second) {
+				if(a.getMovieId().equals(b.getMovieId())) {
+					score+=(a.getRating()-2.5)*(b.getRating()-2.5);
 				}
 			}
 		}
@@ -133,12 +131,10 @@ public class PersonalizedRecommender implements IMovieRecommender{
 	 * @return output
 	 * This helper method is made to create the Rating[][] workTable which is used to create the USM.
 	 */
-	private Rating[][] getWorkTable(int nUsers){
-		Rating[][] output= new Rating[nUsers+1][];
-		for(int i=1;i<output.length;i++) {
-			output[i]=getUserRatings(i);
+	private void createWorkTable(int nUsers){
+		for(int i=1;i<nUsers+1;i++) {
+			this.workTable.put(i,getUserRatings(i));
 		}
-		return output;
 	}
 	/**
 	 * @author Franco G. Moro
@@ -146,19 +142,11 @@ public class PersonalizedRecommender implements IMovieRecommender{
 	 * @return output
 	 * This helper method is used to gather ever rating that a user has made.
 	 */
-	private Rating[] getUserRatings(int userId) {
-		int count=0;
-		for(Rating r:this.ratArr) {
-			if(r.getUserId()==userId) {
-				count++;
-			}
-		}
-		Rating[] output=new Rating[count];
-		int pos=0;
+	private ArrayList<Rating> getUserRatings(int userId) {
+		ArrayList<Rating> output=new ArrayList<Rating>();
 		for(int i=0;i<this.ratArr.length;i++) {
 			if(this.ratArr[i].getUserId()==userId) {
-				output[pos]=this.ratArr[i];
-				pos++;
+				output.add(ratArr[i]);
 			}
 		}
 		return output;
@@ -187,13 +175,8 @@ public class PersonalizedRecommender implements IMovieRecommender{
 	 * @return userId
 	 */
 	private int getSimilarUser(int userid) {
-		int userId=-1;
-		for(int i=0;i<mostSimilarUsers.length;i++) {
-			if(userid == i) {
-				userId=mostSimilarUsers[i];
-			}
-		}
-		return userId;
+		
+		return mostSimilarUsers.get(userid);
 	}
 	
 	/**
@@ -241,13 +224,13 @@ public class PersonalizedRecommender implements IMovieRecommender{
 	 */
 	private Movie[] unRatedMovies(int givenUser,int similarUser) {
 		int count=0;
-		Rating[] givenArr=new Rating[workTable[givenUser].length];
-		Rating[] similarArr=new Rating[workTable[similarUser].length];
+		Rating[] givenArr=new Rating[workTable.get(givenUser).size()];
+		Rating[] similarArr=new Rating[workTable.get(similarUser).size()];
 		for(int i=0;i<givenArr.length;i++) {
-			givenArr[i]=workTable[givenUser][i];
+			givenArr[i]=workTable.get(givenUser).get(i);
 		}
 		for(int i=0;i<similarArr.length;i++) {
-			similarArr[i]=workTable[similarUser][i];
+			givenArr[i]=workTable.get(similarUser).get(i);
 		}
 		for(int i=0;i<similarArr.length;i++) {
 			for(int j=0;j<givenArr.length;j++) {

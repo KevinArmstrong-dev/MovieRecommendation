@@ -37,7 +37,11 @@
 
 
 package recommendation.movies;
+<<<<<<< HEAD
 import recommendation.interfaces.*;
+=======
+import recommendation.interfaces.IMovieRecommender;
+>>>>>>> b6acca254516341880e9a8f1cbe2694ffc40155c
 /**
  * @author Franco G. Moro
  * @author Kevin Armstrong Rwigamba

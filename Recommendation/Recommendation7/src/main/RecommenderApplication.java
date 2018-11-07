@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+<<<<<<< HEAD
+=======
+
+>>>>>>> b6acca254516341880e9a8f1cbe2694ffc40155c
 import recommendation.fileio.MovieLensFileReader;
 import recommendation.interfaces.IMovieRecommender;
 import recommendation.movies.Movie;

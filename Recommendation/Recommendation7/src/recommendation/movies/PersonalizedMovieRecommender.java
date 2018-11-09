@@ -7,13 +7,14 @@ package recommendation.movies;
  * @author Kevin Armstrong Rwigamba
  *
  */
-public class PopularMovieRecommender extends PopularRecommender<Movie> implements IMovieRecommender{
-	
-	public PopularMovieRecommender(Movie[] movies,Rating[] ratings) {
+public class PersonalizedMovieRecommender extends PersonalizedRecommender <Movie> implements IMovieRecommender {
+
+	public PersonalizedMovieRecommender(Movie[] movies,Rating[] ratings) {
 		super(ratings,movies);
 	}
 	
-	public Movie[] recommend(int UserId,int n) {
+	@Override
+	public Movie[] recommend(int userId, int n) {
 		return super.recommend(UserId, n);
 	}
 
@@ -24,7 +25,7 @@ public class PopularMovieRecommender extends PopularRecommender<Movie> implement
 	
 	/**
 	 * This method will generate a movie array and it will check if there is a matching number
-	 *  movies with the given genre using the popular recommender.
+	 *  movies with the given genre using the recommend method from personalized recommend method.
 	 * 
 	 * @param userId
 	 * @param n
@@ -53,4 +54,5 @@ public class PopularMovieRecommender extends PopularRecommender<Movie> implement
 		}
 	}
 	
+
 }

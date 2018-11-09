@@ -23,7 +23,11 @@ public class PersonalizedMovieRecommender {
 		// TODO Auto-generated method stub
 
 	}
-	
+	/**
+	 * This method is not over since the inherited class is not finished
+	 *  
+	 * @throws IOException
+	 */
 	public static void Test() throws IOException{
 		Movie[] movies=MovieLensFileReader.loadMovies("datafiles/sorted/movies.csv");
 		Rating[] ratings=MovieLensFileReader.loadRatings("datafiles/sorted/ratings.csv");

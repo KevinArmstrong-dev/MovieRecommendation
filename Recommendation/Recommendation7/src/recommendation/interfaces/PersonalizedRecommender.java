@@ -217,6 +217,21 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 	}
 	
 	/**
+	 * @author Kevin Armstrong 
+	 * @author Alexander Arella Girardot
+	 * 
+	 * This is to avoid code duplication while copying movies from recommendAssist object
+	 * @param movies
+	 * @return
+	 */
+	private T[] orderedRecommend(RecommendAssist[] movies) {
+		T[] temp = (T[]) new Object[movies.length];
+		for(int i=0;i<movies.length;i++) {
+			temp[i]=(T) movies[i].getMedia();
+		}
+		return temp;
+	}
+	/**
 	  * @author Kevin Armstrong Rwigamba
 	  * 
 	  * Modified Selection Sort to sort the collection array 
@@ -224,7 +239,7 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 	  * 
 	  * @param x
 	  */
-	  public static void selectionSort(RecommendAssist<T>[] x) {
+	  public static void selectionSort(Object[] x) {
 	      for(int start = 0; start < x.length; start++) {
 	        // start is the index of the first element of the 
 	        // unsorted part of the array
@@ -232,14 +247,14 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 	        // find the max in the unsorted part
 	        int guess = start; 
 	        for(int i=start+1; i<x.length; i++) {
-	          if(x[guess].getRating() < x[i].getRating()) {
+	          if(((RecommendAssist)x[guess]).getRating() < ((RecommendAssist)x[i]).getRating()) {
 	            guess =i;
 	          }
 	        }
 	        
 	        // swap the min element with the first element of the
 	        // unsorted part of the array
-	        RecommendAssist<T> temp = x[guess];
+	        RecommendAssist temp = (RecommendAssist)x[guess];
 	        x[guess] = x[start];
 	        x[start] = temp;
 	        

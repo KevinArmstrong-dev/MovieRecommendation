@@ -1,22 +1,13 @@
 package main;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.AccessDeniedException;
-import java.nio.file.NoSuchFileException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.InputMismatchException;
-import java.util.Scanner;
-<<<<<<< HEAD
-=======
-
->>>>>>> b6acca254516341880e9a8f1cbe2694ffc40155c
-import recommendation.fileio.MovieLensFileReader;
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
+import recommendation.fileio.*;
+import recommendation.interfaces.*;
 import recommendation.interfaces.IMovieRecommender;
-import recommendation.movies.Movie;
-import recommendation.movies.PersonalizedRecommender;
-import recommendation.movies.PopularRecommender;
-import recommendation.movies.Rating;
+import recommendation.interfaces.PersonalizedRecommender;
+import recommendation.interfaces.PopularRecommender;
+import recommendation.movies.*;
 
 
 /**
@@ -269,11 +260,11 @@ public static String[] GenreArrayHelper(Movie[] MovieArray) {
 		
 		
 		if(userchoice == 1) {
-			 RecommenderObject = new PopularRecommender(ratingArray,movieArray);
+			 RecommenderObject = (IMovieRecommender) new PopularRecommender(ratingArray,movieArray);
 			 
 		}
 		else {
-			RecommenderObject = new PersonalizedRecommender(movieArray,ratingArray);
+			RecommenderObject = (IMovieRecommender) new PersonalizedRecommender(movieArray,ratingArray);
 
 		}
 		 Movie[] RecommendedMovies= RecommenderObject.recommend(Integer.parseInt(UserID), movieArray.length, GenreChoice);

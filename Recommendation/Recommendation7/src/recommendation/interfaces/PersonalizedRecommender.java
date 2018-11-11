@@ -3,8 +3,7 @@
  */
 package recommendation.interfaces;
 
-import java.util.Arrays;
-
+import java.util.*;
 import recommendation.movies.Movie;
 import recommendation.movies.Rating;
 import recommendation.movies.RecommendAssist;
@@ -171,22 +170,22 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 	 * @param n
 	 * @return
 	 */
-	public T[] recommend(int userid,int n) {
+	public ArrayList<T> recommend(int userid,int n) {
 		
 		int similarUser=getSimilarUser(userid);
 		if(similarUser==-1) {
-			T[] recommendations= (T[]) new Object[n];
+			ArrayList<T> recommendations= new ArrayList<T>(n);
 			return recommendations;
 		}
 		else {
-			T[] movies=unRatedMovies(userid,similarUser);
-			if(n>=movies.length) {
+			ArrayList<T> movies=unRatedMovies(userid,similarUser);
+			if(n>=movies.size()) {
 				return movies;
 			}
 			else {
-				T[] unRated = (T[]) new Object[n];
-				for(int i=0;i<unRated.length;i++) {
-				unRated[i]=movies[i];
+				ArrayList<T> unRated = new ArrayList<T>(n);
+				for(int i=0;i<n;i++) {
+				unRated.add(movies.get(i));
 				
 				}
 				
@@ -200,15 +199,15 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 	 * 
 	 * Helper Method to help return movies in order of their respective ratings
 	 * 
-	 * @param x
+	 * @param unRated2
 	 * @param user
 	 */
-	private T[] orderMovies(T[] x,int user) {
-		RecommendAssist<T>[] unrated=(RecommendAssist<T>[]) new Object[x.length];
-		for(int i=0;i<x.length;i++) {
+	private ArrayList<T> orderMovies(ArrayList<T> unRated2,int user) {
+		ArrayList<RecommendAssist<T>> unrated=new ArrayList<RecommendAssist<T>>(unRated2.size());
+		for(int i=0;i<unRated2.size();i++) {
 			for(int j=0;j<ratArr.length;j++) {
-				if(x[i].getId().equals(ratArr[j].getMovieId()) && (ratArr[j].getUserId()==user)) {
-					unrated[i]=new RecommendAssist<T>(x[i],ratArr[j].getRating());
+				if(unRated2.get(i).getId().equals(ratArr[j].getMovieId()) && (ratArr[j].getUserId()==user)) {
+					unrated.add(new RecommendAssist<T>(unRated2.get(i),ratArr[j].getRating()));
 				}
 			}
 		}
@@ -224,10 +223,10 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 	 * @param movies
 	 * @return
 	 */
-	private T[] orderedRecommend(RecommendAssist[] movies) {
-		T[] temp = (T[]) new Object[movies.length];
-		for(int i=0;i<movies.length;i++) {
-			temp[i]=(T) movies[i].getMedia();
+	private ArrayList<T> orderedRecommend(ArrayList<RecommendAssist<T>> movies) {
+		ArrayList<T> temp = new ArrayList<T>(movies.size());
+		for(int i=0;i<movies.size();i++) {
+			temp.add(movies.get(i).getMedia());
 		}
 		return temp;
 	}
@@ -239,24 +238,26 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 	  * 
 	  * @param x
 	  */
-	  public static void selectionSort(Object[] x) {
-	      for(int start = 0; start < x.length; start++) {
+	  public void selectionSort(ArrayList<RecommendAssist<T>> x) {
+	      for(int start = 0; start < x.size(); start++) {
 	        // start is the index of the first element of the 
 	        // unsorted part of the array
 	        
 	        // find the max in the unsorted part
 	        int guess = start; 
-	        for(int i=start+1; i<x.length; i++) {
-	          if(((RecommendAssist)x[guess]).getRating() < ((RecommendAssist)x[i]).getRating()) {
+	        for(int i=start+1; i<x.size(); i++) {
+	          if((x.get(guess)).getRating() < (x.get(i)).getRating()) {
 	            guess =i;
 	          }
 	        }
 	        
 	        // swap the min element with the first element of the
 	        // unsorted part of the array
-	        RecommendAssist temp = (RecommendAssist)x[guess];
-	        x[guess] = x[start];
-	        x[start] = temp;
+	        RecommendAssist<T> temp = x.get(guess);
+	        x.remove(guess);
+	        x.add(guess, x.get(start));
+	        x.remove(start);
+	        x.add(start, temp);
 	        
 	      }
 	  }
@@ -289,7 +290,7 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 	 * @param similarUser
 	 * @return
 	 */
-	private T[] unRatedMovies(int givenUser,int similarUser) {
+	private ArrayList<T> unRatedMovies(int givenUser,int similarUser) {
 		int count=0;
 		Rating[] givenArr=new Rating[workTable[givenUser].length];
 		Rating[] similarArr=new Rating[workTable[similarUser].length];
@@ -317,13 +318,11 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 			}
 		}
 		String[] noDupes = dupeRemoval(movies);
-		T[] unratedMovies = (T[]) new Object[noDupes.length];
-		int pos2=0;
+		ArrayList<T> unratedMovies = new ArrayList<T>(noDupes.length);
 		for(int i=0;i<noDupes.length;i++) {
 			for(int j=0;j<movArr.length;j++) {
 				if(noDupes[i].equals(movArr[j].getId())) {
-					unratedMovies[pos2] = movArr[j];
-					pos2++;
+					unratedMovies.add(movArr[j]);
 				}
 			}
 		}

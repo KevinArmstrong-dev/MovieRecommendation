@@ -4,7 +4,7 @@
 package recommendation.interfaces;
 
 import java.awt.List;
-
+import java.util.*;
 import recommendation.movies.Movie;
 import recommendation.movies.Rating;
 import recommendation.movies.RecommendAssist;
@@ -15,20 +15,20 @@ import recommendation.movies.RecommendAssist;
  * @author Alexander Arella Girardot
  */
 public class PopularRecommender<T extends Item> implements IRecommender<T> {
-	private T[] movies;
-	private Rating[] ratings; 
-	private RecommendAssist<T>[] collection; // TODO change the RecommendAssist class to be generic
+	private ArrayList<T> movies;
+	private Rating[] ratings;
+	private ArrayList<RecommendAssist<T>> collection; // TODO change the RecommendAssist class to be generic
 	/**
 	 * Kevin Armstrong Rwigamba
-	 * This constructor creates a Popular Recommender object, it also sorts the arry from highest rated to lowest.
+	 * This constructor creates a Popular Recommender object, it also sorts the array from highest rated to lowest.
 	 * @param ratings
 	 * @param media
 	 */
 	public PopularRecommender(Rating[] ratings, T[] media) {
-		this.movies= (T[]) new Object[media.length];
+		this.movies= new ArrayList<T>(media.length);
 		//to make movies[] immutable and avoid aliasing
 		for(int i = 0; i < media.length; i++) {
-			this.movies[i] = media[i];
+			this.movies.add(media[i]);
 		}
 		this.ratings=new Rating[ratings.length];
 		  
@@ -36,11 +36,11 @@ public class PopularRecommender<T extends Item> implements IRecommender<T> {
 		for(int i = 0; i < ratings.length; i++) {
 			this.ratings[i]=ratings[i];
 		}
-		collection = (RecommendAssist<T>[]) new Object[media.length];
+		collection = new ArrayList<RecommendAssist<T>>(media.length);
 		for(int i = 0; i < media.length; i++) {
-			collection[i] = new RecommendAssist<T>(media[i], getAverageRatingMovie(media[i].getId()));
+			collection.add(new RecommendAssist<T>(media[i], getAverageRatingMovie(media[i].getId())));
 		}
-		quickSortCollection(0, this.collection.length-1);
+		quickSortCollection(0, this.collection.size()-1);
 	}
 	/**
 	   * Franco G. Moro
@@ -53,17 +53,19 @@ public class PopularRecommender<T extends Item> implements IRecommender<T> {
 		  int j=last;
 		  int pivot= (i+j)/2;
 		  while(i<=j) {
-			  while(this.collection[i].getRating()>this.collection[pivot].getRating()){
+			  while(this.collection.get(i).getRating()>this.collection.get(pivot).getRating()){
 				  i++;
 			  }
-			  while(this.collection[j].getRating()<this.collection[pivot].getRating()) {
+			  while(this.collection.get(j).getRating()<this.collection.get(pivot).getRating()) {
 				  j--;
 			  }
 			  if(i<=j) {
-				  RecommendAssist temp ;
-				  temp=this.collection[i];
-				  this.collection[i]=this.collection[j];
-				  this.collection[j]=temp;
+				  RecommendAssist<T> temp ;
+				  temp=this.collection.get(i);
+				  this.collection.remove(i);
+				  this.collection.add(i, this.collection.get(j));
+				  this.collection.remove(j);
+				  this.collection.add(j, temp);
 				  i++;
 				  j--;
 			  }
@@ -79,31 +81,31 @@ public class PopularRecommender<T extends Item> implements IRecommender<T> {
 	   * @param n
 	   * @return output
 	   */
-	public T[] recommend(int userid,int n){
-		T[] output= (T[]) new Object[n];	// Problem: Need to use a Collection instead of arrays now.
+	public ArrayList<T> recommend(int userid,int n){
+		ArrayList<T> output= new ArrayList<T>(n);	// Problem: Need to use a Collection instead of arrays now.
 		int pos=0;
 		int numberReview=countRated(userid ,this.ratings);
 		if(numberReview <= 1) {
 			String[] ratedMovieIds = getRatedMovies(numberReview,userid,this.ratings);
-			for(int i=0;i<this.collection.length;i++) {
-				if(!(containsId(ratedMovieIds,this.collection[i].getMedia().getId()))) {
+			for(int i=0;i<this.collection.size();i++) {
+				if(!(containsId(ratedMovieIds,this.collection.get(i).getMedia().getId()))) {
 					if(pos==n) return output ;
-					output[pos]=this.collection[i].getMedia();
+					output.add(pos, this.collection.get(i).getMedia());
 					pos++;  
 				}
 			}
 		}
 		else {
-			for(int i=0;i<this.collection.length;i++) {
-				output[pos]=this.collection[i].getMedia();
+			for(int i=0;i<this.collection.size();i++) {
+				output.add(pos, this.collection.get(i).getMedia());
 				pos++;
 				  
 			}
 		}
 		if(pos<n) {
-			T[] temp = (T[]) new Object[pos];
-			for(int x=0;x<temp.length;x++) {
-				temp[x]=output[x];
+			ArrayList<T> temp = new ArrayList<T>(pos);
+			for(int x=0;x<temp.size();x++) {
+				temp.add(output.get(x));
 			}
 			return temp;
 		}

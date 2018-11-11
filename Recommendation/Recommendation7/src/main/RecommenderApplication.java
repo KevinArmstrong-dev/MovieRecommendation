@@ -4,10 +4,8 @@ import java.nio.file.*;
 import java.util.*;
 import recommendation.fileio.*;
 import recommendation.interfaces.*;
-import recommendation.interfaces.IMovieRecommender;
-import recommendation.interfaces.PersonalizedRecommender;
-import recommendation.interfaces.PopularRecommender;
-import recommendation.movies.*;
+import recommendation.movies.Movie;
+import recommendation.movies.Rating;
 
 
 /**
@@ -264,7 +262,7 @@ public static String[] GenreArrayHelper(Movie[] MovieArray) {
 			 
 		}
 		else {
-			RecommenderObject = (IMovieRecommender) new PersonalizedRecommender(movieArray,ratingArray);
+			RecommenderObject = new PersonalizedRecommender(movieArray,ratingArray);
 
 		}
 		 Movie[] RecommendedMovies= RecommenderObject.recommend(Integer.parseInt(UserID), movieArray.length, GenreChoice);

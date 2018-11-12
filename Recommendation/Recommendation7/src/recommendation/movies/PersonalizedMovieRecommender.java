@@ -7,15 +7,15 @@ package recommendation.movies;
  * @author Kevin Armstrong Rwigamba
  *
  */
-public class PersonalizedMovieRecommender extends PersonalizedRecommender <Movie> implements IMovieRecommender {
+public class PersonalizedMovieRecommender extends PersonalizedRecommender<Movie> implements IMovieRecommender {
 
 	public PersonalizedMovieRecommender(Movie[] movies,Rating[] ratings) {
 		super(ratings,movies);
 	}
 	
 	@Override
-	public Movie[] recommend(int userId, int n) {
-		return super.recommend(UserId, n);
+	public ArrayList<Movie> recommend(int userId, int n) {
+		return super.recommend(userId, n);
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class PersonalizedMovieRecommender extends PersonalizedRecommender <Movie
 	 */
 	private Movie[] GenreAssist(int userId,int n,String genres) {
 		Movie[] recommendation =new Movie[n];
-		Movie [] recommendations=super.recommend(userId, n);
+		ArrayList<Movie> recommendations=super.recommend(userId, n);
 		int count=0;
 		for(Movie temp:recommendations) {
 			if(temp.hasGenre(genres)) {
@@ -42,9 +42,9 @@ public class PersonalizedMovieRecommender extends PersonalizedRecommender <Movie
 			}
 		}
 		if(count==n) {
-			for(int i=0;i<recommendations.length;i++) {
-				if(recommendations[i].hasGenre(genres)) {
-					recommendation[i]=recommendations[i];
+			for(int i=0;i<recommendations.size();i++) {
+				if(recommendations.get(i).hasGenre(genres)) {
+					recommendation[i]=recommendations.get(i);
 				}
 			}
 			return recommendation;

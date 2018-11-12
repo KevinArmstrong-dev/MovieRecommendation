@@ -2,6 +2,7 @@
  * 
  */
 package recommendation.movies;
+import java.util.ArrayList;
 
 /**
  * @author Kevin Armstrong Rwigamba
@@ -13,9 +14,10 @@ public class PopularMovieRecommender extends PopularRecommender<Movie> implement
 		super(ratings,movies);
 	}
 	
-	public Movie[] recommend(int UserId,int n) {
+		public ArrayList<Movie> recommend(int UserId,int n) {
 		return super.recommend(UserId, n);
 	}
+	
 
 	@Override
 	public Movie[] recommend(int userId, int n, String genres) {
@@ -31,9 +33,10 @@ public class PopularMovieRecommender extends PopularRecommender<Movie> implement
 	 * @param genres
 	 * @return
 	 */
+
 	private Movie[] GenreAssist(int userId,int n,String genres) {
 		Movie[] recommendation =new Movie[n];
-		Movie [] recommendations=super.recommend(userId, n);
+		ArrayList<Movie> recommendations=super.recommend(userId, n);
 		int count=0;
 		for(Movie temp:recommendations) {
 			if(temp.hasGenre(genres)) {
@@ -41,9 +44,9 @@ public class PopularMovieRecommender extends PopularRecommender<Movie> implement
 			}
 		}
 		if(count==n) {
-			for(int i=0;i<recommendations.length;i++) {
-				if(recommendations[i].hasGenre(genres)) {
-					recommendation[i]=recommendations[i];
+			for(int i=0;i<recommendations.size();i++) {
+				if(recommendations.get(i).hasGenre(genres)) {
+					recommendation[i]=recommendations.get(i);
 				}
 			}
 			return recommendation;
@@ -52,5 +55,4 @@ public class PopularMovieRecommender extends PopularRecommender<Movie> implement
 			return GenreAssist(userId, n*10, genres);
 		}
 	}
-	
 }

@@ -41,7 +41,8 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 	 */
 	private void fillUsm() {
 		int nUsers=countUsers();
-		this.workTable=getWorkTable(nUsers);
+		HashMap<Integer,ArrayList<Rating>> ree=getWorkTable(nUsers);
+		this.workTable=ree;
 		this.usm=new double[nUsers+1][nUsers+1];
 		for(int i=1;i<this.usm.length;i++) {
 			for(int j=1;j<this.usm[i].length;j++) {
@@ -59,6 +60,7 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 	 * 
 	 */
 	private void createMostSimilarUsers() {
+		this.mostSimilarUsers=new HashMap<Integer,Integer>();
 		for(int i=1;i<this.usm.length;i++) {
 			int simi=getMostSimilar(this.usm[i]);
 			this.mostSimilarUsers.put(i,simi);
@@ -108,7 +110,7 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 	 */
 	private HashMap<Integer,ArrayList<Rating>> getWorkTable(int nUsers){
 		HashMap<Integer,ArrayList<Rating>> output=new HashMap<Integer,ArrayList<Rating>>();
-		for(int i=1;i<nUsers;i++) {
+		for(int i=1;i<=nUsers;i++) {
 			output.put(i,getUserRatings(i));
 		}
 		System.out.println(output.size());
@@ -244,10 +246,8 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 	        // swap the min element with the first element of the
 	        // unsorted part of the array
 	        RecommendAssist<T> temp = x.get(guess);
-	        x.remove(guess);
-	        x.add(guess, x.get(start));
-	        x.remove(start);
-	        x.add(start, temp);
+	        x.set(guess, x.get(start));
+	        x.set(start, temp);
 	        
 	      }
 	  }
@@ -261,7 +261,7 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 	 * @return userId
 	 */
 	private int getSimilarUser(int userid) {
-		return mostSimilarUsers.get(userid);
+		return this.mostSimilarUsers.get(userid);
 	}
 	
 	/**
@@ -281,7 +281,7 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 		for(int i=0;i<similarArr.size();i++) {
 			for(int j=0;j<givenArr.size();j++) {
 				if(!(similarArr.get(i).getMovieId().equals(givenArr.get(j).getMovieId()))) {
-					movies.add(similarArr.get(i).getMovieId());
+					movies.add(similarArr.get(j).getMovieId());
 				}
 			}
 		}

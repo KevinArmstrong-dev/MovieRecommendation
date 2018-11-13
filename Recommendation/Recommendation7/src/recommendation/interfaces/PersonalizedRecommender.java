@@ -59,7 +59,7 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 	 * 
 	 */
 	private void createMostSimilarUsers() {
-		for(int i=0;i<this.usm.length;i++) {
+		for(int i=1;i<this.usm.length;i++) {
 			int simi=getMostSimilar(this.usm[i]);
 			this.mostSimilarUsers.put(i,simi);
 		}
@@ -111,6 +111,7 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 		for(int i=1;i<nUsers;i++) {
 			output.put(i,getUserRatings(i));
 		}
+		System.out.println(output.size());
 		return output;
 	}
 	

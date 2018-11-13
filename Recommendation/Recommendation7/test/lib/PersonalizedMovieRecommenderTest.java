@@ -1,6 +1,3 @@
-/**
- * 
- */
 package lib;
 
 import java.io.IOException;
@@ -8,15 +5,11 @@ import java.util.ArrayList;
 
 import recommendation.fileio.MovieLensFileReader;
 import recommendation.movies.Movie;
+import recommendation.movies.PersonalizedMovieRecommender;
 import recommendation.movies.PopularMovieRecommender;
 import recommendation.movies.Rating;
 
-/**
- * @author kevin Armstrong Rwigamba 
- *
- */
-public class PopularMovieRecommenderTest {
-
+public class PersonalizedMovieRecommenderTest {
 	/**
 	 * @param args
 	 */
@@ -36,14 +29,14 @@ public class PopularMovieRecommenderTest {
 	 */
 	public static void Test() throws IOException{
 		Movie[] movies=MovieLensFileReader.loadMovies("datafiles/sorted/movies.csv");
-		Rating[] ratings=MovieLensFileReader.loadRatings("datafiles/sorted/ratings.csv");
-		PopularMovieRecommender Alpha =new PopularMovieRecommender(movies,ratings);
-		//ArrayList<Movie> test1 = Alpha.recommend(16, 10);
-		ArrayList<Movie> test2= Alpha.recommend(17, 10, "Drama");
-		for(Movie x:test2) {
+		Rating[] ratings=MovieLensFileReader.loadRatings("datafiles/testfiles/testRatings.csv");
+		PersonalizedMovieRecommender Alpha =new PersonalizedMovieRecommender(movies,ratings);
+		ArrayList<Movie> test1 = Alpha.recommend(16, 10);
+		//ArrayList<Movie> test2= Alpha.recommend(17, 10, "Drama");
+		for(Movie x:test1) {
 			System.out.println(x.getName());
 		}
-		System.out.println(test2.size());
+		System.out.println(test1.size());
 	}
 
 }

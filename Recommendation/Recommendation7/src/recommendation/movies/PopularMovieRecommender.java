@@ -16,14 +16,31 @@ public class PopularMovieRecommender extends PopularRecommender<Movie> implement
 		super(ratings,movies);
 	}
 	
-		public ArrayList<Movie> recommend(int UserId,int n) {
+	public ArrayList<Movie> recommend(int UserId,int n) {
 		return super.recommend(UserId, n);
 	}
 	
 
 	@Override
-	public Movie[] recommend(int userId, int n, String genres) {
-		return GenreAssist(userId, n, genres);
+	public ArrayList<Movie> recommend(int userId, int n, String genre) {
+		ArrayList<Movie> output=new ArrayList<Movie>();
+		int count=n;
+		while(output.size()<n) {
+			output=recommend(userId,count);
+			output=filter(output,n, genre);
+			count+=count*10;
+		}
+		output=new ArrayList<Movie>(output.subList(0,n));
+		return output;
+	}
+	private ArrayList<Movie> filter(ArrayList<Movie> movies,int n ,String genre) {
+		ArrayList<Movie> filtered=new ArrayList<Movie>();
+		for(int i=0;i<movies.size();i++) {
+			if(movies.get(i).hasGenre(genre)){
+				filtered.add(movies.get(i));				
+			}
+		}
+		return filtered;
 	}
 	
 	/**
@@ -36,7 +53,7 @@ public class PopularMovieRecommender extends PopularRecommender<Movie> implement
 	 * @return
 	 */
 
-	private Movie[] GenreAssist(int userId,int n,String genres) {
+	/*private Movie[] GenreAssist(int userId,int n,String genres) {
 		Movie[] recommendation =new Movie[n];
 		ArrayList<Movie> recommendations=super.recommend(userId, n);
 		int count=0;
@@ -56,5 +73,5 @@ public class PopularMovieRecommender extends PopularRecommender<Movie> implement
 		else {
 			return GenreAssist(userId, n+10, genres);
 		}
-	}
+	}*/
 }

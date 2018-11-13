@@ -4,6 +4,7 @@
 package lib;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import recommendation.fileio.MovieLensFileReader;
 import recommendation.movies.Movie;
@@ -35,10 +36,11 @@ public class PopularMovieRecommenderTest {
 	 */
 	public static void Test() throws IOException{
 		Movie[] movies=MovieLensFileReader.loadMovies("datafiles/sorted/movies.csv");
-		Rating[] ratings=MovieLensFileReader.loadRatings("datafiles/testfiles/testRatings.csv");
+		Rating[] ratings=MovieLensFileReader.loadRatings("datafiles/sorted/Ratings.csv");
 		PopularMovieRecommender Alpha =new PopularMovieRecommender(movies,ratings);
-		Movie[] test1=Alpha.recommend(16, 10, "Drama");
-		System.out.println(test1.length);
+		ArrayList<Movie> test1 = Alpha.recommend(16, 10);
+		//ArrayList test2= Alpha.recommend(16, 10, "Drama");
+		System.out.println(test1.size());
 		
 		for(Movie x:test1) {
 			System.out.println(x.getName());

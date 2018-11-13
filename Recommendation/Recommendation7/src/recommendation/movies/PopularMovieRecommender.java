@@ -4,6 +4,8 @@
 package recommendation.movies;
 import java.util.ArrayList;
 
+import recommendation.interfaces.PopularRecommender;
+
 /**
  * @author Kevin Armstrong Rwigamba
  *
@@ -43,7 +45,7 @@ public class PopularMovieRecommender extends PopularRecommender<Movie> implement
 				count++;
 			}
 		}
-		if(count==n) {
+		if(count>=n) {
 			for(int i=0;i<recommendations.size();i++) {
 				if(recommendations.get(i).hasGenre(genres)) {
 					recommendation[i]=recommendations.get(i);
@@ -52,7 +54,7 @@ public class PopularMovieRecommender extends PopularRecommender<Movie> implement
 			return recommendation;
 		}
 		else {
-			return GenreAssist(userId, n*10, genres);
+			return GenreAssist(userId, n+10, genres);
 		}
 	}
 }

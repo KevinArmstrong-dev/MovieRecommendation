@@ -62,10 +62,8 @@ public class PopularRecommender<T extends Item> implements IRecommender<T> {
 			  if(i<=j) {
 				  RecommendAssist<T> temp ;
 				  temp=this.collection.get(i);
-				  this.collection.remove(i);
-				  this.collection.add(i, this.collection.get(j));
-				  this.collection.remove(j);
-				  this.collection.add(j, temp);
+				  this.collection.set(i, this.collection.get(j));
+				  this.collection.set(j, temp);
 				  i++;
 				  j--;
 			  }

@@ -281,7 +281,9 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 		for(int i=0;i<similarArr.size();i++) {
 			for(int j=0;j<givenArr.size();j++) {
 				if(!(similarArr.get(i).getMovieId().equals(givenArr.get(j).getMovieId()))) {
-					movies.add(similarArr.get(j).getMovieId());
+					if(!(movies.contains(similarArr.get(j).getMovieId()) )) {
+						movies.add(similarArr.get(j).getMovieId());						
+					}
 				}
 			}
 		}

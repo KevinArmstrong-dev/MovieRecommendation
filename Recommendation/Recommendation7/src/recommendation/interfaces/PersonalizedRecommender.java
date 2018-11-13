@@ -18,8 +18,8 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 	private double[][] usm;
 	private T[] movArr;
 	private Rating[] ratArr;
-	private Rating[][] workTable;
-	private int[] mostSimilarUsers;
+	private HashMap<Integer,ArrayList<Rating>> workTable;
+	private HashMap<Integer,Integer> mostSimilarUsers;
 	
 	/**
 	 * @author Franco G. Moro
@@ -31,7 +31,7 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 		this.movArr=movArr;
 		this.ratArr=ratArr;
 		fillUsm();
-		this.mostSimilarUsers=createMostSimilarUsers();
+		createMostSimilarUsers();
 	}
 	
 	/**
@@ -41,13 +41,12 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 	 */
 	private void fillUsm() {
 		int nUsers=countUsers();
-		Rating[][] workTable=getWorkTable(nUsers);
-		this.workTable=workTable;
+		this.workTable=getWorkTable(nUsers);
 		this.usm=new double[nUsers+1][nUsers+1];
 		for(int i=1;i<this.usm.length;i++) {
 			for(int j=1;j<this.usm[i].length;j++) {
 				if(i==j)continue;
-				double score=getScore(workTable[i],workTable[j]);
+				double score=getScore(workTable.get(i),workTable.get(j));
 				this.usm[i][j]=score;
 			}
 		}
@@ -59,13 +58,11 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 	 * This method creates the mostSimilarUsers array
 	 * 
 	 */
-	private int[] createMostSimilarUsers() {
-		int[] mostSimilarUsers=new int[this.usm.length];
+	private void createMostSimilarUsers() {
 		for(int i=0;i<this.usm.length;i++) {
 			int simi=getMostSimilar(this.usm[i]);
-			mostSimilarUsers[i]=simi;
+			this.mostSimilarUsers.put(i,simi);
 		}
-		return mostSimilarUsers;
 	}
 	
 	/**
@@ -109,10 +106,10 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 	 * @return output
 	 * This helper method is made to create the Rating[][] workTable which is used to create the USM.
 	 */
-	private Rating[][] getWorkTable(int nUsers){
-		Rating[][] output= new Rating[nUsers+1][];
-		for(int i=1;i<output.length;i++) {
-			output[i]=getUserRatings(i);
+	private HashMap<Integer,ArrayList<Rating>> getWorkTable(int nUsers){
+		HashMap<Integer,ArrayList<Rating>> output=new HashMap<Integer,ArrayList<Rating>>();
+		for(int i=1;i<nUsers;i++) {
+			output.put(i,getUserRatings(i));
 		}
 		return output;
 	}
@@ -123,19 +120,11 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 	 * @return output
 	 * This helper method is used to gather ever rating that a user has made.
 	 */
-	private Rating[] getUserRatings(int userId) {
-		int count=0;
-		for(Rating r:this.ratArr) {
-			if(r.getUserId()==userId) {
-				count++;
-			}
-		}
-		Rating[] output=new Rating[count];
-		int pos=0;
+	private ArrayList<Rating> getUserRatings(int userId) {
+		ArrayList<Rating> output=new ArrayList<Rating>();
 		for(int i=0;i<this.ratArr.length;i++) {
 			if(this.ratArr[i].getUserId()==userId) {
-				output[pos]=this.ratArr[i];
-				pos++;
+				output.add(this.ratArr[i]);
 			}
 		}
 		return output;
@@ -148,12 +137,12 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 	 * @return score
 	 * This helper method is used to calculate the similarity score between two users.
 	 */
-	private double getScore(Rating[] a,Rating[] b) {
+	private double getScore(ArrayList<Rating> a,ArrayList<Rating> b) {
 		double score=0;
-		for(int i=0;i<a.length;i++) {
-			for(int j=0;j<b.length;j++) {
-				if(a[i].getMovieId().equals(b[j].getMovieId())) {
-					score+=(a[i].getRating()-2.5)*(b[j].getRating()-2.5);
+		for(int i=0;i<a.size();i++) {
+			for(int j=0;j<b.size();j++) {
+				if(a.get(i).getMovieId().equals(b.get(j).getMovieId())) {
+					score+=(a.get(i).getRating()-2.5)*(b.get(j).getRating()-2.5);
 				}
 			}
 		}
@@ -271,13 +260,7 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 	 * @return userId
 	 */
 	private int getSimilarUser(int userid) {
-		int userId=-1;
-		for(int i=0;i<mostSimilarUsers.length;i++) {
-			if(userid == i) {
-				userId=mostSimilarUsers[i];
-			}
-		}
-		return userId;
+		return mostSimilarUsers.get(userid);
 	}
 	
 	/**
@@ -291,33 +274,17 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 	 * @return
 	 */
 	private ArrayList<T> unRatedMovies(int givenUser,int similarUser) {
-		int count=0;
-		Rating[] givenArr=new Rating[workTable[givenUser].length];
-		Rating[] similarArr=new Rating[workTable[similarUser].length];
-		for(int i=0;i<givenArr.length;i++) {
-			givenArr[i]=workTable[givenUser][i];
-		}
-		for(int i=0;i<similarArr.length;i++) {
-			similarArr[i]=workTable[similarUser][i];
-		}
-		for(int i=0;i<similarArr.length;i++) {
-			for(int j=0;j<givenArr.length;j++) {
-				if(!(similarArr[i].getMovieId().equals(givenArr[j].getMovieId()))) {
-					count++;
+		ArrayList<Rating> givenArr=this.workTable.get(givenUser);
+		ArrayList<Rating> similarArr=this.workTable.get(similarUser);
+		ArrayList<String> movies=new ArrayList<String>();
+		for(int i=0;i<similarArr.size();i++) {
+			for(int j=0;j<givenArr.size();j++) {
+				if(!(similarArr.get(i).getMovieId().equals(givenArr.get(j).getMovieId()))) {
+					movies.add(similarArr.get(i).getMovieId());
 				}
 			}
 		}
-		String[] movies=new String[count];
-		int pos=0;
-		for(int i=0;i<similarArr.length;i++) {
-			for(int j=0;j<givenArr.length;j++) {
-				if(!(similarArr[i].getMovieId().equals(givenArr[j].getMovieId()))) {
-					movies[pos]=similarArr[i].getMovieId();
-					pos++;
-				}
-			}
-		}
-		String[] noDupes = dupeRemoval(movies);
+		/*String[] noDupes = dupeRemoval(movies);
 		ArrayList<T> unratedMovies = new ArrayList<T>(noDupes.length);
 		for(int i=0;i<noDupes.length;i++) {
 			for(int j=0;j<movArr.length;j++) {
@@ -325,9 +292,16 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 					unratedMovies.add(movArr[j]);
 				}
 			}
+		}*/
+		ArrayList<T> output= new ArrayList<T>();
+		for(int i=0;i<movies.size();i++) {
+			for(int j=0;j<movArr.length;j++) {
+				if(movArr[j].getId().equals(movies.get(i))) {
+					output.add(movArr[j]);
+				}
+			}
 		}
-		
-		return unratedMovies;
+		return output;
 	}
 	
 	/**
@@ -340,14 +314,14 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 	 * @param movies
 	 * @return
 	 */
-	private String[] dupeRemoval(String [] movies) {
+	/*private String[] dupeRemoval(ArrayList<String> movies) {
 	         
-	     int noOfUniqueElements = movies.length;
+	     int noOfUniqueElements = movies.size();
 	         
 	      for (int i = 0; i < noOfUniqueElements; i++) {
            for (int j = i+1; j < noOfUniqueElements; j++){
         	      
-	             if(movies[i].equals(movies[j])){
+	             if(movies.get(i).equals(movies.get(j))){
 	                  
 	                  movies[j] = movies[noOfUniqueElements-1];
 	                   
@@ -359,5 +333,5 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 	        }
 	        String [] arrayWithoutDuplicates = Arrays.copyOf(movies, noOfUniqueElements);
 	        return arrayWithoutDuplicates;
-	}
+	}*/
 }

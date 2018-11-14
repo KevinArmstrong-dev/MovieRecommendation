@@ -31,12 +31,12 @@ public class PersonalizedMovieRecommenderTest {
 		Movie[] movies=MovieLensFileReader.loadMovies("datafiles/sorted/movies.csv");
 		Rating[] ratings=MovieLensFileReader.loadRatings("datafiles/sorted/ratings.csv");
 		PersonalizedMovieRecommender Alpha =new PersonalizedMovieRecommender(movies,ratings);
-		ArrayList<Movie> test1 = Alpha.recommend(500, 100);
-		//ArrayList<Movie> test2= Alpha.recommend(17, 10, "Drama");
-		for(Movie x:test1) {
+		//ArrayList<Movie> test1 = Alpha.recommend(500, 100);
+		ArrayList<Movie> test2= Alpha.recommend(17, 10, "Drama");
+		for(Movie x:test2) {
 			System.out.println(x.getName());
 		}
-		System.out.println(test1.size());
+		System.out.println(test2.size());
 	}
 
 }

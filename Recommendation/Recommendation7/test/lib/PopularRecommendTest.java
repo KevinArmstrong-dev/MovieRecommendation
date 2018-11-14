@@ -3,8 +3,10 @@
  */
 package lib;
 
+import java.util.ArrayList;
+
+import recommendation.interfaces.PopularRecommender;
 import recommendation.movies.Movie;
-import recommendation.movies.PopularRecommender;
 import recommendation.movies.Rating;
 
 /**
@@ -66,12 +68,12 @@ public class PopularRecommendTest {
 		Movie[] mvArr=createMovieArr();
 		PopularRecommender test= new PopularRecommender(rate,mvArr);
 		System.out.println("TEST 1 : Should print every film except: The american president Because it was review by user 19");
-		Movie [] testOne=test.recommend(19,4);
+		ArrayList testOne=test.recommend(19,4);
 		
 		//This should not work and print an error statement.
 		try{
-		 for(int i=0;i<testOne.length;i++) {
-			 System.out.println(testOne[i].getName());			 }
+		 for(int i=0;i<testOne.size();i++) {
+			 System.out.println(((Movie) testOne.get(i)).getName());			 }
 		}
 		 catch(NullPointerException e) {
 			 System.out.println("Number of Reviewed movies>Available movies.");
@@ -81,9 +83,9 @@ public class PopularRecommendTest {
 		
 		//This should not be able to find a match
 		 try {
-			 Movie[] testThree=test.recommend(200,10, "Common"); 
-			 for(int i=0;i<testThree.length;i++) {
-				 System.out.println(testThree[i]);
+			 ArrayList testThree=test.recommend(200,10); 
+			 for(int i=0;i<testThree.size();i++) {
+				 System.out.println(testThree.get(i));
 			 }
 			 System.out.println("");
 		 }
@@ -96,8 +98,8 @@ public class PopularRecommendTest {
 		 
 		 
 		 //Testing for Corresponding genres
-		 Movie[] testThree=test.recommend(19,3,"Horror");
-		 if(testThree[0].hasGenre("Horror")) {
+		 ArrayList testThree=test.recommend(19,3);
+		 if(((Movie) testThree.get(0)).hasGenre("Horror")) {
 			 System.out.println("Pass! The expected Genre is Horror");
 		 }
 		 else {
@@ -107,9 +109,9 @@ public class PopularRecommendTest {
 		 //if the movies asked for are greater than the number we have 
 		 
 		try {
-				Movie [] testFive=test.recommend(15,8);
-				for(int i=0;i<testFive.length;i++) {
-				 System.out.println(testThree[i].getName());
+				ArrayList testFive=test.recommend(15,8);
+				for(int i=0;i<testFive.size();i++) {
+				 System.out.println(((Movie) testThree.get(i)).getName());
 				}
 		}
 		catch(ArrayIndexOutOfBoundsException e) {

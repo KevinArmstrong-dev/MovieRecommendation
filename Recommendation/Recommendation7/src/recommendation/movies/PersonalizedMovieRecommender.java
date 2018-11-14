@@ -74,6 +74,16 @@ public class PersonalizedMovieRecommender extends PersonalizedRecommender<Movie>
 			return GenreAssist(userId, n*10, genres);
 		}
 	}*/
-	
+	public int getTotalPossibleAmountofMovies(int userId, int n, String genre) {
+		int amountofmoviespossible = 0;
+	ArrayList<Movie> tempArrayList	= recommend(userId,n,genre);
+	for(int i = 0; i < tempArrayList.size();i++)	{
+		if(tempArrayList.get(0).equals(tempArrayList.get(i))){
+			amountofmoviespossible = i+1;
+			i = tempArrayList.size();
+		}
+	}
+	return amountofmoviespossible;
+	}
 
 }

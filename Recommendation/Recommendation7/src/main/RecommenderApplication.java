@@ -4,13 +4,18 @@ import java.nio.file.*;
 import java.util.*;
 import recommendation.fileio.*;
 import recommendation.interfaces.*;
+import recommendation.movies.IMovieRecommender;
 import recommendation.movies.Movie;
+import recommendation.movies.PersonalizedMovieRecommender;
+import recommendation.movies.PopularMovieRecommender;
 import recommendation.movies.Rating;
 
 
 /**
  * 
  * @author Michael Azem
+ *
+ *Needs to be updated, did not have enough time to fully update it.
  *
  */
 
@@ -255,38 +260,42 @@ public static String[] GenreArrayHelper(Movie[] MovieArray) {
 			   }
 			}
 				
-		
+		int amountofmovies;
 		
 		if(userchoice == 1) {
-			 RecommenderObject = (IMovieRecommender) new PopularRecommender(ratingArray,movieArray);
-			 
+			 RecommenderObject =   new PopularMovieRecommender(movieArray,ratingArray);
+			  PersonalizedMovieRecommender temp = new PersonalizedMovieRecommender(movieArray,ratingArray);
+	           amountofmovies = temp.getTotalPossibleAmountofMovies(Integer.parseInt(UserID),12000, GenreChoice);
 		}
 		else {
-			RecommenderObject = new PersonalizedRecommender(movieArray,ratingArray);
-
+			RecommenderObject =  new PersonalizedMovieRecommender(movieArray,ratingArray);
+            PersonalizedMovieRecommender temp = new PersonalizedMovieRecommender(movieArray,ratingArray);
+           amountofmovies = temp.getTotalPossibleAmountofMovies(Integer.parseInt(UserID),12000, GenreChoice);
 		}
-		 Movie[] RecommendedMovies= RecommenderObject.recommend(Integer.parseInt(UserID), movieArray.length, GenreChoice);
-			if(choiceall == 1) {
-				RecommendedMovies= RecommenderObject.recommend(Integer.parseInt(UserID), movieArray.length);
-			}
-			
-			
-			System.out.println("there is " + RecommendedMovies.length + " movies recommended to you.");
-			System.out.println("How many Movies would you like to print out?");
-			int numofmovies = ScannerObj.nextInt();
+		
+		System.out.println("How many Movies would you like to print out?");
+		int numofmovies = ScannerObj.nextInt();
+		ScannerObj.nextLine();
+		
+		while(numofmovies <= 0 || numofmovies > amountofmovies) {
+			System.out.println("Please enter a valid amount of movies");
+			 numofmovies = ScannerObj.nextInt();
 			ScannerObj.nextLine();
-			
-			while(numofmovies>RecommendedMovies.length || numofmovies <= 0) {
-				System.out.println("Please enter a valid amount of movies");
-				 numofmovies = ScannerObj.nextInt();
-				ScannerObj.nextLine();
+		}
+		
+		
+		 ArrayList<Movie> RecommendedMovies= RecommenderObject.recommend(Integer.parseInt(UserID),numofmovies, GenreChoice);
+			if(choiceall == 1) {
+				RecommendedMovies= RecommenderObject.recommend(Integer.parseInt(UserID), numofmovies);
 			}
+			
+			
 			
 			
 		System.out.println("Here are all your movies Choices:");
 		System.out.println("");
 		for(int i = 0; i < numofmovies;i++) {
-			System.out.println(RecommendedMovies[i]);
+			System.out.println(RecommendedMovies.get(i));
 		}
 		System.out.println("");
 		System.out.print("there is " + numofmovies + " movies recommended to you.");

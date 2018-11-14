@@ -113,7 +113,7 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 		for(int i=1;i<=nUsers;i++) {
 			output.put(i,getUserRatings(i));
 		}
-		System.out.println(output.size());
+		
 		return output;
 	}
 	
@@ -175,7 +175,7 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 				return movies;
 			}
 			else {
-				ArrayList<T> unRated = new ArrayList<T>(n);
+				ArrayList<T> unRated = new ArrayList<T>();
 				for(int i=0;i<n;i++) {
 				unRated.add(movies.get(i));
 				

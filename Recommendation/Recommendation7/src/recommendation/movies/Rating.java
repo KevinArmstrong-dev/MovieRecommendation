@@ -16,12 +16,10 @@ public class Rating {
 	public Rating(String line) {
 		boolean isNumbersOnly = true;
 		String[] review = line.split(",");
-		if (review.length < 4) {
-			throw new RuntimeException("Line is missing content");
+		if (review.length != 4 && review.length != 3) {
+			throw new RuntimeException("Line is missing content/Line has too much content");
 		}
-		else if (review.length > 4) {
-			throw new RuntimeException("Line has too much content");
-		}
+		
 		this.movieId = review[1];
 		for (int i = 0; i < movieId.length(); i++) {
 			if (movieId.charAt(i) < '0' || movieId.charAt(i) > '9') {

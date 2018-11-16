@@ -28,8 +28,10 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 	 * This constructor calls on other methods to initialize the diffenrent fields of this class.
 	 */
 	public PersonalizedRecommender(T[] movArr,Rating[] ratArr) {
+		
 		this.movArr=movArr;
 		this.ratArr=ratArr;
+
 		fillUsm();
 		createMostSimilarUsers();
 	}
@@ -165,8 +167,10 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 	public ArrayList<T> recommend(int userid,int n) {
 		
 		int similarUser=getSimilarUser(userid);
+		
+		
 		if(similarUser==-1) {
-			ArrayList<T> recommendations= new ArrayList<T>(n);
+			ArrayList<T> recommendations= new ArrayList<T>();
 			return recommendations;
 		}
 		else {
@@ -281,8 +285,9 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 		for(int i=0;i<similarArr.size();i++) {
 			for(int j=0;j<givenArr.size();j++) {
 				if(!(similarArr.get(i).getMovieId().equals(givenArr.get(j).getMovieId()))) {
-					if(!(movies.contains(similarArr.get(j).getMovieId()) )) {
-						movies.add(similarArr.get(j).getMovieId());	
+					if(!(movies.contains(similarArr.get(i).getMovieId()) )) {
+						movies.add(similarArr.get(i).getMovieId());	
+					}
 
 				}
 			}
@@ -306,7 +311,8 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 		}
 		return output;
 	}
-	
+
+
 	/**
 	 *@author Kevin Armstrong Rwigamba
 	 * 
@@ -337,4 +343,5 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 	        String [] arrayWithoutDuplicates = Arrays.copyOf(movies, noOfUniqueElements);
 	        return arrayWithoutDuplicates;
 	}*/
+
 }

@@ -381,13 +381,13 @@ public static <T> String[] GenreArrayHelper(T[] movieorBookArray) {
      			 RecommenderObject =   new PopularRecommender(ratingArray,(Item[]) movieorBookArray);
      			 RecommendedMovies= RecommenderObject.recommend(Integer.parseInt(UserID), 10000);
      			 
-     			 System.out.println("there is " + RecommendedMovies.size() + " movies recommended to you.");
-     				System.out.println("How many Movies would you like to print out?");
+     			 System.out.println("there is " + RecommendedMovies.size() + " Books recommended to you.");
+     				System.out.println("How many Books would you like to print out?");
      				numofmovies = ScannerObj.nextInt();
      				ScannerObj.nextLine();
      				
      				while(numofmovies>RecommendedMovies.size() || numofmovies <= 0) {
-     					System.out.println("Please enter a valid amount of movies");
+     					System.out.println("Please enter a valid amount of Books");
      					 numofmovies = ScannerObj.nextInt();
      					ScannerObj.nextLine();
      				}
@@ -398,13 +398,13 @@ public static <T> String[] GenreArrayHelper(T[] movieorBookArray) {
      			RecommenderObject =  new PersonalizedRecommender((Item[]) movieorBookArray,ratingArray);
      			 RecommendedMovies= RecommenderObject.recommend(Integer.parseInt(UserID), 10000);
      			
-     			 System.out.println("there is " + RecommendedMovies.size() + " movies recommended to you.");
-     				System.out.println("How many Movies would you like to print out?");
+     			 System.out.println("there is " + RecommendedMovies.size() + " Books recommended to you.");
+     				System.out.println("How many Books would you like to print out?");
      				numofmovies = ScannerObj.nextInt();
      				ScannerObj.nextLine();
      				
      				while(numofmovies>RecommendedMovies.size() || numofmovies <= 0) {
-     					System.out.println("Please enter a valid amount of movies");
+     					System.out.println("Please enter a valid amount of Books");
      					 numofmovies = ScannerObj.nextInt();
      					ScannerObj.nextLine();
      				}

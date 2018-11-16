@@ -25,7 +25,7 @@ public class PopularRecommender<T extends Item> implements IRecommender<T> {
 	 * @param media
 	 */
 	public PopularRecommender(Rating[] ratings, T[] media) {
-		this.movies= new ArrayList<T>(media.length);
+		this.movies= new ArrayList<T>();
 		//to make movies[] immutable and avoid aliasing
 		for(int i = 0; i < media.length; i++) {
 			this.movies.add(media[i]);
@@ -36,11 +36,13 @@ public class PopularRecommender<T extends Item> implements IRecommender<T> {
 		for(int i = 0; i < ratings.length; i++) {
 			this.ratings[i]=ratings[i];
 		}
-		collection = new ArrayList<RecommendAssist<T>>(media.length);
+		collection = new ArrayList<RecommendAssist<T>>();
 		for(int i = 0; i < media.length; i++) {
 			collection.add(new RecommendAssist<T>(media[i], getAverageRatingMovie(media[i].getId())));
 		}
+
 		quickSortCollection(0, this.collection.size()-1);
+
 	}
 	/**
 	   * Franco G. Moro
@@ -80,14 +82,15 @@ public class PopularRecommender<T extends Item> implements IRecommender<T> {
 	   * @return output
 	   */
 	public ArrayList<T> recommend(int userid,int n){
-		ArrayList<T> output= new ArrayList<T>(n);	// Problem: Need to use a Collection instead of arrays now.
+		ArrayList<T> output= new ArrayList<T>();// Problem: Need to use a Collection instead of arrays now.
+		
 		int pos=0;
 		int numberReview=countRated(userid ,this.ratings);
 		if(numberReview <= 1) {
 			String[] ratedMovieIds = getRatedMovies(numberReview,userid,this.ratings);
 			for(int i=0;i<this.collection.size();i++) {
 				if(!(containsId(ratedMovieIds,this.collection.get(i).getMedia().getId()))) {
-					if(pos==n) return output ;
+					if(pos==n) {return output ;}
 					output.add(pos, this.collection.get(i).getMedia());
 					pos++;  
 				}

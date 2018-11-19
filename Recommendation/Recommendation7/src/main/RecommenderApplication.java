@@ -1,17 +1,13 @@
 package main;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.AccessDeniedException;
-import java.nio.file.NoSuchFileException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.InputMismatchException;
-import java.util.Scanner;
-import fileio.MovieLensFileReader;
-import interfaces.IMovieRecommender;
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
+import recommendation.fileio.*;
+import recommendation.interfaces.*;
+import recommendation.movies.IMovieRecommender;
 import recommendation.movies.Movie;
-import recommendation.movies.PersonalizedRecommender;
-import recommendation.movies.PopularRecommender;
+import recommendation.movies.PersonalizedMovieRecommender;
+import recommendation.movies.PopularMovieRecommender;
 import recommendation.movies.Rating;
 
 
@@ -19,24 +15,38 @@ import recommendation.movies.Rating;
  * 
  * @author Michael Azem
  *
+ *Needs to be updated, did not have enough time to fully update it.
+ *
  */
 
 public class RecommenderApplication {
 
-	static MovieLensFileReader FileReaderObject = new MovieLensFileReader();
+	static MovieLensFileReader MovieFileReaderObject = new MovieLensFileReader();
+	static GoodReadsFileReader FileReaderObject = new GoodReadsFileReader();
 	static Scanner ScannerObj = new Scanner(System.in);
+	public static String BooksOrMovies = "";
 	
 	/**
 	 * The Main Application to give the user a recommendation of movies based on the 
 	 * movie file,rating file, the userID , Genre and the Recommendation given.
+	 * @param <T>
 	 * @param args
 	 * @throws IOException
 	 */
-	public static void main(String[] args) throws IOException {
-
-		System.out.println("Please enter the file name of Movies");
-		String MoviePath = ScannerObj.nextLine();
-		Movie[] movieArray = MovieReaderHelper(MoviePath);
+	public static <T> void main(String[] args) throws IOException {
+		
+		System.out.println("Please enter the number corresponding to which Category you want.");
+		System.out.println("");
+		System.out.println("1 - Book");
+		System.out.println("2 - Movie");
+		
+		int CategoryChoice = CategoryReaderHelper();
+		
+		System.out.println("Please enter the file name of " +  BooksOrMovies);
+		ScannerObj.reset();
+		String MovieorBookPath = ScannerObj.nextLine();
+		
+		T[] MovieorBookArray = PathReaderHelper(MovieorBookPath, CategoryChoice);
 
 		System.out.println("Please enter the file name of Ratings");
 		String RatingPath = ScannerObj.nextLine();
@@ -50,45 +60,93 @@ public class RecommenderApplication {
 	
 		int RecommendationChoice = RecommenderReaderHelper();
 		
-		IMovieRecommender RecommenderObject = null;
+		IMovieRecommender MovieRecommenderObject = null;
+		IRecommender RecommenderObject = null;
 		
 		System.out.println("Please enter your User ID.");
-		UserGenreReaderHelper(RecommenderObject,RecommendationChoice,ratingArray,movieArray);
+		UserGenreReaderHelper(MovieRecommenderObject,RecommenderObject,RecommendationChoice,ratingArray,MovieorBookArray,CategoryChoice);
 		System.exit(0);
 		
+	}
+	
+	/**
+	 * This Helper method loops until the user gives the input of 1 or 2 to figure what 
+	 * category they want recommendations for.
+	 * @return Category Choice (1) - Book , (2) - Movie
+	 */
+	
+	public static int CategoryReaderHelper() {
+
+		String CategoryChoice;
+
+		CategoryChoice = ScannerObj.nextLine();
+
+		while (!CategoryChoice.equals("1") && !CategoryChoice.equals("2")) {
+
+			System.out.println("Please Enter a number between 1 and 2.");
+			CategoryChoice = ScannerObj.nextLine();
+
+		}
+		
+		if(Integer.parseInt(CategoryChoice) == 1) {
+			BooksOrMovies = "Book";
+		}else {
+			BooksOrMovies = "Movie";
+		}
+
+		return Integer.parseInt(CategoryChoice);
 	}
 
 	/**
 	 * This helper method validates the file path given and throws appropriate
 	 * errors if invalid, at which point if it is valid, it loads the file with the
-	 * movies into a movie array and then returns it.
+	 * movies/Books into a Generic array and then returns it.
+	 * @param <T>
 	 * 
-	 * @param MoviePathString the path of the movie csv file.
-	 * @return Movie Array loaded with the loadmovies method from the movie csv
+	 * @param PathString the path of the movie/Books csv file.
+	 * @param CategoryChoice  by the User (1) - Book, (2) - Movie
+	 * @return Generic Array loaded with the loadmovies/loadbooks method from the movie/books csv
 	 *         file.
 	 * @throws IOException
 	 */
 	
 	
-	public static Movie[] MovieReaderHelper(String MoviePathString) throws IOException {
+	@SuppressWarnings("unchecked")
+	public static <T> T[] PathReaderHelper(String PathString,int CategoryChoice) throws IOException {
 
+		if(CategoryChoice == 1) {
+			try {
+				GoodReadsFileReader.loadBooks(PathString);
+			}
+			catch (Exception NoSuchFileException) {
+
+				System.out.println("Book file not found, Please enter a valid Book file again.");
+				PathString = ScannerObj.nextLine();
+				PathReaderHelper(PathString,CategoryChoice);
+			}
+			return (T[])GoodReadsFileReader.loadBooks(PathString);
+		}
+		else {
 		try {
-			MovieLensFileReader.loadMovies(MoviePathString);
+			MovieLensFileReader.loadMovies(PathString);
 		} catch (Exception NoSuchFileException) {
 
 			System.out.println("Movie file not found, Please enter a valid movie file again.");
-			MoviePathString = ScannerObj.nextLine();
-			MovieReaderHelper(MoviePathString);
+			PathString = ScannerObj.nextLine();
+		    PathReaderHelper(PathString,CategoryChoice);
 		}
-		return MovieLensFileReader.loadMovies(MoviePathString);
+		return (T[])MovieLensFileReader.loadMovies(PathString);
 	}
-
+	}
 
 
 	/**
 	 * This helper method validates the file path given and throws appropriate
 	 * errors if invalid, at which point if it is valid, it loads the file with the
 	 * ratings into a rating array and then returns it.
+	 * 
+	 * Side note, regardless of which category we get, we can use the same load ratings regardless
+	 * since both have the exact same logic behind it.
 	 * 
 	 * @param RatingPathString the Path of the rating csv file.
 	 * @return Rating Array loaded with the loadratings method from the ratings csv
@@ -161,16 +219,17 @@ public class RecommenderApplication {
 	/**
 	 *  This Helper Method is used to validate the Genre that the user enters. this method passes
 	 *  through all the movies and stores all possible genres used in the file.
-	 * @param MovieArray
+	 * @param <T>
+	 * @param movieorBookArray
 	 * @return String Genre Array with All existing Genres used in the file.
 	 */
 	
-public static String[] GenreArrayHelper(Movie[] MovieArray) {
+public static <T> String[] GenreArrayHelper(T[] movieorBookArray) {
 		
 		ArrayList GenreList = new ArrayList();
 		
-		for(int i = 0;i < MovieArray.length;i++) {
-			String[] TempGenreArray = MovieArray[i].getGenres();
+		for(int i = 0;i < movieorBookArray.length;i++) {
+			String[] TempGenreArray = ((Movie) movieorBookArray[i]).getGenres();
 			
 			for(int j=0; j< TempGenreArray.length;j++) {
 				
@@ -194,21 +253,25 @@ public static String[] GenreArrayHelper(Movie[] MovieArray) {
      * this Method takes as input the UserID and a Genre from the user and validates it with 
      * helper methods, then depending on the value in userchoice it will then display you
      * all the movies with that genre. (will take userid into consideration if the choice General is taken)
+     * @param <T>
      * @param RecommenderObject is a default IMovieRecommender Object used for polymorphism.
      * @param userchoice is the choice of the user (1) Popular (2) General
      * @param ratingArray 
-     * @param movieArray
+     * @param movieorBookArray
      */
 	
-	public static void UserGenreReaderHelper(IMovieRecommender RecommenderObject, int userchoice,Rating[] ratingArray,Movie[] movieArray) {
+	public static <T> void UserGenreReaderHelper(IMovieRecommender MovieRecommenderObject,IRecommender RecommenderObject,int userchoice,Rating[] ratingArray,T[] movieorBookArray,int CategoryChoice) {
 
 		String GenreChoice;
 		String UserID;
 		int[] allExistingUsers = UserArrayHelper(ratingArray);
-		String[] allExistingGenres = GenreArrayHelper(movieArray);
 		int userExist = 0;
 		int genreExist = 0;
 		int choiceall = 0;
+		int amountofmovies;
+		int numofmovies = 10;
+		
+		
 		
 		UserID = ScannerObj.nextLine();
 		
@@ -220,7 +283,7 @@ public static String[] GenreArrayHelper(Movie[] MovieArray) {
 		}
 		catch(NumberFormatException Exception){
 			System.out.println("Please Enter a valid number");
-			UserGenreReaderHelper(RecommenderObject,userchoice,ratingArray,movieArray);
+			UserGenreReaderHelper(MovieRecommenderObject,RecommenderObject,userchoice,ratingArray,movieorBookArray,CategoryChoice);
 		}
 		for(int i = 0; i < allExistingUsers.length; i++) {
 			if(Integer.parseInt(UserID) == allExistingUsers[i]) {
@@ -229,14 +292,18 @@ public static String[] GenreArrayHelper(Movie[] MovieArray) {
 		}
 			if(userExist == 0) {
 				System.out.println("Please Enter a User ID that exists or that has done ratings");
-				UserGenreReaderHelper(RecommenderObject,userchoice,ratingArray,movieArray);
+				UserGenreReaderHelper(MovieRecommenderObject,RecommenderObject,userchoice,ratingArray,movieorBookArray,CategoryChoice);
 			}
 		
+		ArrayList<Movie> RecommendedMovies = null;
 		
+		
+		if(CategoryChoice == 2) {
+			String[] allExistingGenres = GenreArrayHelper(movieorBookArray);
 		System.out.println("Please enter the Genre you want Recommendations for.");
 		GenreChoice = ScannerObj.nextLine();
 		
-		if(GenreChoice.equals("ALL")) {
+		if(GenreChoice.equalsIgnoreCase("ALL")) {
 			genreExist = 1;
 			choiceall = 1;
 		}
@@ -255,44 +322,101 @@ public static String[] GenreArrayHelper(Movie[] MovieArray) {
 						genreExist = 1;
 					}
 			    }
+				if(GenreChoice.equalsIgnoreCase("ALL")) {
+					genreExist = 1;
+					choiceall = 1;
+				}
 			   }
 			}
+			
+			
 				
 		
-		
 		if(userchoice == 1) {
-			 RecommenderObject = new PopularRecommender(ratingArray,movieArray);
-			 
-		}
-		else {
-			RecommenderObject = new PersonalizedRecommender(movieArray,ratingArray);
+			 MovieRecommenderObject =   new PopularMovieRecommender((Movie[]) movieorBookArray,ratingArray);
+			 if(choiceall == 1) {
+				 RecommendedMovies= MovieRecommenderObject.recommend(Integer.parseInt(UserID), 10);
+			 }
+			 else {
+				 RecommendedMovies= MovieRecommenderObject.recommend(Integer.parseInt(UserID), 1000,GenreChoice);
+			 }
+			 System.out.println("there is " + RecommendedMovies.size() + " movies recommended to you.");
+				System.out.println("How many Movies would you like to print out?");
+				numofmovies = ScannerObj.nextInt();
+				ScannerObj.nextLine();
+				
+				while(numofmovies>RecommendedMovies.size() || numofmovies <= 0) {
+					System.out.println("Please enter a valid amount of movies");
+					 numofmovies = ScannerObj.nextInt();
+					ScannerObj.nextLine();
+				}
+				
 
 		}
-		 Movie[] RecommendedMovies= RecommenderObject.recommend(Integer.parseInt(UserID), movieArray.length, GenreChoice);
-			if(choiceall == 1) {
-				RecommendedMovies= RecommenderObject.recommend(Integer.parseInt(UserID), movieArray.length);
-			}
-			
-			
-			System.out.println("there is " + RecommendedMovies.length + " movies recommended to you.");
-			System.out.println("How many Movies would you like to print out?");
-			int numofmovies = ScannerObj.nextInt();
-			ScannerObj.nextLine();
-			
-			while(numofmovies>RecommendedMovies.length || numofmovies <= 0) {
-				System.out.println("Please enter a valid amount of movies");
-				 numofmovies = ScannerObj.nextInt();
+		if(userchoice == 2) {
+			MovieRecommenderObject =  new PersonalizedMovieRecommender((Movie[]) movieorBookArray,ratingArray);
+			 if(choiceall == 1) {
+				 RecommendedMovies= MovieRecommenderObject.recommend(Integer.parseInt(UserID), 10000);
+			 }
+			 else {
+				 RecommendedMovies= MovieRecommenderObject.recommend(Integer.parseInt(UserID),10000,GenreChoice);
+			 }
+			 System.out.println("there is " + RecommendedMovies.size() + " movies recommended to you.");
+				System.out.println("How many Movies would you like to print out?");
+				numofmovies = ScannerObj.nextInt();
 				ScannerObj.nextLine();
-			}
+				
+				while(numofmovies>RecommendedMovies.size() || numofmovies <= 0) {
+					System.out.println("Please enter a valid amount of movies");
+					 numofmovies = ScannerObj.nextInt();
+					ScannerObj.nextLine();
+				}
+		}
+		
 			
+		}
+         if(CategoryChoice == 1) {
+
+     		if(userchoice == 1) {
+     			 RecommenderObject =   new PopularRecommender(ratingArray,(Item[]) movieorBookArray);
+     			 RecommendedMovies= RecommenderObject.recommend(Integer.parseInt(UserID), 10000);
+     			 
+     			 System.out.println("there is " + RecommendedMovies.size() + " Books recommended to you.");
+     				System.out.println("How many Books would you like to print out?");
+     				numofmovies = ScannerObj.nextInt();
+     				ScannerObj.nextLine();
+     				
+     				while(numofmovies>RecommendedMovies.size() || numofmovies <= 0) {
+     					System.out.println("Please enter a valid amount of Books");
+     					 numofmovies = ScannerObj.nextInt();
+     					ScannerObj.nextLine();
+     				}
+     				
+
+     		}
+     		if(userchoice == 2) {
+     			RecommenderObject =  new PersonalizedRecommender((Item[]) movieorBookArray,ratingArray);
+     			 RecommendedMovies= RecommenderObject.recommend(Integer.parseInt(UserID), 10000);
+     			
+     			 System.out.println("there is " + RecommendedMovies.size() + " Books recommended to you.");
+     				System.out.println("How many Books would you like to print out?");
+     				numofmovies = ScannerObj.nextInt();
+     				ScannerObj.nextLine();
+     				
+     				while(numofmovies>RecommendedMovies.size() || numofmovies <= 0) {
+     					System.out.println("Please enter a valid amount of Books");
+     					 numofmovies = ScannerObj.nextInt();
+     					ScannerObj.nextLine();
+     				}
+     		}
+         }
 			
-		System.out.println("Here are all your movies Choices:");
+		System.out.println("Here are all your Choices:");
 		System.out.println("");
 		for(int i = 0; i < numofmovies;i++) {
-			System.out.println(RecommendedMovies[i]);
+			System.out.println(RecommendedMovies.get(i));
 		}
-		System.out.println("");
-		System.out.print("there is " + numofmovies + " movies recommended to you.");
+	
 	}
 	
 	

@@ -1,5 +1,5 @@
 package recommendation.movies;
-import interfaces.Item;
+import recommendation.interfaces.Item;
 
 /**
  * @author Michael Azem
@@ -131,8 +131,8 @@ public class Movie implements Item {
 		}
 		return false;
 	}
- public String toString() {
-	 String output=this.ID+ '\t' + this.MovieName+'\t'+ this.Year;
-	 return output;
- }
+	public String toString() {
+		String output=this.ID+ '\t' + this.MovieName+'\t'+ this.Year;
+		return output;
+	}
 }

@@ -3,23 +3,25 @@
  */
 package recommendation.movies;
 
+import recommendation.interfaces.Item;
+
 /**
  * @author Kevin Armstrong Rwigamba
  *
  */
-public class RecommendAssist {
+public class RecommendAssist<T extends Item> {
 	
-	private Movie movie;
+	private T media;
 	private double rating;
 	 
 	 /**Helper object to store movies to be recommended
 	  * 
-	  * @param movie
+	  * @param media
 	  * @param rating
 	  */
-	 public RecommendAssist(Movie movie,double rating) {
+	 public RecommendAssist(T media,double rating) {
 	  
-	  this.movie=movie;
+	  this.media=media;
 	  this.rating=rating;
 	 }
 	 
@@ -28,8 +30,8 @@ public class RecommendAssist {
 	  * 
 	  * @return
 	  */
-	 public Movie getMovie() {
-	  return this.movie;
+	 public T getMedia() {
+	  return this.media;
 	 }
 	 
 	 /**
@@ -42,12 +44,10 @@ public class RecommendAssist {
 	 }
 	 /**
 	  * Overloaded Tostring method to print needed details
-				  j--;
-			  }
 	  * 
 	  */
 	 public String toString() {
-		 String output = this.movie.getId()+" "+this.movie.getName()+ " "+ this.movie.getYear()+ " rating: "+ rating;
+		 String output = this.media.getId()+" "+this.media.getName()+ " "+ " rating: "+ rating;
 		 return output;
 	 }
 

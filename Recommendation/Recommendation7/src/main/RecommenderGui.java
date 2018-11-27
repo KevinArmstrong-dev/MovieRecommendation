@@ -4,8 +4,9 @@
 package main;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
+import javafx.geometry.Insets;
 import javafx.application.*;
+import javafx.scene.*;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -23,7 +24,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 /**
  * @author Kevin Armstrong Rwigamba
- *
+ *@author Alexander Arella Girardot
  */
 public class RecommenderGui extends Application {
 	
@@ -35,7 +36,6 @@ public class RecommenderGui extends Application {
 		Scene  scene  =  new  Scene(root,  500,  300);        
 		scene.setFill(Color.WHITESMOKE);
 		
-		//Set the title for the application
 		stage.setTitle("Recommender");
 		VBox container=new VBox();
 		HBox thirdLine=new HBox();
@@ -49,31 +49,37 @@ public class RecommenderGui extends Application {
 		movie.setToggleGroup(itemType);
 		
 		//file path
-		TextField path =new TextField("/data/..");
-		TextField ratePath=new TextField("/data/..");
-		Label ratings=new Label("Ratings");
+		TextField path =new TextField("datafiles\\");
+		TextField ratePath=new TextField("datafiles\\");
+		Label ratings=new Label("Ratings: ");
 		
 		//Load and Save Button
 		Button load=new Button("Load");
 		Button save=new Button("Save");
 		
-		container.getChildren().addAll(book,movie);
 		//Adding the Third Line to the VBox
-		Label Item=new Label("Item");
+		Label Item=new Label("Item: ");
 		thirdLine.getChildren().addAll(Item,path,ratings,ratePath,load,save);
 		
 		//Adding The fourth Line the Vbox
-		Label userIdLbl=new Label("UserId");
+		Label userIdLbl=new Label("UserId: ");
 		TextField userIdTxt=new TextField();
 		//Here we shall add the list view after
-		RadioButton rating0=new RadioButton("0");
+		RadioButton rating0=new RadioButton("0"); // what is this?
 		fourthLine.getChildren().addAll(userIdLbl,userIdTxt,rating0);
+		HBox.setMargin(rating0, new Insets(5,5,0,5));
+		HBox.setMargin(movie, new Insets(5,5,0,5));
+		HBox.setMargin(book, new Insets(5,5,0,5));
+		HBox.setMargin(Item, new Insets(3,0,0,0));
+		HBox.setMargin(ratings, new Insets(3,0,0,0));
+		HBox.setMargin(userIdLbl, new Insets(3,0,0,0));
 		//Here we shall add the list view after
 		
 		
-		
+		fourthLine.getChildren().addAll(book, movie);
 		container.getChildren().addAll(thirdLine,fourthLine);
 		root.getChildren().add(container);
+		//container.getChildren().addAll(book,movie);
 		
 		stage.setScene(scene);       
 		stage.show();

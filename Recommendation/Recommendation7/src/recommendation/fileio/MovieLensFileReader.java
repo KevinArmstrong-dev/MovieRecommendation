@@ -1,5 +1,8 @@
 package recommendation.fileio;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
+import recommendation.interfaces.Saveable;
 import java.nio.*;
 import java.nio.file.*;
 import java.util.List;
@@ -37,5 +40,11 @@ public class MovieLensFileReader {
 				index++;
 		}
 		return ratArr;
+	}
+	public static <T extends Saveable> void saveToFile(T[] objects,String filepath,String fileHeader) {
+		Path path= Paths.get(filepath);
+		List<String> filecontent=new ArrayList<String>();
+		filecontent.add(fileHeader);
+		
 	}
 }

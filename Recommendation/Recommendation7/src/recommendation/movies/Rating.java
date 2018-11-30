@@ -1,10 +1,14 @@
 package recommendation.movies;
 
+import java.util.Date;
+
+import recommendation.interfaces.Saveable;
+
 /**
  * @author Alexander Arella Girardot
  * Object for the ratings from a user of a specified movie
  */
-public class Rating {
+public class Rating implements Saveable {
 	private int userId;
 	private String movieId;
 	private double rating;
@@ -82,5 +86,11 @@ public class Rating {
 	@Override
 	public String toString() {
 		return "User ID: " + this.userId + '\t' + "Movie ID: " + this.movieId + '\t' + "Rating: " + this.rating;
+	}
+	public String toRawString() {
+		Date date=new Date();
+		
+		String output=this.userId+","+this.movieId+","+this.rating+","+date.toString();
+		return output;
 	}
 }

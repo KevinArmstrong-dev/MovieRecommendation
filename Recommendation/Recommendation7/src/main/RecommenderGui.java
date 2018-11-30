@@ -59,7 +59,11 @@ public class RecommenderGui extends Application {
 		
 		//Adding the Third Line to the VBox
 		Label Item=new Label("Item: ");
+<<<<<<< HEAD
 		firstLine.getChildren().addAll(Item, book, movie, path,ratings,ratePath,load,save);
+=======
+		firstLine.getChildren().addAll(Item,path,ratings,ratePath,load,save);
+>>>>>>> 110f25634323d6fb4b5289a57edee374911ae59c
 		
 		//Adding The fourth Line the VBox
 		Label userIdLbl=new Label("UserId: ");
@@ -78,19 +82,34 @@ public class RecommenderGui extends Application {
 		rating4.setToggleGroup(ratingNums);
 		RadioButton rating5=new RadioButton("5");
 		rating5.setToggleGroup(ratingNums);
+<<<<<<< HEAD
 		secondLine.getChildren().addAll(userIdLbl,userIdTxt, cbItems, rating0, rating1, rating2, rating3, rating4, rating5);
+=======
+		secondLine.getChildren().addAll(userIdLbl,userIdTxt,rating0, rating1, rating2, rating3, rating4, rating5);
+>>>>>>> 110f25634323d6fb4b5289a57edee374911ae59c
 		HBox.setMargin(rating0, new Insets(5,5,0,5));
 		HBox.setMargin(rating1, new Insets(5,5,0,5));
 		HBox.setMargin(rating2, new Insets(5,5,0,5));
 		HBox.setMargin(rating3, new Insets(5,5,0,5));
 		HBox.setMargin(rating4, new Insets(5,5,0,5));
 		HBox.setMargin(rating5, new Insets(5,5,0,5));
+<<<<<<< HEAD
 		HBox.setMargin(movie, new Insets(3,5,0,5));
 		HBox.setMargin(book, new Insets(3,5,0,5));
+=======
+		HBox.setMargin(movie, new Insets(5,5,0,5));
+		HBox.setMargin(book, new Insets(5,5,0,5));
+>>>>>>> 110f25634323d6fb4b5289a57edee374911ae59c
 		HBox.setMargin(Item, new Insets(3,0,0,0));
 		HBox.setMargin(ratings, new Insets(3,0,0,0));
 		HBox.setMargin(userIdLbl, new Insets(3,0,0,0));
 		//Here we shall add the list view after
+<<<<<<< HEAD
+=======
+		
+		
+		secondLine.getChildren().addAll(book, movie);
+>>>>>>> 110f25634323d6fb4b5289a57edee374911ae59c
 		container.getChildren().addAll(firstLine,secondLine);
 		root.getChildren().add(container);
 		//container.getChildren().addAll(book,movie);

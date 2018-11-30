@@ -42,6 +42,13 @@ public class MovieLensFileReader {
 		}
 		return ratArr;
 	}
+	/**
+	 * Franco G. Moro
+	 * @param objects
+	 * @param filepath
+	 * @param fileHeader
+	 * Saves a copy of an array of Books/Ratings, one could also use the same method from GoodReadsFileReader instead.
+	 */
 	public static <T extends Saveable> void saveToFile(T[] objects,String filepath,String fileHeader) {
 		Path path= Paths.get(filepath);
 		List<String> filecontent=new ArrayList<String>();

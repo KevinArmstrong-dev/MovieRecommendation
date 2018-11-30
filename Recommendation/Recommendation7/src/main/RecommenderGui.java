@@ -1,15 +1,13 @@
-/**
- * 
- */
 package main;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
 import javafx.geometry.Insets;
 import javafx.application.*;
+import javafx.collections.*;
 import javafx.scene.*;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
@@ -41,6 +39,8 @@ public class RecommenderGui extends Application {
 		HBox firstLine=new HBox();
 		HBox secondLine=new HBox();
 
+		//Select list
+		ComboBox<String> cbItems = new ComboBox<String>(FXCollections.observableArrayList("Book", "Movie"));
 		//Radio buttons For Movie or Selection
 		ToggleGroup itemType=new ToggleGroup();
 		RadioButton book=new RadioButton("Book");
@@ -59,9 +59,9 @@ public class RecommenderGui extends Application {
 		
 		//Adding the Third Line to the VBox
 		Label Item=new Label("Item: ");
-		firstLine.getChildren().addAll(Item,path,ratings,ratePath,load,save);
+		firstLine.getChildren().addAll(Item, book, movie, path,ratings,ratePath,load,save);
 		
-		//Adding The fourth Line the Vbox
+		//Adding The fourth Line the VBox
 		Label userIdLbl=new Label("UserId: ");
 		TextField userIdTxt=new TextField();
 		//Here we shall add the list view after
@@ -78,26 +78,22 @@ public class RecommenderGui extends Application {
 		rating4.setToggleGroup(ratingNums);
 		RadioButton rating5=new RadioButton("5");
 		rating5.setToggleGroup(ratingNums);
-		secondLine.getChildren().addAll(userIdLbl,userIdTxt,rating0, rating1, rating2, rating3, rating4, rating5);
+		secondLine.getChildren().addAll(userIdLbl,userIdTxt, cbItems, rating0, rating1, rating2, rating3, rating4, rating5);
 		HBox.setMargin(rating0, new Insets(5,5,0,5));
 		HBox.setMargin(rating1, new Insets(5,5,0,5));
 		HBox.setMargin(rating2, new Insets(5,5,0,5));
 		HBox.setMargin(rating3, new Insets(5,5,0,5));
 		HBox.setMargin(rating4, new Insets(5,5,0,5));
 		HBox.setMargin(rating5, new Insets(5,5,0,5));
-		HBox.setMargin(movie, new Insets(5,5,0,5));
-		HBox.setMargin(book, new Insets(5,5,0,5));
+		HBox.setMargin(movie, new Insets(3,5,0,5));
+		HBox.setMargin(book, new Insets(3,5,0,5));
 		HBox.setMargin(Item, new Insets(3,0,0,0));
 		HBox.setMargin(ratings, new Insets(3,0,0,0));
 		HBox.setMargin(userIdLbl, new Insets(3,0,0,0));
 		//Here we shall add the list view after
-		
-		
-		secondLine.getChildren().addAll(book, movie);
 		container.getChildren().addAll(firstLine,secondLine);
 		root.getChildren().add(container);
 		//container.getChildren().addAll(book,movie);
-		
 		stage.setScene(scene);       
 		stage.show();
 	

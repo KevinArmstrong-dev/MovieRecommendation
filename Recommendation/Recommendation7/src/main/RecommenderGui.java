@@ -31,15 +31,15 @@ public class RecommenderGui extends Application {
 
 	@Override
 	public void start(Stage stage) {
-		
+		stage.setWidth(800);
 		Group root=new Group();
 		Scene  scene  =  new  Scene(root,  500,  300);        
 		scene.setFill(Color.WHITESMOKE);
 		
 		stage.setTitle("Recommender");
 		VBox container=new VBox();
-		HBox thirdLine=new HBox();
-		HBox fourthLine=new HBox();
+		HBox firstLine=new HBox();
+		HBox secondLine=new HBox();
 
 		//Radio buttons For Movie or Selection
 		ToggleGroup itemType=new ToggleGroup();
@@ -59,15 +59,32 @@ public class RecommenderGui extends Application {
 		
 		//Adding the Third Line to the VBox
 		Label Item=new Label("Item: ");
-		thirdLine.getChildren().addAll(Item,path,ratings,ratePath,load,save);
+		firstLine.getChildren().addAll(Item,path,ratings,ratePath,load,save);
 		
 		//Adding The fourth Line the Vbox
 		Label userIdLbl=new Label("UserId: ");
 		TextField userIdTxt=new TextField();
 		//Here we shall add the list view after
-		RadioButton rating0=new RadioButton("0"); // what is this?
-		fourthLine.getChildren().addAll(userIdLbl,userIdTxt,rating0);
+		ToggleGroup ratingNums = new ToggleGroup();
+		RadioButton rating0=new RadioButton("0");
+		rating0.setToggleGroup(ratingNums);
+		RadioButton rating1=new RadioButton("1");
+		rating1.setToggleGroup(ratingNums);
+		RadioButton rating2=new RadioButton("2");
+		rating2.setToggleGroup(ratingNums);
+		RadioButton rating3=new RadioButton("3");
+		rating3.setToggleGroup(ratingNums);
+		RadioButton rating4=new RadioButton("4");
+		rating4.setToggleGroup(ratingNums);
+		RadioButton rating5=new RadioButton("5");
+		rating5.setToggleGroup(ratingNums);
+		secondLine.getChildren().addAll(userIdLbl,userIdTxt,rating0, rating1, rating2, rating3, rating4, rating5);
 		HBox.setMargin(rating0, new Insets(5,5,0,5));
+		HBox.setMargin(rating1, new Insets(5,5,0,5));
+		HBox.setMargin(rating2, new Insets(5,5,0,5));
+		HBox.setMargin(rating3, new Insets(5,5,0,5));
+		HBox.setMargin(rating4, new Insets(5,5,0,5));
+		HBox.setMargin(rating5, new Insets(5,5,0,5));
 		HBox.setMargin(movie, new Insets(5,5,0,5));
 		HBox.setMargin(book, new Insets(5,5,0,5));
 		HBox.setMargin(Item, new Insets(3,0,0,0));
@@ -76,8 +93,8 @@ public class RecommenderGui extends Application {
 		//Here we shall add the list view after
 		
 		
-		fourthLine.getChildren().addAll(book, movie);
-		container.getChildren().addAll(thirdLine,fourthLine);
+		secondLine.getChildren().addAll(book, movie);
+		container.getChildren().addAll(firstLine,secondLine);
 		root.getChildren().add(container);
 		//container.getChildren().addAll(book,movie);
 		

@@ -5,6 +5,7 @@ import java.io.IOException;
 import recommendation.interfaces.Saveable;
 import java.nio.*;
 import java.nio.file.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import recommendation.movies.Movie;
@@ -45,6 +46,18 @@ public class MovieLensFileReader {
 		Path path= Paths.get(filepath);
 		List<String> filecontent=new ArrayList<String>();
 		filecontent.add(fileHeader);
+		for(Object x:objects) {
+			Saveable Field=(Saveable)x;
+			String s=Field.toRawString();
+			filecontent.add(s);
+		}
+		try {
+			Files.write(path, filecontent);			
+		}
+		catch(IOException e) {
+			System.out.println(e+"--Invalid Path");
+		}
+		
 		
 	}
 }

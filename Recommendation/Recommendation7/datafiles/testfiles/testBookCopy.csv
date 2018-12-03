@@ -1,0 +1,100 @@
+userid,movieid,rating,timestamp
+1,,,,,439023483,,Suzanne Collins,,,The Hunger Games (The Hunger Games, #1)
+2,,,,,439554934,,J.K. Rowling%2C  Mary GrandPré,,,Harry Potter and the Sorcerer's Stone (Harry Potter, #1)
+3,,,,,316015849,,Stephenie Meyer,,,Twilight (Twilight, #1)
+4,,,,,61120081,,Harper Lee,,,To Kill a Mockingbird
+5,,,,,743273567,,F. Scott Fitzgerald,,,The Great Gatsby
+6,,,,,525478817,,John Green,,,The Fault in Our Stars
+7,,,,,618260307,,J.R.R. Tolkien,,,The Hobbit
+8,,,,,316769177,,J.D. Salinger,,,The Catcher in the Rye
+9,,,,,1416524797,,Dan Brown,,,Angels & Demons  (Robert Langdon, #1)
+10,,,,,679783261,,Jane Austen,,,Pride and Prejudice
+11,,,,,1594480001,,Khaled Hosseini,,,The Kite Runner
+12,,,,,62024035,,Veronica Roth,,,Divergent (Divergent, #1)
+13,,,,,451524934,,George Orwell%2C  Erich Fromm%2C  Celâl Üster,,,1984
+14,,,,,452284244,,George Orwell,,,Animal Farm
+15,,,,,553296981,,Anne Frank%2C  Eleanor Roosevelt%2C  B.M. Mooyaart-Doubleday,,,The Diary of a Young Girl
+16,,,,,307269752,,Stieg Larsson%2C  Reg Keeland,,,The Girl with the Dragon Tattoo (Millennium, #1)
+17,,,,,439023491,,Suzanne Collins,,,Catching Fire (The Hunger Games, #2)
+18,,,,,043965548X,,J.K. Rowling%2C  Mary GrandPré%2C  Rufus Beck,,,Harry Potter and the Prisoner of Azkaban (Harry Potter, #3)
+19,,,,,618346252,,J.R.R. Tolkien,,,The Fellowship of the Ring (The Lord of the Rings, #1)
+20,,,,,439023513,,Suzanne Collins,,,Mockingjay (The Hunger Games, #3)
+21,,,,,439358078,,J.K. Rowling%2C  Mary GrandPré,,,Harry Potter and the Order of the Phoenix (Harry Potter, #5)
+22,,,,,316166685,,Alice Sebold,,,The Lovely Bones
+23,,,,,439064864,,J.K. Rowling%2C  Mary GrandPré,,,Harry Potter and the Chamber of Secrets (Harry Potter, #2)
+24,,,,,439139600,,J.K. Rowling%2C  Mary GrandPré,,,Harry Potter and the Goblet of Fire (Harry Potter, #4)
+25,,,,,545010225,,J.K. Rowling%2C  Mary GrandPré,,,Harry Potter and the Deathly Hallows (Harry Potter, #7)
+26,,,,,307277674,,Dan Brown,,,The Da Vinci Code (Robert Langdon, #2)
+27,,,,,439785960,,J.K. Rowling%2C  Mary GrandPré,,,Harry Potter and the Half-Blood Prince (Harry Potter, #6)
+28,,,,,140283331,,William Golding,,,Lord of the Flies
+29,,,,,743477111,,William Shakespeare%2C  Robert           Jackson,,,Romeo and Juliet
+30,,,,,297859382,,Gillian Flynn,,,Gone Girl
+31,,,,,399155341,,Kathryn Stockett,,,The Help
+32,,,,,142000671,,John Steinbeck,,,Of Mice and Men
+33,,,,,739326228,,Arthur Golden,,,Memoirs of a Geisha
+34,,,,,1612130291,,E.L. James,,,Fifty Shades of Grey (Fifty Shades, #1)
+35,,,,,61122416,,Paulo Coelho%2C  Alan R. Clarke,,,The Alchemist
+36,,,,,385732554,,Lois Lowry,,,The Giver (The Giver, #1)
+37,,,,,60764899,,C.S. Lewis,,,The Lion, the Witch, and the Wardrobe (Chronicles of Narnia, #1)
+38,,,,,965818675,,Audrey Niffenegger,,,The Time Traveler's Wife
+39,,,,,553588486,,George R.R. Martin,,,A Game of Thrones (A Song of Ice and Fire, #1)
+40,,,,,143038419,,Elizabeth Gilbert,,,Eat, Pray, Love
+41,,,,,786838655,,Rick Riordan,,,The Lightning Thief (Percy Jackson and the Olympians, #1)
+42,,,,,451529308,,Louisa May Alcott,,,Little Women (Little Women, #1)
+43,,,,,142437204,,Charlotte Brontë%2C  Michael Mason,,,Jane Eyre
+44,,,,,553816713,,Nicholas Sparks,,,The Notebook (The Notebook, #1)
+45,,,,,770430074,,Yann Martel,,,Life of Pi
+46,,,,,1565125606,,Sara Gruen,,,Water for Elephants
+47,,,,,375831002,,Markus Zusak,,,The Book Thief
+48,,,,,307347974,,Ray Bradbury,,,Fahrenheit 451
+49,,,,,316160199,,Stephenie Meyer,,,New Moon (Twilight, #2)
+50,,,,,60513039,,Shel Silverstein,,,Where the Sidewalk Ends
+51,,,,,1416914285,,Cassandra Clare,,,City of Bones (The Mortal Instruments, #1)
+52,,,,,316160202,,Stephenie Meyer,,,Eclipse (Twilight, #3)
+53,,,,,375826696,,Christopher Paolini,,,Eragon (The Inheritance Cycle, #1)
+54,,,,,345391802,,Douglas Adams,,,The Hitchhiker's Guide to the Galaxy (Hitchhiker's Guide to the Galaxy, #1)
+55,,,,,60929871,,Aldous Huxley,,,Brave New World
+56,,,,,031606792X,,Stephenie Meyer,,,Breaking Dawn (Twilight, #4)
+57,,,,,142001740,,Sue Monk Kidd,,,The Secret Life of Bees
+58,,,,,142437174,,Mark Twain%2C  John Seelye%2C  Guy Cardwell,,,The Adventures of Huckleberry Finn
+59,,,,,64410935,,E.B. White%2C  Garth Williams%2C  Rosemary Wells,,,Charlotte's Web
+60,,,,,1400032717,,Mark Haddon,,,The Curious Incident of the Dog in the Night-Time
+61,,,,,1594633665,,Paula Hawkins,,,The Girl on the Train
+62,,,,,679879242,,Philip Pullman,,,The Golden Compass (His Dark Materials, #1)
+63,,,,,393978893,,Emily Brontë%2C  Richard J. Dunn,,,Wuthering Heights
+64,,,,,743454537,,Jodi Picoult,,,My Sister's Keeper
+65,,,,,385333846,,Kurt Vonnegut Jr.,,,Slaughterhouse-Five
+66,,,,,446675539,,Margaret Mitchell,,,Gone with the Wind
+67,,,,,1594489505,,Khaled Hosseini,,,A Thousand Splendid Suns
+68,,,,,671027344,,Stephen Chbosky,,,The Perks of Being a Wallflower
+69,,,,,7442912,,Veronica Roth,,,Insurgent (Divergent, #2)
+70,,,,,812550706,,Orson Scott Card,,,Ender's Game (Ender's Saga, #1)
+71,,,,,141439475,,Mary Wollstonecraft Shelley%2C  Percy Bysshe Shelley%2C  Maurice Hindle,,,Frankenstein
+72,,,,,450040186,,Stephen King,,,The Shining (The Shining #1)
+73,,,,,316068047,,Stephenie Meyer,,,The Host (The Host, #1)
+74,,,,,142402516,,John Green,,,Looking for Alaska
+75,,,,,014028009X,,Helen Fielding,,,Bridget Jones's Diary (Bridget Jones, #1)
+76,,,,,141439661,,Jane Austen%2C  Tony Tanner%2C  Ros Ballaster,,,Sense and Sensibility
+77,,,,,439244196,,Louis Sachar%2C  Louis Sachar,,,Holes (Holes, #1)
+78,,,,,307275558,,Lauren Weisberger,,,The Devil Wears Prada (The Devil Wears Prada, #1)
+79,,,,,143039954,,Homer%2C  Robert Fagles%2C  E.V. Rieu%2C  Frédéric Mugler%2C  Bernard Knox,,,The Odyssey
+80,,,,,156012197,,Antoine de Saint-Exupéry%2C  Richard Howard%2C  Dom Marcos Barbosa%2C  Melina Karakosta,,,The Little Prince
+81,,,,,074324754X,,Jeannette Walls,,,The Glass Castle
+82,,,,,385486804,,Jon Krakauer,,,Into the Wild
+83,,,,,141439602,,Charles Dickens%2C  Richard Maxwell%2C  Hablot Knight Browne,,,A Tale of Two Cities
+84,,,,,030734813X,,Michael Crichton,,,Jurassic Park (Jurassic Park, #1)
+85,,,,,60256656,,Shel Silverstein,,,The Giving Tree
+86,,,,,385338600,,John Grisham,,,A Time to Kill
+87,,,,,374500010,,Elie Wiesel%2C  Marion Wiesel,,,Night (The Night Trilogy #1)
+88,,,,,014241493X,,John Green,,,Paper Towns
+89,,,,,345418263,,William Goldman,,,The Princess Bride 
+90,,,,,014038572X,,S.E. Hinton,,,The Outsiders
+91,,,,,385737947,,James Dashner,,,The Maze Runner (Maze Runner, #1)
+92,,,,,61234001,,Steven D. Levitt%2C  Stephen J. Dubner,,,Freakonomics: A Rogue Economist Explores the Hidden Side of Everything (Freakonomics, #1)
+93,,,,,517189607,,Frances Hodgson Burnett,,,The Secret Garden
+94,,,,,60531045,,Gabriel García Márquez%2C  Gregory Rabassa,,,One Hundred Years of Solitude
+95,,,,,375751513,,Oscar Wilde%2C  Jeffrey Eugenides,,,The Picture of Dorian Gray
+96,,,,,345803507,,E.L. James,,,Fifty Shades Freed (Fifty Shades, #3)
+97,,,,,393970124,,Bram Stoker%2C  Nina Auerbach%2C  David J. Skal,,,Dracula
+98,,,,,307269981,,Stieg Larsson%2C  Reg Keeland,,,The Girl Who Played with Fire (Millennium, #2)
+99,,,,,1612130585,,E.L. James,,,Fifty Shades Darker (Fifty Shades, #2)

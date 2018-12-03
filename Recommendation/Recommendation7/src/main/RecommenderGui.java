@@ -34,7 +34,7 @@ public class RecommenderGui extends Application {
 
 	@Override
 	public void start(Stage stage) {
-		
+		stage.setWidth(800);
 		Group root=new Group();
 		Scene  scene  =  new  Scene(root,  600,  300);        
 		scene.setFill(Color.WHITESMOKE);

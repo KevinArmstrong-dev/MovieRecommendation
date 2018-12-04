@@ -72,7 +72,7 @@ public class RecommenderGui extends Application {
 		TextArea recommendTxt = new TextArea();
 		
 		TextField userIdTxt=new TextField();
-		TextField numOfRecommendsTxt = new TextField();
+		TextField numOfRecommendsTxt = new TextField("Number of recommends");
 		recommendBtn.setOnAction(new EventHandler<ActionEvent>() {
 			/**
 			 * @author Alexander Arella Girardot
@@ -133,6 +133,7 @@ public class RecommenderGui extends Application {
 		HBox.setMargin(genreTxt, new Insets(2.5, 5, 0, 0));
 		HBox.setMargin(personalBtn, new Insets(5, 5, 0, 0));
 		HBox.setMargin(popularBtn, new Insets(5, 20, 0, 0));
+		HBox.setMargin(numOfRecommendsTxt, new Insets(2.5,5,0,0));
 		popularBtn.setToggleGroup(recommendGroup);
 		thirdLine.getChildren().addAll(personalBtn, popularBtn, genreLbl, genreTxt, numOfRecommendsTxt, recommendBtn);
 		
@@ -197,11 +198,24 @@ public class RecommenderGui extends Application {
 		}
 		);
 		Button saveBtn=new Button("Save");
+		
+		/**
+		 * @author kevin Armstrong Rwigamba
+		 * 
+		 * This event will save the ratings given by the user to a new file
+		 */
 		saveBtn.setOnAction(new EventHandler<ActionEvent>() { 
 			
 			@Override
 			public void handle(ActionEvent e) {
-				//This is to check if the ratings file has been loaded 
+				if(movieBtn.isSelected()) {
+				MovieLensFileReader.saveToFile(ratArr, "datafiles/sorted/ratings2.csv", "userid,movieid,rating,timestamp"); 
+				
+				
+				}
+				else if(bookBtn.isSelected()) {
+					GoodReadsFileReader.saveToFile(ratArr, "datafiles/books/ratings2.csv", "user_id,book_id,rating");
+				}
 			}
 		}
 		);
@@ -238,9 +252,19 @@ public class RecommenderGui extends Application {
 		rating5.setUserData("rating5");
 		
 		Button ratingBtn = new Button("Rate!");
+		
+		/**
+		 * @author kevin Armstrong Rwigamba
+		 * 
+		 * This event will take the rating array and add the rating entered by the user
+		 * 
+		 */
 		ratingBtn.setOnAction(new EventHandler<ActionEvent>() {
 			
-			//private double rating=0;
+			/**
+			 * This method will return the matching rating selected by the user
+			 * @return
+			 */
 			private double ratingFinder() {
 				double rating=0;
 				switch(ratingNums.getSelectedToggle().getUserData().toString()) {
@@ -278,45 +302,40 @@ public class RecommenderGui extends Application {
 			}
 			@Override
 			public void handle(ActionEvent e) {
+				
+				//to update the rating given by the user
 				if(movieBtn.isSelected()) {
-				Rating[] ratings=null;
-				try {
-					ratings=MovieLensFileReader.loadRatings("datafiles/testfiles/testRatings.csv");
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					
+				Rating[] ratings2=Arrays.copyOf(ratArr,ratArr.length+1);
+				
+				for(int i=0;i<ratArr.length;i++) {
+					ratings2[i]=ratArr[i];
 				}
-				Rating[] ratings2=Arrays.copyOf(ratings,ratings.length+1);
-				System.out.println(ratings.length+" to"+ratings2.length);
-				for(int i=0;i<ratings.length;i++) {
-					ratings2[i]=ratings[i];
-				}
+				ratArr=ratings2;
+				//retrieving the rating given by the user by a helper method
 				double rating=ratingFinder();
+				
 				String tmp=userIdTxt.getText()+","+((Movie)cbItems.getValue()).getId()+","+Double.toString(rating)+","+"10101010";
-				System.out.println(tmp);
+				//System.out.println(tmp); for debugging purpose
+				
 				ratings2[ratings2.length-1]=new Rating(tmp);
 				
 			
-			
 				}
 				else if(bookBtn.isSelected()) {
-					Rating[] bookRating=null;
-					try {
-						bookRating=GoodReadsFileReader.loadRatings("datafiles/books/ratings.csv");
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						System.out.println("Invalid Path");
-					}
+					//Saving the rating of a book given by the current user
 					
-					Rating[] bookRating2=Arrays.copyOf(bookRating,bookRating.length+1);
-					for(int i=0;i<bookRating.length;i++) {
-						bookRating2[i]=bookRating[i];
+					Rating[] bookRating2=Arrays.copyOf(ratArr,ratArr.length+1);
+					for(int i=0;i<ratArr.length;i++) {
+						bookRating2[i]=ratArr[i];
 					}
+					ratArr=bookRating2;
 					double bookrating=ratingFinder();
-					String tmpBook=userIdTxt.getText()+","+((Book)cbItems.getValue()).getId()+","+Double.toString(bookrating)+","+"00";
+					String tmpBook=userIdTxt.getText()+","+((Book)cbItems.getValue()).getId()+","+Double.toString(bookrating);
 					System.out.println(tmpBook);
 					bookRating2[bookRating2.length-1]=new Rating(tmpBook) ;
 				}
+				//in case the user has not selected what to rate (Book or Movie) this button will be disabled 
 				else {
 					ratingBtn.isDisabled();
 				}

@@ -34,7 +34,7 @@ public class SaveableTest {
 		catch(IOException e) {
 			System.out.println(e);
 		}
-		MovieLensFileReader.saveToFile(bookArr, "datafiles/testfiles/testBookCopy.csv", "userid,movieid,rating,timestamp");
+		MovieLensFileReader.saveToFile(bookArr, "datafiles/testfiles/testBookCopy1.csv", "userid,movieid,rating,timestamp");
 	}
 	private static void BookRatingTest() {
 		Rating[] ratArr=new Rating[0];

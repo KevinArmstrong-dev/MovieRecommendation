@@ -1,6 +1,7 @@
 package main;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javafx.geometry.Insets;
 import javafx.application.*;
@@ -51,7 +52,7 @@ public class RecommenderGui extends Application {
 		HBox thirdLine = new HBox();
 		HBox fourthLine = new HBox();
 		//Select list
-		ComboBox<String> cbItems = new ComboBox<String>(FXCollections.observableArrayList());
+		ComboBox<Item> cbItems = new ComboBox<Item>(FXCollections.observableArrayList());
 		cbItems.setPromptText("Select");
 		//Radio buttons For Movie or Selection
 		ToggleGroup itemType=new ToggleGroup();
@@ -148,6 +149,8 @@ public class RecommenderGui extends Application {
 		
 		//Load and Save Button
 		Button loadBtn=new Button("Load");
+		//this is to check if the ratings file has been loaded
+
 		loadBtn.setOnAction(new EventHandler<ActionEvent>() { 
 			/**
 			 * @author Alexander Arella Girardot
@@ -159,6 +162,7 @@ public class RecommenderGui extends Application {
 				Rating[] ratingArr = null;
 				try {
 					ratingArr = GoodReadsFileReader.loadRatings(ratePath.getText());
+					
 				} catch (IOException e3){
 					System.out.println("Rating IOException");
 				}
@@ -169,10 +173,8 @@ public class RecommenderGui extends Application {
 					} catch (IOException e1) {
 						System.out.println("Book IOException");
 					}
-					String[] bookLines;
 					for (Book b : bookArr) {
-						bookLines = b.toRawString().split(",");
-						cbItems.getItems().add(bookLines[10]);
+						cbItems.getItems().add(b);
 					}
 					items = bookArr;
 				}
@@ -184,11 +186,9 @@ public class RecommenderGui extends Application {
 					} catch (IOException e2) {
 						System.out.println("Movie IOException");
 					}
-					String[] movieLines;
 					for (Movie m : movieArr) {
-						movieLines = m.toRawString().split(",");
-						cbItems.getItems().add(movieLines[1]);
-						System.out.println(movieLines[1]);
+						cbItems.getItems().add(m);
+						System.out.println(m);
 					}
 					items = movieArr;
 				}
@@ -198,12 +198,12 @@ public class RecommenderGui extends Application {
 		);
 		Button saveBtn=new Button("Save");
 		saveBtn.setOnAction(new EventHandler<ActionEvent>() { 
-			/**
-			 * @author Alexander Arella Girardot
-			 */
+			
+
+
 			@Override
 			public void handle(ActionEvent e) {
-				
+				//This is to check if the ratings file has been loaded 
 			}
 		}
 		);
@@ -230,12 +230,57 @@ public class RecommenderGui extends Application {
 		
 		Button ratingBtn = new Button("Rate!");
 		ratingBtn.setOnAction(new EventHandler<ActionEvent>() {
-			/**
-			 * @author Alexander Arella Girardot
-			 */
 			@Override
 			public void handle(ActionEvent e) {
+				Rating[] ratings=null;
+				try {
+					ratings=MovieLensFileReader.loadRatings("datafiles/testfiles/testRatings.csv");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				Rating[] ratings2=Arrays.copyOf(ratings,ratings.length+1);
+				System.out.println(ratings.length+" to"+ratings2.length);
+				for(int i=0;i<ratings.length;i++) {
+					ratings2[i]=ratings[i];
+				}
+				double rating=0;
+				switch(ratingNums.getSelectedToggle().toString()) {
+					
+				case "rating0":
+					rating=0;
+					break;
+					
+				case "rating1":
+					rating=1;
+					break;
+					
+				case "rating2":
+					rating=2;
+					break;
+					
+				case "rating3":
+					 rating=3;
+					 break;
+					
+				case "rating4":
+					 rating=4;
+					 break;
+					
+				case	"rating5":
+					rating=5;
+					break;
+					
+					default:
+					rating=-1;
+					
+				}
 				
+				String tmp=userIdTxt.getText()+","+((Movie)cbItems.getValue()).getId()+","+Double.toString(rating)+","+"10101010";
+				System.out.println(tmp);
+				ratings2[ratings2.length-1]=new Rating(tmp);
+				
+			
 			}
 		}
 				

@@ -199,8 +199,6 @@ public class RecommenderGui extends Application {
 		Button saveBtn=new Button("Save");
 		saveBtn.setOnAction(new EventHandler<ActionEvent>() { 
 			
-
-
 			@Override
 			public void handle(ActionEvent e) {
 				//This is to check if the ratings file has been loaded 
@@ -217,36 +215,36 @@ public class RecommenderGui extends Application {
 		ToggleGroup ratingNums = new ToggleGroup();
 		RadioButton rating0=new RadioButton("0");
 		rating0.setToggleGroup(ratingNums);
+		rating0.setUserData("rating0");
+		
 		RadioButton rating1=new RadioButton("1");
 		rating1.setToggleGroup(ratingNums);
+		rating1.setUserData("rating1");
+		
 		RadioButton rating2=new RadioButton("2");
 		rating2.setToggleGroup(ratingNums);
+		rating2.setUserData("rating2");
+		
 		RadioButton rating3=new RadioButton("3");
 		rating3.setToggleGroup(ratingNums);
+		rating3.setUserData("rating3");
+		
 		RadioButton rating4=new RadioButton("4");
 		rating4.setToggleGroup(ratingNums);
+		rating4.setUserData("rating4");
+		
 		RadioButton rating5=new RadioButton("5");
 		rating5.setToggleGroup(ratingNums);
+		rating5.setUserData("rating5");
 		
 		Button ratingBtn = new Button("Rate!");
 		ratingBtn.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				Rating[] ratings=null;
-				try {
-					ratings=MovieLensFileReader.loadRatings("datafiles/testfiles/testRatings.csv");
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				Rating[] ratings2=Arrays.copyOf(ratings,ratings.length+1);
-				System.out.println(ratings.length+" to"+ratings2.length);
-				for(int i=0;i<ratings.length;i++) {
-					ratings2[i]=ratings[i];
-				}
+			
+			//private double rating=0;
+			private double ratingFinder() {
 				double rating=0;
-				switch(ratingNums.getSelectedToggle().toString()) {
-					
+				switch(ratingNums.getSelectedToggle().getUserData().toString()) {
+				
 				case "rating0":
 					rating=0;
 					break;
@@ -267,20 +265,61 @@ public class RecommenderGui extends Application {
 					 rating=4;
 					 break;
 					
-				case	"rating5":
+			   case "rating5":
 					rating=5;
 					break;
 					
 					default:
 					rating=-1;
+					break;
 					
 				}
-				
+				return rating;
+			}
+			@Override
+			public void handle(ActionEvent e) {
+				if(movieBtn.isSelected()) {
+				Rating[] ratings=null;
+				try {
+					ratings=MovieLensFileReader.loadRatings("datafiles/testfiles/testRatings.csv");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				Rating[] ratings2=Arrays.copyOf(ratings,ratings.length+1);
+				System.out.println(ratings.length+" to"+ratings2.length);
+				for(int i=0;i<ratings.length;i++) {
+					ratings2[i]=ratings[i];
+				}
+				double rating=ratingFinder();
 				String tmp=userIdTxt.getText()+","+((Movie)cbItems.getValue()).getId()+","+Double.toString(rating)+","+"10101010";
 				System.out.println(tmp);
 				ratings2[ratings2.length-1]=new Rating(tmp);
 				
 			
+			
+				}
+				else if(bookBtn.isSelected()) {
+					Rating[] bookRating=null;
+					try {
+						bookRating=GoodReadsFileReader.loadRatings("datafiles/books/ratings.csv");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						System.out.println("Invalid Path");
+					}
+					
+					Rating[] bookRating2=Arrays.copyOf(bookRating,bookRating.length+1);
+					for(int i=0;i<bookRating.length;i++) {
+						bookRating2[i]=bookRating[i];
+					}
+					double bookrating=ratingFinder();
+					String tmpBook=userIdTxt.getText()+","+((Book)cbItems.getValue()).getId()+","+Double.toString(bookrating)+","+"00";
+					System.out.println(tmpBook);
+					bookRating2[bookRating2.length-1]=new Rating(tmpBook) ;
+				}
+				else {
+					ratingBtn.isDisabled();
+				}
 			}
 		}
 				

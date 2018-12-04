@@ -25,10 +25,13 @@ import javafx.stage.Stage;
 import recommendation.book.*;
 import recommendation.fileio.*;
 import recommendation.interfaces.*;
-import recommendation.movies.*;
+import recommendation.interfaces.PersonalizedRecommender;
+import recommendation.movies.PopularMovieRecommender;
+import recommendation.movies.Rating;
+import recommendation.movies.Movie;
 /**
- * @author Kevin Armstrong Rwigamba
  * @author Alexander Arella Girardot
+ * @author Kevin Armstrong Rwigamba
  */
 public class RecommenderGui extends Application {
 	Item[] items; // thinking of using a field along the lines of this, maybe a list, for reading the item files
@@ -64,24 +67,65 @@ public class RecommenderGui extends Application {
 		TextField genreTxt = new TextField();
 		Label genreLbl = new Label("Genre: ");
 		Button recommendBtn = new Button("Get Recommendations!");
-		
+
+		TextArea recommendTxt = new TextArea();
 		
 		TextField userIdTxt=new TextField();
-		TextField numOfRecommends = new TextField("N°");
+		TextField numOfRecommendsTxt = new TextField();
 		recommendBtn.setOnAction(new EventHandler<ActionEvent>() {
+			/**
+			 * @author Alexander Arella Girardot
+			 */
 			@Override
 			public void handle(ActionEvent e) {
-				ArrayList<String> recommends = new ArrayList<String>();
 				if (personalBtn.isSelected()) {
 					if (movieBtn.isSelected()) {
-						PersonalizedRecommender<> pr = new PersonalizedRecommender(items, ratArr);
-						recommends = pr.recommend(Integer.parseInt(userIdTxt.getText()), Integer.parseInt(numOfRecommends.getText()));
+						ArrayList<Movie> recommends = new ArrayList<Movie>();
+						PersonalizedRecommender<Movie> pr = new PersonalizedRecommender(items, ratArr);
+						recommends = pr.recommend(Integer.parseInt(userIdTxt.getText()), Integer.parseInt(numOfRecommendsTxt.getText()));
+						for (Movie mov : recommends) {
+							recommendTxt.setText(recommendTxt.getText() + mov.toString() + '\n');
+						}
+					}
+					else if (bookBtn.isSelected()) {
+						ArrayList<Book> recommends = new ArrayList<Book>();
+						PersonalizedRecommender<Book> pr = new PersonalizedRecommender(items, ratArr);
+						recommends = pr.recommend(Integer.parseInt(userIdTxt.getText()), Integer.parseInt(numOfRecommendsTxt.getText()));
+						for (Book bok : recommends) {
+							recommendTxt.setText(recommendTxt.getText() + bok.toString() + '\n');
+						}
+					}
+				}
+				else if (popularBtn.isSelected()) {
+					if (movieBtn.isSelected()) {
+						ArrayList<Movie> recommends = new ArrayList<Movie>();
+						if (genreTxt.getText().equals("")) {
+							PopularRecommender<Movie> pr = new PopularRecommender(ratArr, items);
+							recommends = pr.recommend(Integer.parseInt(userIdTxt.getText()), Integer.parseInt(numOfRecommendsTxt.getText()));
+							for (Movie mov : recommends) {
+								recommendTxt.setText(recommendTxt.getText() + mov.toString() + '\n');
+							}
+						}
+						else {
+							PopularMovieRecommender pr = new PopularMovieRecommender((Movie[])items, ratArr);
+							recommends = pr.recommend(Integer.parseInt(userIdTxt.getText()), Integer.parseInt(numOfRecommendsTxt.getText()), genreTxt.getText());
+							for (Movie mov : recommends) {
+								recommendTxt.setText(recommendTxt.getText() + mov.toString() + '\n');
+							}
+						}
+					}
+					else if (bookBtn.isSelected()) {
+						ArrayList<Book> recommends = new ArrayList<Book>();
+						PopularRecommender<Book> pr = new PopularRecommender(ratArr, items);
+						recommends = pr.recommend(Integer.parseInt(userIdTxt.getText()), Integer.parseInt(numOfRecommendsTxt.getText()));
+						for (Book bok : recommends) {
+							recommendTxt.setText(recommendTxt.getText() + bok.toString() + '\n');
+						}
 					}
 				}
 			}
 		}
 		);
-		
 		personalBtn.setToggleGroup(recommendGroup);
 		HBox.setMargin(recommendBtn, new Insets(2.5, 5, 0, 0));
 		HBox.setMargin(genreLbl, new Insets(5, 5, 0, 0));
@@ -89,9 +133,8 @@ public class RecommenderGui extends Application {
 		HBox.setMargin(personalBtn, new Insets(5, 5, 0, 0));
 		HBox.setMargin(popularBtn, new Insets(5, 20, 0, 0));
 		popularBtn.setToggleGroup(recommendGroup);
-		thirdLine.getChildren().addAll(personalBtn, popularBtn, genreLbl, genreTxt, recommendBtn);
+		thirdLine.getChildren().addAll(personalBtn, popularBtn, genreLbl, genreTxt, numOfRecommendsTxt, recommendBtn);
 		
-		TextArea recommendTxt = new TextArea();
 		recommendTxt.setEditable(false);
 		recommendTxt.setPrefHeight(400);
 		recommendTxt.setPrefWidth(1000);
@@ -106,6 +149,9 @@ public class RecommenderGui extends Application {
 		//Load and Save Button
 		Button loadBtn=new Button("Load");
 		loadBtn.setOnAction(new EventHandler<ActionEvent>() { 
+			/**
+			 * @author Alexander Arella Girardot
+			 */
 			@Override
 			public void handle(ActionEvent e) {
 				items = null;
@@ -152,6 +198,9 @@ public class RecommenderGui extends Application {
 		);
 		Button saveBtn=new Button("Save");
 		saveBtn.setOnAction(new EventHandler<ActionEvent>() { 
+			/**
+			 * @author Alexander Arella Girardot
+			 */
 			@Override
 			public void handle(ActionEvent e) {
 				
@@ -181,6 +230,9 @@ public class RecommenderGui extends Application {
 		
 		Button ratingBtn = new Button("Rate!");
 		ratingBtn.setOnAction(new EventHandler<ActionEvent>() {
+			/**
+			 * @author Alexander Arella Girardot
+			 */
 			@Override
 			public void handle(ActionEvent e) {
 				

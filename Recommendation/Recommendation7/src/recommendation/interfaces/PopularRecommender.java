@@ -17,7 +17,7 @@ import recommendation.movies.RecommendAssist;
 public class PopularRecommender<T extends Item> implements IRecommender<T> {
 	private ArrayList<T> movies;
 	private Rating[] ratings;
-	private ArrayList<RecommendAssist<T>> collection; // TODO change the RecommendAssist class to be generic
+	private ArrayList<RecommendAssist<T>> collection;
 	/**
 	 * Kevin Armstrong Rwigamba
 	 * This constructor creates a Popular Recommender object, it also sorts the array from highest rated to lowest.

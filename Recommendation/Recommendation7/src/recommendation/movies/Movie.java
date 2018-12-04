@@ -137,7 +137,8 @@ public class Movie implements Item, Saveable{
 		return output;
 	}
 	public String toRawString() {
-		String output=this.ID+","+this.MovieName+"("+this.Year+")"+",";
+		String MovieName = this.MovieName.replaceAll(",", "%2C");
+		String output=this.ID+","+MovieName+" ("+this.Year+")"+",";
 		for(String s:this.Genres) {
 			output+=s+"|";
 		}

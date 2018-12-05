@@ -69,7 +69,5 @@ public class GoodReadsFileReader {
 		catch(IOException e) {
 			System.out.println(e+"--Invalid Path");
 		}
-		
-		
 	}
 }

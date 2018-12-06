@@ -69,11 +69,12 @@ public class RecommenderGui extends Application {
 		TextField genreTxt = new TextField();
 		Label genreLbl = new Label("Genre: ");
 		Button recommendBtn = new Button("Get Recommendations!");
+		Label recommendNumLbl = new Label("Number of recommendations: ");
 
 		TextArea recommendTxt = new TextArea();
 		
 		TextField userIdTxt=new TextField();
-		TextField numOfRecommendsTxt = new TextField("Number of recommends");
+		TextField numOfRecommendsTxt = new TextField();
 		recommendBtn.setOnAction(new EventHandler<ActionEvent>() {
 			/**
 			 * @author Alexander Arella Girardot
@@ -135,8 +136,9 @@ public class RecommenderGui extends Application {
 		HBox.setMargin(personalBtn, new Insets(5, 5, 0, 0));
 		HBox.setMargin(popularBtn, new Insets(5, 20, 0, 0));
 		HBox.setMargin(numOfRecommendsTxt, new Insets(2.5,5,0,0));
+		HBox.setMargin(recommendNumLbl, new Insets(5, 5, 0, 0));
 		popularBtn.setToggleGroup(recommendGroup);
-		thirdLine.getChildren().addAll(personalBtn, popularBtn, genreLbl, genreTxt, numOfRecommendsTxt, recommendBtn);
+		thirdLine.getChildren().addAll(personalBtn, popularBtn, genreLbl, genreTxt, recommendNumLbl, numOfRecommendsTxt, recommendBtn);
 		
 		recommendTxt.setEditable(false);
 		recommendTxt.setPrefHeight(400);

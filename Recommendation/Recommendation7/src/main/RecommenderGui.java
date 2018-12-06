@@ -15,6 +15,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.*;
@@ -208,6 +209,7 @@ public class RecommenderGui extends Application {
 			
 			@Override
 			public void handle(ActionEvent e) {
+				//This also checks if you selected a movie to rate
 				if(movieBtn.isSelected()) {
 				MovieLensFileReader.saveToFile(ratArr, "datafiles/sorted/ratings2.csv", "userid,movieid,rating,timestamp"); 
 				
@@ -304,7 +306,7 @@ public class RecommenderGui extends Application {
 			public void handle(ActionEvent e) {
 				
 				//to update the rating given by the user
-				if(movieBtn.isSelected()) {
+				if(movieBtn.isSelected()&&(!(cbItems.getSelectionModel().isEmpty()))) {
 					
 				Rating[] ratings2=Arrays.copyOf(ratArr,ratArr.length+1);
 				
@@ -322,7 +324,7 @@ public class RecommenderGui extends Application {
 				
 			
 				}
-				else if(bookBtn.isSelected()) {
+				else if(bookBtn.isSelected()&&(!(cbItems.getSelectionModel().isEmpty()))) {
 					//Saving the rating of a book given by the current user
 					
 					Rating[] bookRating2=Arrays.copyOf(ratArr,ratArr.length+1);
@@ -338,6 +340,15 @@ public class RecommenderGui extends Application {
 				//in case the user has not selected what to rate (Book or Movie) this button will be disabled 
 				else {
 					ratingBtn.isDisabled();
+					Alert alert = new Alert(AlertType.INFORMATION);
+						alert.setTitle("Rating Error");
+						alert.setHeaderText("Information Alert");
+						String s ="To Rate A Book/Movie Follow These steps \n 1.Please choose the Item To Load \n 2.Make sure you select A movie/Book From The selection Menu \n "
+								+ "3.Enter your user ID \n"
+								+ "4.Select A rating For A movie/Book \n"
+								+ "5.Click Rate :)";
+						alert.setContentText(s);
+						alert.show();
 				}
 			}
 		}

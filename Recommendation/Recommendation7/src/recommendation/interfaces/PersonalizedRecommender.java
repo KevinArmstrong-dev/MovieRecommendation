@@ -142,7 +142,7 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 	 * @return score
 	 * This helper method is used to calculate the similarity score between two users.
 	 */
-	private double getScore(ArrayList<Rating> a,ArrayList<Rating> b) {
+	private double getScore(ArrayList<Rating> a, ArrayList<Rating> b) {
 		double score=0;
 		for(int i=0;i<a.size();i++) {
 			for(int j=0;j<b.size();j++) {
@@ -292,15 +292,6 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 				}
 			}
 		}
-		/*String[] noDupes = dupeRemoval(movies);
-		ArrayList<T> unratedMovies = new ArrayList<T>(noDupes.length);
-		for(int i=0;i<noDupes.length;i++) {
-			for(int j=0;j<movArr.length;j++) {
-				if(noDupes[i].equals(movArr[j].getId())) {
-					unratedMovies.add(movArr[j]);
-				}
-			}
-		}*/
 		ArrayList<T> output= new ArrayList<T>();
 		for(int i=0;i<movies.size();i++) {
 			for(int j=0;j<movArr.length;j++) {
@@ -311,37 +302,5 @@ public class PersonalizedRecommender<T extends Item> implements IRecommender<T> 
 		}
 		return output;
 	}
-
-
-	/**
-	 *@author Kevin Armstrong Rwigamba
-	 * 
-	 * {@link https://javaconceptoftheday.com/remove-duplicate-elements-array-java/}
-	 * 
-	 * This Method removes duplicate movies in the array of Strings
-	 * 
-	 * @param movies
-	 * @return
-	 */
-	/*private String[] dupeRemoval(ArrayList<String> movies) {
-	         
-	     int noOfUniqueElements = movies.size();
-	         
-	      for (int i = 0; i < noOfUniqueElements; i++) {
-           for (int j = i+1; j < noOfUniqueElements; j++){
-        	      
-	             if(movies.get(i).equals(movies.get(j))){
-	                  
-	                  movies[j] = movies[noOfUniqueElements-1];
-	                   
-	                   noOfUniqueElements--;
-	                     
-	                    j--;
-	                }
-	            }
-	        }
-	        String [] arrayWithoutDuplicates = Arrays.copyOf(movies, noOfUniqueElements);
-	        return arrayWithoutDuplicates;
-	}*/
 
 }

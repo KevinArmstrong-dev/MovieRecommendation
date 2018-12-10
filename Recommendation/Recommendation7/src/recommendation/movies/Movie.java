@@ -1,12 +1,13 @@
 package recommendation.movies;
 import recommendation.interfaces.Item;
+import recommendation.interfaces.Saveable;
 
 /**
  * @author Michael Azem
  *
  */
 
-public class Movie implements Item {
+public class Movie implements Item, Saveable{
 
 	
 	private int Year;
@@ -133,6 +134,14 @@ public class Movie implements Item {
 	}
 	public String toString() {
 		String output=this.ID+ '\t' + this.MovieName+'\t'+ this.Year;
+		return output;
+	}
+	public String toRawString() {
+		String MovieName = this.MovieName.replaceAll(",", "%2C");
+		String output=this.ID+","+MovieName+" ("+this.Year+")"+",";
+		for(String s:this.Genres) {
+			output+=s+"|";
+		}
 		return output;
 	}
 }
